@@ -1,0 +1,62 @@
+using UnityEngine;
+using UnityEngine.AI;
+using System.Collections;
+
+
+namespace Portals
+{
+    public class PortalSpawner : MonoBehaviour
+    {
+        [SerializeField] private GameObject portalSpawnerPrefab;
+        [SerializeField] private float spawnRadius;
+        [SerializeField] private float minDistanceFromPlayer = 3f;
+        [SerializeField] private Transform playerTransform;
+        [SerializeField] private Transform playerRangeHitPoint;
+
+
+        private void Start()
+        {
+            StartCoroutine(SpawnPortals());
+        }
+
+        private IEnumerator SpawnPortals()
+        {
+            for (var i = 0; i < 10; i++)
+            { 
+                var spawnPoint = FindValidSpawnPoint();
+
+                if (spawnPoint != Vector3.zero)
+                {
+                    var portal = Instantiate(portalSpawnerPrefab, spawnPoint, Quaternion.identity);
+                    var spawner = portal.GetComponent<EnemySpawner>();
+                    
+                    if (spawner != null)
+                    {
+                        spawner.SetPlayerTransform(playerTransform,playerRangeHitPoint);
+                    }
+                    Destroy(portal, 1);
+                }
+                yield return new WaitForSeconds(3);
+            }
+        }
+
+        private Vector3 FindValidSpawnPoint()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var randomDirection = Random.insideUnitSphere * spawnRadius;
+                randomDirection.y = 0;
+                randomDirection += transform.position;
+
+                if (NavMesh.SamplePosition(randomDirection, out var hit, spawnRadius, NavMesh.AllAreas))
+                {
+                    if (Vector3.Distance(hit.position, playerTransform.position) >= minDistanceFromPlayer)
+                    {
+                        return hit.position;
+                    }
+                }
+            }
+            return Vector3.zero;
+        }
+    }
+}
