@@ -18,6 +18,7 @@ namespace Player
         private static readonly int Aoe = Animator.StringToHash("Aoe");
         private static readonly int Lightning = Animator.StringToHash("Lightning");
         private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+        private static readonly int AutoAttack = Animator.StringToHash("AutoAttack");
 
         
 
@@ -26,7 +27,10 @@ namespace Player
             RunningAnimation();
         }
 
-        
+        public void PlayerAutoAttack()
+        {
+            animator.SetTrigger(AutoAttack);
+        }
 
         private void RunningAnimation()
         {

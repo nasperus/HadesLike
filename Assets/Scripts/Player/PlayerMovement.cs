@@ -9,7 +9,7 @@ namespace Player
     public class PlayerMovement : MonoBehaviour
     {
        [Header("Player Sprint Class")] [SerializeField] private PlayerSprint playerSprint;
-       [Header ("Player MouseDirection Class")] [SerializeField] private PlayerMouseDirection playerMouseDirection;
+       [Header ("Player MouseDirection Class")] [SerializeField] private PlayerLeftClickAttack playerLeftClickAttack;
        [Header("Player Dash Class")] [SerializeField] private PlayerDash playerDash;
        [Header("Player Shoot Class")] [SerializeField] private PlayerDebuff playerShoot;
        [Header("RigidBody")] [SerializeField] private Rigidbody rb;
@@ -129,11 +129,11 @@ namespace Player
             CameraRelativeToPlayerDirection();
             IsMoving = Movement.sqrMagnitude > 0.001f;
             
-            if (playerMouseDirection.PausePlayerMovementDuringClick > 0f  
-                && playerMouseDirection.IsLeftClicking)
+            if (playerLeftClickAttack.PausePlayerMovementDuringClick > 0f  
+                && playerLeftClickAttack.IsLeftClicking)
             {
-                playerMouseDirection.PausePlayerMovementDuringClick -= Time.fixedDeltaTime;
-                playerMouseDirection.ResetMouseLeftClickFlag();
+                playerLeftClickAttack.PausePlayerMovementDuringClick -= Time.fixedDeltaTime;
+                playerLeftClickAttack.ResetMouseLeftClickFlag();
                 SetVelocity(Vector3.zero);
                 IsMoving = false;
                 return; 

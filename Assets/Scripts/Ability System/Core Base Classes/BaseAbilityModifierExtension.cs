@@ -57,26 +57,6 @@ namespace Ability_System.Core_Base_Classes
         //               $"{stats.Multipliers.DamageMultiplier}, Final: {stats.CurrentDamage}");
         // }
         //
-        // public static void IncreaseLightningStrikeDamage(this BaseAbilityModifier stats, float multiplier)
-        // {
-        //     var lightningDamageIncrease = new StatModifier
-        //     {
-        //         DamageMultiplier = 1 + multiplier
-        //     };
-        //     stats.Apply(lightningDamageIncrease);
-        //     Debug.Log($"[Damage Increase] Base: {stats.BaseDamage}, Multiplier: " +
-        //               $"{stats.Multipliers.DamageMultiplier}, Final: {stats.CurrentDamage}");
-        // }
-        //
-        // public static void IncreaseLightningStrikeRadius(this BaseAbilityModifier stats, float multiplier)
-        // {
-        //     var radiusIncrease = new StatModifier
-        //     {
-        //         RadiusMultiplier = 1 + multiplier
-        //     };
-        //     stats.Apply(radiusIncrease);
-        //     Debug.Log($"[Radius Increase] Base: {stats.BaseRadius}, Multiplier: " +
-        //               $"{stats.Multipliers.RadiusMultiplier}, Final: {stats.CurrentRadius}");
-        // }
+       
     }
 }

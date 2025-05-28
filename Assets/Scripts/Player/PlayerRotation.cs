@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
     public class PlayerRotation : MonoBehaviour
     {
-       [Header("Player MouseDirection Class")] [SerializeField] private PlayerMouseDirection playerMouseDirection;
+       [FormerlySerializedAs("playerMouseDirection")] [Header("Player MouseDirection Class")] [SerializeField] private PlayerLeftClickAttack playerLeftClickAttack;
        [Header("Player Mouse Shoot Class")] [SerializeField] private PlayerDebuff playerShoot;
        [Header("Player Movement Class")] [SerializeField] private PlayerMovement playerMovement;
        [Header("Rotation Speed")] [SerializeField] private float rotationSpeed;
@@ -17,12 +18,12 @@ namespace Player
 
         private void PlayerRotationLogic()
         {
-                if (playerMouseDirection.MouseClickLookTimer > 0 && 
-                    playerMouseDirection.MouseClickTargetRotationQuaternion.HasValue)
+                if (playerLeftClickAttack.MouseClickLookTimer > 0 && 
+                    playerLeftClickAttack.MouseClickTargetRotationQuaternion.HasValue)
                 {
-                    playerMouseDirection.MouseClickLookTimer -= Time.fixedDeltaTime;
+                    playerLeftClickAttack.MouseClickLookTimer -= Time.fixedDeltaTime;
                     transform.rotation = Quaternion.Slerp(
-                        transform.rotation, playerMouseDirection.MouseClickTargetRotationQuaternion.Value, 
+                        transform.rotation, playerLeftClickAttack.MouseClickTargetRotationQuaternion.Value, 
                         rotationSpeed * Time.fixedDeltaTime);
                     return;
                 }

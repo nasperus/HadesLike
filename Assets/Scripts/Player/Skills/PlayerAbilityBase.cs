@@ -7,7 +7,7 @@ namespace Player.Skills
     public abstract class PlayerAbilityBase: Abilities
     {
         [Header("References")]
-        [SerializeField] protected PlayerMouseDirection playerMouseDirection;
+        [SerializeField] protected PlayerLeftClickAttack playerLeftClickAttack;
         [SerializeField] protected PlayerAnimations playerAnimations;
         [SerializeField] protected Transform weaponTransformOrigin; 
 
@@ -24,6 +24,15 @@ namespace Player.Skills
         [Header("Rotation Durations")]
         [SerializeField] private float enemyClickLookDuration;
         [SerializeField] private float floorClickLookDuration;
+        
+        public Quaternion? MouseClickTargetRotationQuaternion { get; set; } = null;
+
+        //stops movement when the mouse clicked
+        public float PausePlayerMovementDuringClick { get; set; }
+
+        //stop WASD rotation during mouse click
+        public float MouseClickLookTimer { get; set; }
+        public bool IsLeftClicking { get; protected set; }
 
         private bool _clickedEnemy;
 
@@ -42,6 +51,18 @@ namespace Player.Skills
         protected virtual void Start()
         {
             _mainCamera = Camera.main;
+        }
+        public void ResetMouseLeftClickFlag()
+        {
+            if (PausePlayerMovementDuringClick <= 0f)
+            {
+                IsLeftClicking = false;
+            }
+            else
+            {
+                IsLeftClicking = true;
+            }
+            
         }
 
         protected void CalculateMouseRay()
@@ -72,17 +93,17 @@ namespace Player.Skills
 
             if (_lookDirection.sqrMagnitude > 0.001f)
             {
-                playerMouseDirection.MouseClickTargetRotationQuaternion = Quaternion.LookRotation(_lookDirection);
+                playerLeftClickAttack.MouseClickTargetRotationQuaternion = Quaternion.LookRotation(_lookDirection);
                 
                 if (_clickedEnemy)
                 {
-                    playerMouseDirection.MouseClickLookTimer = enemyClickLookDuration;
-                    playerMouseDirection.PausePlayerMovementDuringClick = enemyClickLookDuration;
+                    playerLeftClickAttack.MouseClickLookTimer = enemyClickLookDuration;
+                    playerLeftClickAttack.PausePlayerMovementDuringClick = enemyClickLookDuration;
                 }
                 else
                 {
-                    playerMouseDirection.MouseClickLookTimer = floorClickLookDuration;
-                    playerMouseDirection.PausePlayerMovementDuringClick = floorClickLookDuration;
+                    playerLeftClickAttack.MouseClickLookTimer = floorClickLookDuration;
+                    playerLeftClickAttack.PausePlayerMovementDuringClick = floorClickLookDuration;
                 }
             }
         }
@@ -132,5 +153,3 @@ namespace Player.Skills
         // }
     }
 } 
-    
-
