@@ -15,8 +15,9 @@ namespace Ability_System.Core_Base_Classes
         public float CurrentRadius => BaseRadius * Multipliers.RadiusMultiplier;
         public float CurrentArea => BaseAreaOfEffect * Multipliers.AoEMultiplier;
 
-        public BaseAbilityModifier(float baseDamage, float baseRadius, float baseAoe)
+        public BaseAbilityModifier(string name,float baseDamage, float baseRadius, float baseAoe)
         {
+            Name = name;
             BaseDamage = baseDamage;
             BaseRadius = baseRadius;
             BaseAreaOfEffect = baseAoe;

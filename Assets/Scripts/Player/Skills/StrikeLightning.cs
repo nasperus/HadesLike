@@ -1,4 +1,3 @@
-using System;
 using Ability_System.Core_Base_Classes;
 using Enemy.Archer;
 using Stats;
@@ -36,44 +35,18 @@ namespace Player.Skills
             InitializeAbilities();
         }
 
-        public void IncreaseDamage(float multiplier)
-        {
-            if (Stats != null)
-            {
-                var damageIncrease = new StatModifier();
-                damageIncrease.DamageMultiplier = 1 + multiplier;
-                
-                Stats.Apply(damageIncrease);
-                Debug.Log($"[Damage Increase] New Base Damage: {Stats.BaseDamage}, Multiplier:" +
-                          $" {Stats.Multipliers.DamageMultiplier}, Final Damage: {GetFinalDamage()}");
-            }
-        }
-
-
-        public void IncreaseRadius(float multiplier)
-        {
-            var radiusIncrease  = new StatModifier();
-            radiusIncrease.RadiusMultiplier = 1 + multiplier;
-            
-            Stats.Apply(radiusIncrease);
-            Debug.Log($"[Radius Increase] New Base Radius: {Stats.BaseRadius}, Multiplier:" +
-                      $" {Stats.Multipliers.RadiusMultiplier}, Final Radius: {GetFinalRadius()}");
-        }
-
-
         private void InitializeAbilities()
         {
             var modifier = new BaseAbilityModifier(
+                name: "Lightning Strike",
                 baseDamage: skillDamageAmount,
                 baseRadius: radius,
-                baseAoe: 5
+                baseAoe: 0
             );
             
             Init(modifier);
         }
-
         
-
         private void OnLightningStrike(InputValue value)
        {
            if (!value.isPressed) return;
@@ -92,6 +65,17 @@ namespace Player.Skills
            UpdateAnimationSpeed();
            
        }
+
+        public void IncreaseLightningStrikeDamage(float multiplier)
+        {
+            Stats?.IncreaseStats(StatType.Damage, multiplier);
+        }
+
+        public void IncreaseLightningStrikeRadius(float multiplier)
+        {
+            Stats?.IncreaseStats(StatType.Radius, multiplier);
+        }
+       
         private void UpdateAnimationSpeed()
         {
             var animationSpeed = ApplyStatsToAbilities.ApplyHasteCastAndAttackSpeed(statCollection);

@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Ability_System.Core_Base_Classes;
 using Enemy.Archer;
 using Stats;
 using UnityEngine;
@@ -8,7 +10,7 @@ namespace Player.Skills
 {
     public class AoeFireDamage : PlayerAbilityBase
     {
-        [SerializeField] private int damage;
+        [SerializeField] private float damage;
         [SerializeField] private float tickInterval;
         [SerializeField] private float radius;
         [SerializeField] private float vfxPrefabLifetime;
@@ -27,7 +29,22 @@ namespace Player.Skills
         
         private GameObject _aoeInstance;
         private float _aoeCooldownTimer;
-        
+
+        private void Awake()
+        {
+            InitializeAbilities();
+        }
+
+        private void InitializeAbilities()
+        { var modifier = new BaseAbilityModifier(
+                name: "Aoe Fire Damage",
+                baseDamage: damage,
+                baseRadius: 0,
+                baseAoe: 0
+            );
+            Init(modifier);
+        }
+
         private void OnAreaDamage(InputValue value)
         {
             if(!value.isPressed) return;
@@ -45,6 +62,11 @@ namespace Player.Skills
             IsMovementFrozen = true;
             UpdateAnimationSpeed();
             
+        }
+
+        public void IncreaseAoeDamage(float multiplier)
+        {
+            Stats?.IncreaseStats(StatType.Damage, multiplier);;
         }
 
         private void UpdateAnimationSpeed()
@@ -101,7 +123,8 @@ namespace Player.Skills
         private IEnumerator ApplyAoeDamage(Vector3 position, GameObject aoeVfx)
         {
             var elapsed = 0f;
-            var finalDamage = ApplyStatsToAbilities.ApplyMastery(damage,statCollection);
+            var finalDamage = GetFinalDamage();
+            finalDamage = ApplyStatsToAbilities.ApplyMastery(finalDamage,statCollection);
             finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage,statCollection);
             var adjustedTickInterval = ApplyStatsToAbilities.ApplyHasteSpeed(tickInterval,statCollection);
             var adjustedLifetime = ApplyStatsToAbilities.ApplyHasteDuration(vfxPrefabLifetime, statCollection);

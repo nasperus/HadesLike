@@ -1,3 +1,5 @@
+using System;
+using Ability_System.Core_Base_Classes;
 using Enemy.Archer;
 using Player.Skills;
 using Stats;
@@ -22,7 +24,25 @@ namespace Player
         private float _haste;
         private float _critical;
         public bool IsRightClicking { get; private set; }
-        
+
+
+        private void Awake()
+        {
+            InitializeAbilities();
+        }
+
+        private void InitializeAbilities()
+        {
+            var modifier = new BaseAbilityModifier(
+                name: "Debuff",
+                baseDamage: tickDamage,
+                baseRadius: 0,
+                baseAoe: 0
+                );
+            
+            Init(modifier);
+        }
+
         private void OnMouseClickRight(InputValue value)
         {
            
@@ -39,7 +59,12 @@ namespace Player
             RotatePlayer();
             UpdateAnimationSpeed(); 
         }
-        
+
+
+        public void IncreaseDotDamage(float multiplier)
+        {
+            Stats?.IncreaseStats(StatType.Damage, multiplier);
+        }
 
         private void UpdateAnimationSpeed()
         {
@@ -55,9 +80,10 @@ namespace Player
         private void DebuffEnabled()
         {
             if (ClosestEnemy == null) return;
+            var newTickDamage = GetFinalDamage();
             if (ClosestEnemy.TryGetComponent<IEnemyDamageable>(out _))
             {
-                StatCalculator.CalculateStats(statCollection,tickDamage,tickInterval, 
+                StatCalculator.CalculateStats(statCollection,newTickDamage,tickInterval, 
                     out _mastery, out _haste, out _critical);
                 
                 var dot = ClosestEnemy.GetComponent<DebuffDamage>();
@@ -65,7 +91,7 @@ namespace Player
                 {
                     dot = ClosestEnemy.gameObject.AddComponent<DebuffDamage>();
                 }
-                dot.Init(tickDamage, _haste, dotDuration, statCollection);
+                dot.Init(newTickDamage, _haste, dotDuration, statCollection);
             }
             
             if (!ClosestEnemy.TryGetComponent<DebuffVFXHandler>(out var handler))

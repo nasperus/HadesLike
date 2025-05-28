@@ -1,3 +1,4 @@
+using Player;
 using Player.Skills;
 using UnityEngine;
 
@@ -6,25 +7,35 @@ namespace Ability_System.Core_Base_Classes
     public class TestButton : MonoBehaviour
     {
         [SerializeField] private StrikeLightning strikeLightning;
-        [SerializeField] private float damageIncreaseAmount = 0.5f; 
-        [SerializeField] private float rangeIncreaseAmount = 0.3f;  
-        [SerializeField] private float aoeIncreaseAmount = 0.25f; 
+        [SerializeField] private PlayerDebuff playerDebuff;
+        [SerializeField] private AoeFireDamage aoeFireDamage;
+        
        
-        public void OnIncreaseDamage()
+        public void OnIncreaseLightningDamage()
         {
             if (strikeLightning != null)
             {
-                strikeLightning.IncreaseDamage(0.2f);
+                strikeLightning.IncreaseLightningStrikeDamage(0.2f);
             }
         }
 
-        public void OnInCreaseRadius()
+        public void OnInCreaseLightningRadius()
         {
             if (strikeLightning != null)
             {
-                strikeLightning.IncreaseRadius(0.4f);
+                strikeLightning.IncreaseLightningStrikeRadius(0.4f);
             }
            
+        }
+
+        public void OnIncreaseDotDamage()
+        {
+            playerDebuff.IncreaseDotDamage(0.4f);
+        }
+
+        public void OnIncreaseAoeDamage()
+        {
+            aoeFireDamage.IncreaseAoeDamage(0.2f);
         }
     }
 }
