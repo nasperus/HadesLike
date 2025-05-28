@@ -1,3 +1,5 @@
+using System;
+using Ability_System.Core_Base_Classes;
 using Enemy.Archer;
 using Stats;
 using UnityEngine;
@@ -29,7 +31,23 @@ namespace Player.Skills
          
         }
 
-        
+        private void Awake()
+        {
+            var modified = new AbilityModifier(30f, 10, 10);
+            SetupLightning(modified);
+        }
+
+        public void SetupLightning(AbilityModifier modifier)
+        {
+            Init(modifier);
+        }
+
+        public void IncreaseDamage(float damage)
+        {
+            Stats.DamageMultiplier += damage;
+        }
+
+
         private void OnLightningStrike(InputValue value)
        {
            if (!value.isPressed) return;
@@ -81,7 +99,8 @@ namespace Player.Skills
        private void CastLightning()
        {
            Vector3 spawnPosition = default;
-           var finalDamage = ApplyStatsToAbilities.ApplyMastery(skillDamageAmount, statCollection);
+           var finalDamage = GetFinalDamage();
+           finalDamage = ApplyStatsToAbilities.ApplyMastery(finalDamage, statCollection);
            finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage, statCollection);
            if (ClosestEnemy != null)
            {

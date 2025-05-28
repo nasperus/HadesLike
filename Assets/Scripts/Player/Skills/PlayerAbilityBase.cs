@@ -1,9 +1,10 @@
+using Ability_System.Core_Base_Classes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player.Skills
 {
-    public abstract class PlayerAbilityBase: MonoBehaviour
+    public abstract class PlayerAbilityBase: Abilities
     {
         [Header("References")]
         [SerializeField] protected PlayerMouseDirection playerMouseDirection;
