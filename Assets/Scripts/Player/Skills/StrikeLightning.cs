@@ -31,22 +31,48 @@ namespace Player.Skills
          
         }
 
-        private void Awake()
+         private  void Awake()
         {
-            var modified = new AbilityModifier(30f, 10, 10);
-            SetupLightning(modified);
+            InitializeAbilities();
         }
 
-        public void SetupLightning(AbilityModifier modifier)
+        public void IncreaseDamage(float multiplier)
         {
+            if (Stats != null)
+            {
+                var damageIncrease = new StatModifier();
+                damageIncrease.DamageMultiplier = 1 + multiplier;
+                
+                Stats.Apply(damageIncrease);
+                Debug.Log($"[Damage Increase] New Base Damage: {Stats.BaseDamage}, Multiplier:" +
+                          $" {Stats.Multipliers.DamageMultiplier}, Final Damage: {GetFinalDamage()}");
+            }
+        }
+
+
+        public void IncreaseRadius(float multiplier)
+        {
+            var radiusIncrease  = new StatModifier();
+            radiusIncrease.RadiusMultiplier = 1 + multiplier;
+            
+            Stats.Apply(radiusIncrease);
+            Debug.Log($"[Radius Increase] New Base Radius: {Stats.BaseRadius}, Multiplier:" +
+                      $" {Stats.Multipliers.RadiusMultiplier}, Final Radius: {GetFinalRadius()}");
+        }
+
+
+        private void InitializeAbilities()
+        {
+            var modifier = new BaseAbilityModifier(
+                baseDamage: skillDamageAmount,
+                baseRadius: radius,
+                baseAoe: 5
+            );
+            
             Init(modifier);
         }
 
-        public void IncreaseDamage(float damage)
-        {
-            Stats.DamageMultiplier += damage;
-        }
-
+        
 
         private void OnLightningStrike(InputValue value)
        {
@@ -100,8 +126,11 @@ namespace Player.Skills
        {
            Vector3 spawnPosition = default;
            var finalDamage = GetFinalDamage();
+           Debug.Log(finalDamage);
+         
            finalDamage = ApplyStatsToAbilities.ApplyMastery(finalDamage, statCollection);
            finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage, statCollection);
+           
            if (ClosestEnemy != null)
            {
                spawnPosition = ClosestEnemy.ClosestPoint(ShootOrigin);
@@ -115,8 +144,9 @@ namespace Player.Skills
                }
            }
            var vfxInstance = Instantiate(vfxPrefab, spawnPosition, Quaternion.identity);
-           
-           var colliders = Physics.OverlapSphere(spawnPosition, radius); 
+           var finalRadius = GetFinalRadius();
+           Debug.Log(radius);
+           var colliders = Physics.OverlapSphere(spawnPosition, finalRadius); 
 
             foreach (var coll in colliders)
             {
