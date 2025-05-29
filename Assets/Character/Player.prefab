@@ -1333,7 +1333,8 @@ MonoBehaviour:
   playerActionSate: {fileID: 7759583713048079498}
   damage: 5
   playerHealth: {fileID: 3819560779323440753}
-  statsManager: {fileID: 3172837825158466966}
+  statCollection: {fileID: 3172837825158466966}
+  attackCooldown: 5
 --- !u!114 &6870869682653594059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,6 +1402,9 @@ MonoBehaviour:
   playerActionSate: {fileID: 7759583713048079498}
   playerMana: {fileID: 6477106919189763259}
   spellCost: 2
+  chainDelay: 0.1
+  maxChains: 5
+  chainRadius: 10
 --- !u!114 &3819560779323440753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,6 +1484,9 @@ MonoBehaviour:
   playerMana: {fileID: 6477106919189763259}
   spellCost: 1
   radius: 1
+  chainDelay: 0.1
+  maxChains: 5
+  chainRadius: 10
 --- !u!114 &32920609641283811
 MonoBehaviour:
   m_ObjectHideFlags: 0

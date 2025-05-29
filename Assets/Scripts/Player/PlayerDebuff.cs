@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Ability_System.Core_Base_Classes;
@@ -21,6 +22,9 @@ namespace Player
         [SerializeField] private PlayerActionSate playerActionSate;
         [SerializeField] private PlayerMana playerMana;
         [SerializeField] private float spellCost;
+        [SerializeField] private float chainDelay; 
+        [SerializeField] private int maxChains;
+        [SerializeField] private int chainRadius;
         private float _mastery;
         private float _haste;
         private float _critical;
@@ -75,84 +79,72 @@ namespace Player
 
         public void TriggerDebuffAnimation()
         {
-            DebuffEnabled();
+            TriggerDebuffChain();
         }
         
-        private void DebuffEnabled()
+        private void TriggerDebuffChain()
         {
             if (ClosestEnemy == null) return;
-            var newTickDamage = GetFinalDamage();
-            if (ClosestEnemy.TryGetComponent<IEnemyDamageable>(out _))
+            
+            var alreadyHitEnemies = new List<Transform> { ClosestEnemy.transform };
+            //boon implement here
+            StartCoroutine(ChainDebuffCoroutine(ClosestEnemy.transform, alreadyHitEnemies, maxChains));
+        }
+
+        private IEnumerator ChainDebuffCoroutine(Transform originEnemy, List<Transform> alreadyHitEnemies,
+            int remainingChains)
+        {
+            if (remainingChains <= 0) yield break;
+        
+            var dotDamage = GetFinalDamage();
+
+            StatCalculator.CalculateStats(statCollection, dotDamage, tickInterval,
+                out _mastery, out _haste, out _critical);
+
+            if (originEnemy.TryGetComponent<IEnemyDamageable>(out _))
             {
-                StatCalculator.CalculateStats(statCollection,newTickDamage,tickInterval, 
-                    out _mastery, out _haste, out _critical);
-                
-                var dot = ClosestEnemy.GetComponent<DebuffDamage>();
+                var dot = originEnemy.GetComponent<DebuffDamage>();
                 if (dot == null)
                 {
-                    dot = ClosestEnemy.gameObject.AddComponent<DebuffDamage>();
+                    dot = originEnemy.gameObject.AddComponent<DebuffDamage>();
                 }
-                dot.Init(newTickDamage, _haste, dotDuration, statCollection);
-                
-                var alreadyHitEnemies = new List<Transform> { ClosestEnemy.transform };
-                ChainDot(ClosestEnemy.transform, alreadyHitEnemies);
+                dot.Init(dotDamage, _haste, dotDuration, statCollection);
             }
-            
-            if (!ClosestEnemy.TryGetComponent<DebuffVFXHandler>(out var handler))
+        
+            if (!originEnemy.TryGetComponent<DebuffVFXHandler>(out var handler))
             {
-                var hitPosition = ClosestEnemy.ClosestPoint(ShootOrigin);
-                var vfxInstance = Instantiate(vfxPrefab, hitPosition, Quaternion.identity, ClosestEnemy.transform);
+                var vfxInstance = Instantiate(vfxPrefab, originEnemy.position, Quaternion.identity, originEnemy);
                 vfxInstance.transform.localPosition = Vector3.zero;
 
-                handler = ClosestEnemy.gameObject.AddComponent<DebuffVFXHandler>();
+                handler = originEnemy.gameObject.AddComponent<DebuffVFXHandler>();
                 handler.Init(vfxInstance.GetComponent<ParticleSystem>(), dotDuration);
             }
             else
             {
                 handler.ResetTimer(dotDuration);
             }
-        }
 
-        private void ChainDot(Transform originEnemy, List<Transform> alreadyHitEnemies)
-        {
-            const int chainRadius = 10;
-            const int maxChain = 5;
-
+            yield return new WaitForSeconds(chainDelay);
+            
             var nearbyEnemies = Physics.OverlapSphere(originEnemy.position, chainRadius)
-                .Where(c => c.TryGetComponent<IEnemyDamageable>(out _) 
+                .Where(c => c.TryGetComponent<IEnemyDamageable>(out _)
                             && !alreadyHitEnemies.Contains(c.transform))
                 .OrderBy(c => Vector3.Distance(originEnemy.position, c.transform.position))
-                .Take(maxChain).ToList();
+                .ToList();
 
-            foreach (var nearby in nearbyEnemies)
+            if (nearbyEnemies.Count > 0)
             {
-                if (nearby.TryGetComponent<IEnemyDamageable>(out _))
-                {
-                    var dot = nearby.GetComponent<DebuffDamage>();
-                    if (dot == null)
-                    {
-                        dot = nearby.gameObject.AddComponent<DebuffDamage>();
-                    }
-                    dot.Init(GetFinalDamage(), _haste, dotDuration, statCollection);
-                    alreadyHitEnemies.Add(nearby.transform);
-                    
-                    if (!nearby.TryGetComponent<DebuffVFXHandler>(out var handler))
-                    {
-                        var vfxInstance = Instantiate(vfxPrefab, nearby.transform.position, Quaternion.identity, nearby.transform);
-                        vfxInstance.transform.localPosition = Vector3.zero;
-
-                        handler = nearby.gameObject.AddComponent<DebuffVFXHandler>();
-                        handler.Init(vfxInstance.GetComponent<ParticleSystem>(), dotDuration);
-                    }
-                    else
-                    {
-                        handler.ResetTimer(dotDuration);
-                    }
-                }
+                var nextEnemy = nearbyEnemies[0].transform;
+                alreadyHitEnemies.Add(nextEnemy);
+            
+                StartCoroutine(ChainDebuffCoroutine(nextEnemy, alreadyHitEnemies, 
+                    remainingChains - 1));
             }
         }
-
         
     }
-    
+       
 }
+        
+    
+    

@@ -1,3 +1,4 @@
+using System.Collections;
 using Ability_System.Core_Base_Classes;
 using Enemy.Archer;
 using Stats;
@@ -19,11 +20,14 @@ namespace Player.Skills
         [SerializeField] private PlayerMana playerMana;
         [SerializeField] private float spellCost;
         [SerializeField]  private float radius;
+        [SerializeField] private float chainDelay;  
+        [SerializeField] private int maxChains;
+        [SerializeField] private int chainRadius;
         
         private float _skillCooldownTimer;
         private const float BaseMovementFreezeTime = 2f;
         private float _movementFreezeTimer;
-       
+     
         
         private void Update()
         {
@@ -106,16 +110,14 @@ namespace Player.Skills
            }
        }
        
-      
        private void CastLightning()
        {
            Vector3 spawnPosition = default;
            var finalDamage = GetFinalDamage();
-           Debug.Log(finalDamage);
-         
+
            finalDamage = ApplyStatsToAbilities.ApplyMastery(finalDamage, statCollection);
            finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage, statCollection);
-           
+
            if (ClosestEnemy != null)
            {
                spawnPosition = ClosestEnemy.ClosestPoint(ShootOrigin);
@@ -128,48 +130,55 @@ namespace Player.Skills
                    spawnPosition = hitInfo.point;
                }
            }
+
            var vfxInstance = Instantiate(vfxPrefab, spawnPosition, Quaternion.identity);
            var finalRadius = GetFinalRadius();
-           
            var colliders = Physics.OverlapSphere(spawnPosition, finalRadius); 
+
            List<Transform> alreadyHitEnemies = new List<Transform>();
 
-            foreach (var coll in colliders)
-            {
-                if (coll.TryGetComponent<IEnemyDamageable>(out var damageable))
-                {
-                    damageable?.TakDamage(finalDamage);
-                    alreadyHitEnemies.Add(coll.transform);
-                    ChainLightning(coll.transform, finalDamage * 0.5f, alreadyHitEnemies);
-                    
-                }
-            }
-            Destroy(vfxInstance, vfxPrefabLifetime);
-       }
-
-       private void ChainLightning(Transform originEnemy, float reduceDamage, List<Transform> alreadyHitEnemies)
-       {
-           const int chainRadius = 10;
-           const int maxChain = 5;
-           
-           var nearbyEnemies = Physics.OverlapSphere(originEnemy.position, chainRadius)
-               .Where(c => c.TryGetComponent<IEnemyDamageable>(out _) 
-                           && !alreadyHitEnemies.Contains(c.transform))
-               .OrderBy(c => Vector3.Distance(originEnemy.position, c.transform.position))
-               .Take(maxChain).ToList();
-              
-
-           foreach (var nearby in nearbyEnemies)
+           foreach (var coll in colliders)
            {
-               if (nearby.TryGetComponent<IEnemyDamageable>(out var enemyDamageable))
+               if (coll.TryGetComponent<IEnemyDamageable>(out var damageable))
                {
-                   var chainVfx = Instantiate(vfxPrefab, nearby.transform.position, Quaternion.identity);
+                   damageable?.TakDamage(finalDamage);
+                   alreadyHitEnemies.Add(coll.transform);
+                   //boon implement here
+                   StartCoroutine(ChainLightningCoroutine(coll.transform, finalDamage * 0.3f,
+                       alreadyHitEnemies, maxChains));
+               }
+           }
+
+           Destroy(vfxInstance, vfxPrefabLifetime);
+       }
+    
+
+       private IEnumerator ChainLightningCoroutine(Transform origin, float baseDamage, List<Transform> alreadyHitEnemies,
+           int remainingChains)
+       {
+           if (remainingChains <= 0) yield break;
+           
+           yield return new WaitForSeconds(chainDelay);
+
+           var nearbyTargets = Physics.OverlapSphere(origin.position, chainRadius)
+               .Where(c => c.TryGetComponent<IEnemyDamageable>(out _) && !alreadyHitEnemies.Contains(c.transform))
+               .OrderBy(c => Vector3.Distance(origin.position, c.transform.position))
+               .ToList();
+
+           foreach (var target in nearbyTargets)
+           {
+               if (target.TryGetComponent<IEnemyDamageable>(out var damageable))
+               {
+                   damageable?.TakDamage(baseDamage);
+                   alreadyHitEnemies.Add(target.transform);
+                   var chainVfx = Instantiate(vfxPrefab, target.transform.position, Quaternion.identity);
                    Destroy(chainVfx, vfxPrefabLifetime);
-                   enemyDamageable?.TakDamage(reduceDamage);
-                   alreadyHitEnemies.Add(nearby.transform);
+                   StartCoroutine(ChainLightningCoroutine(target.transform, baseDamage, alreadyHitEnemies, remainingChains - 1));
+                   break; 
                }
            }
        }
+
 
     }
 }
