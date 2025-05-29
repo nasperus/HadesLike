@@ -24,7 +24,7 @@ namespace Player
 
         public void UpdateMaxHealth()
         {
-            maxHealth = statsManager.GetStatValue("Vitality");
+            maxHealth = statsManager.GetStatValue(StatTypeEnum.Vitality);
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         }
 

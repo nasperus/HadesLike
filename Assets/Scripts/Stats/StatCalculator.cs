@@ -22,9 +22,9 @@ namespace Stats
                 return;
             }
             
-            var haste = statCollection.GetStatValue("Haste");
-            var mastery = statCollection.GetStatValue("Mastery");
-            var critical = statCollection.GetStatValue("Critical");
+            var haste = statCollection.GetStatValue(StatTypeEnum.Haste);
+            var mastery = statCollection.GetStatValue(StatTypeEnum.Mastery);
+            var critical = statCollection.GetStatValue(StatTypeEnum.Critical);
             
             
             // Haste Calculation 1 Haste means 3% speed

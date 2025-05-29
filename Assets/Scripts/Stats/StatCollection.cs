@@ -7,7 +7,7 @@ namespace Stats
     {
         [SerializeField] private List<RuntimeStats> stats = new List<RuntimeStats>();
 
-        public float GetStatValue(string statName)
+        public float GetStatValue(StatTypeEnum statName)
         {
             foreach (var stat in stats)
             {
@@ -19,7 +19,7 @@ namespace Stats
             return 0f;
         }
 
-        public void AddFlatBonus(string statName, float bonus)
+        public void AddFlatBonus(StatTypeEnum statName, float bonus)
         {
             foreach (var stat in stats)
             {
@@ -31,7 +31,7 @@ namespace Stats
             }
         }
 
-        public void AddMultiplier(string statName, float multiplier)
+        public void AddMultiplier(StatTypeEnum statName, float multiplier)
         {
             foreach (var stat in stats)
             {
@@ -43,7 +43,7 @@ namespace Stats
             }
         }
 
-        public void ResetStatBonuses(string statName)
+        public void ResetStatBonuses(StatTypeEnum statName)
         {
             foreach (var stat in stats)
             {
@@ -55,7 +55,7 @@ namespace Stats
             }
         }
         
-        public RuntimeStats GetRuntimeStat(string statName)
+        public RuntimeStats GetRuntimeStat(StatTypeEnum statName)
         {
             foreach (var stat in stats)
             {

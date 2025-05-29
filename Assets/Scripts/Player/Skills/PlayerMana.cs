@@ -25,7 +25,7 @@ namespace Player.Skills
         
         public void UpdateMaxMana()
         {
-            maxMana = playerStatsManager.GetStatValue("Mana");
+            maxMana = playerStatsManager.GetStatValue(StatTypeEnum.Mana);
             currentMana = Mathf.Clamp(currentMana, 0, maxMana);
         }
     }

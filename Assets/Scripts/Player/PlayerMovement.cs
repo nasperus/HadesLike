@@ -38,7 +38,7 @@ namespace Player
 
         public void UpdateMovementSpeed()
         {
-            movementSpeed = statCollection.GetStatValue("MovementSpeed");
+            movementSpeed = statCollection.GetStatValue(StatTypeEnum.MovementSpeed);
         }
 
         private void Start()

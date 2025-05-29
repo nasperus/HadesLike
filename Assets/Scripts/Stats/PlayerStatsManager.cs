@@ -10,16 +10,16 @@ namespace Stats
         [SerializeField] private StatCollection statCollection;
 
     
-    private Dictionary<string, float> runtimeBaseValues = new Dictionary<string, float>();
-    private Dictionary<string, float> statCaps = new Dictionary<string, float>
+    private Dictionary<StatTypeEnum, float> runtimeBaseValues = new Dictionary<StatTypeEnum, float>();
+    private Dictionary<StatTypeEnum, float> statCaps = new Dictionary<StatTypeEnum, float>
     {
-        { "Haste", 90f },
-        { "Mastery", 80f },
-        { "Critical", 95f },
-        { "Vitality", 300f },
-        { "Armor", 65f },
-        { "Mana", 300f },
-        { "MovementSpeed", 15f },
+        { StatTypeEnum.Haste, 90f },
+        { StatTypeEnum.Mastery, 80f },
+        { StatTypeEnum.Critical, 95f },
+        { StatTypeEnum.Vitality, 300f },
+        { StatTypeEnum.Armor, 65f },
+        { StatTypeEnum.Mana, 300f },
+        { StatTypeEnum.MovementSpeed, 15f },
     };
 
     private void Awake()
@@ -40,7 +40,7 @@ namespace Stats
     }
 
    
-    public void IncreaseBaseStat(string statName, float amount)
+    public void IncreaseBaseStat(StatTypeEnum statName, float amount)
     {
         if (!runtimeBaseValues.ContainsKey(statName))
         {
@@ -65,13 +65,13 @@ namespace Stats
     }
 
     // Call this to add temporary flat bonuses (like buffs)
-    public void AddFlatBonus(string statName, float amount)
+    public void AddFlatBonus(StatTypeEnum statName, float amount)
     {
         statCollection.AddFlatBonus(statName, amount);
     }
 
     // Reset bonuses on a stat
-    public void ResetBonuses(string statName)
+    public void ResetBonuses(StatTypeEnum statName)
     {
         
         var stat = statCollection.GetRuntimeStat(statName);
@@ -91,13 +91,13 @@ namespace Stats
 
 
     // Get the current value of a stat (base + flatBonus) * multiplier
-    public float GetStatValue(string statName)
+    public float GetStatValue(StatTypeEnum statName)
     {
         return statCollection.GetStatValue(statName);
     }
 
    
-    private void UpdateStatBaseValue(string statName)
+    private void UpdateStatBaseValue(StatTypeEnum statName)
     {
        
         statCollection.ResetStatBonuses(statName);

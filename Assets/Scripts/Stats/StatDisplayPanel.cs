@@ -22,13 +22,13 @@ namespace Stats
 
       private void UpdateStatDisplay()
       {
-          var haste = statCollection.GetStatValue("Haste");
-          var mastery = statCollection.GetStatValue("Mastery");
-          var crit = statCollection.GetStatValue("Critical");
-          var vit = statCollection.GetStatValue("Vitality");
-          var armor = statCollection.GetStatValue("Armor");
-          var mana = statCollection.GetStatValue("Mana");
-          var move = statCollection.GetStatValue("MovementSpeed");
+          var haste = statCollection.GetStatValue(StatTypeEnum.Haste);
+          var mastery = statCollection.GetStatValue(StatTypeEnum.Mastery);
+          var crit = statCollection.GetStatValue(StatTypeEnum.Critical);
+          var vit = statCollection.GetStatValue(StatTypeEnum.Vitality);
+          var armor = statCollection.GetStatValue(StatTypeEnum.Armor);
+          var mana = statCollection.GetStatValue(StatTypeEnum.Mana);
+          var move = statCollection.GetStatValue(StatTypeEnum.MovementSpeed);
           var currentHealth = playerHealth.CurrentHealth;
           var maxHealth = playerHealth.MaxHealth;
           var currentMana = playerMana.CurrentMana;

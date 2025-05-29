@@ -52,15 +52,13 @@ namespace Player.Skills
         {
             _mainCamera = Camera.main;
         }
+        
+        
         public void ResetMouseLeftClickFlag()
         {
             if (PausePlayerMovementDuringClick <= 0f)
             {
                 IsLeftClicking = false;
-            }
-            else
-            {
-                IsLeftClicking = true;
             }
             
         }

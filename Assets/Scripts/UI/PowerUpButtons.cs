@@ -61,13 +61,13 @@ namespace UI
 
        public void OnClickReset()
        {
-           playerStatsManager.ResetBonuses("Haste");
-           playerStatsManager.ResetBonuses("Mastery");
-           playerStatsManager.ResetBonuses("Critical");
-           playerStatsManager.ResetBonuses("Vitality");
-           playerStatsManager.ResetBonuses("Armor");
-           playerStatsManager.ResetBonuses("Mana");
-           playerStatsManager.ResetBonuses("MovementSpeed");
+           playerStatsManager.ResetBonuses(StatTypeEnum.Haste);
+           playerStatsManager.ResetBonuses(StatTypeEnum.Mastery);
+           playerStatsManager.ResetBonuses(StatTypeEnum.Critical);
+           playerStatsManager.ResetBonuses(StatTypeEnum.Vitality);
+           playerStatsManager.ResetBonuses(StatTypeEnum.Armor);
+           playerStatsManager.ResetBonuses(StatTypeEnum.Mana);
+           playerStatsManager.ResetBonuses(StatTypeEnum.MovementSpeed);
            playerMana.UpdateMaxMana();
            playerHealth.UpdateMaxHealth(); 
            playerMovement.UpdateMovementSpeed();

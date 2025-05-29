@@ -8,7 +8,7 @@ namespace Stats
         {
             // Each point of Mastery increases 1% total Damage
             //1 = 1% Mastery
-            var mastery = stats.GetStatValue("Mastery");
+            var mastery = stats.GetStatValue(StatTypeEnum.Mastery);
             return baseDamage * (1f + mastery * 0.01f);
         }
 
@@ -16,7 +16,7 @@ namespace Stats
         {
             // Each point of Critical grants 1% critical hit chance
             //1=1% crit
-            var critical = stats.GetStatValue("Critical");
+            var critical = stats.GetStatValue(StatTypeEnum.Critical);
             var criticalChance = Mathf.Clamp(critical / 100f, 0f, 0.95f);
 
             if (Random.value <= criticalChance)
@@ -30,7 +30,7 @@ namespace Stats
         {
             // Each point of Haste increases speed by 3% reducing tick rate and cooldowns.
             //1 = 3% Haste
-            var haste = stats.GetStatValue("Haste");
+            var haste = stats.GetStatValue(StatTypeEnum.Haste);
             var adjustedTick = baseHaste / (1 + haste * 0.03f);
             return Mathf.Max(0.30f, adjustedTick); // Clamp to minimum value
         }
@@ -39,7 +39,7 @@ namespace Stats
         {
             // Each point of Haste increases ability duration by 2%
             //1 = 2% Haste
-            var haste = stats.GetStatValue("Haste");
+            var haste = stats.GetStatValue(StatTypeEnum.Haste);
             var bonusDuration = baseDuration * (haste * 0.02f);
             return baseDuration + bonusDuration;
         }
@@ -48,7 +48,7 @@ namespace Stats
         {
             // Each point of Haste increases attack/cast animation speed by 2%
             // 1 = 2% Haste
-            var haste = stats.GetStatValue("Haste");
+            var haste = stats.GetStatValue(StatTypeEnum.Haste);
             return 1f + (haste * 0.02f);
         }
 
@@ -56,7 +56,7 @@ namespace Stats
         {
             // Each point of MovementSpeed increases speed by 1%
             //1 = 1% Speed
-            var movementSpeed = stats.GetStatValue("MovementSpeed");
+            var movementSpeed = stats.GetStatValue(StatTypeEnum.MovementSpeed);
             var multiplier = 1f + (movementSpeed * 0.01f);
             return baseSpeed * multiplier;
         }

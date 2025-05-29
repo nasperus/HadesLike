@@ -13,7 +13,7 @@ namespace Player
         
         public int AbsorbDamage(int incomingDamage)
         {
-            var armorValue = playerStatsManager.GetStatValue("Armor");
+            var armorValue = playerStatsManager.GetStatValue(StatTypeEnum.Armor);
             armorValue = Mathf.Clamp(armorValue, 0, 100);
 
             var damageAfterArmor = incomingDamage * (1f - armorValue / 100f);
