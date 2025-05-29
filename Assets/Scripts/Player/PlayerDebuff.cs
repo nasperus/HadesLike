@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using Ability_System.Core_Base_Classes;
 using Enemy.Archer;
 using Player.Skills;
@@ -92,6 +93,9 @@ namespace Player
                     dot = ClosestEnemy.gameObject.AddComponent<DebuffDamage>();
                 }
                 dot.Init(newTickDamage, _haste, dotDuration, statCollection);
+                
+                var alreadyHitEnemies = new List<Transform> { ClosestEnemy.transform };
+                ChainDot(ClosestEnemy.transform, alreadyHitEnemies);
             }
             
             if (!ClosestEnemy.TryGetComponent<DebuffVFXHandler>(out var handler))
@@ -108,7 +112,47 @@ namespace Player
                 handler.ResetTimer(dotDuration);
             }
         }
+
+        private void ChainDot(Transform originEnemy, List<Transform> alreadyHitEnemies)
+        {
+            const int chainRadius = 10;
+            const int maxChain = 5;
+
+            var nearbyEnemies = Physics.OverlapSphere(originEnemy.position, chainRadius)
+                .Where(c => c.TryGetComponent<IEnemyDamageable>(out _) 
+                            && !alreadyHitEnemies.Contains(c.transform))
+                .OrderBy(c => Vector3.Distance(originEnemy.position, c.transform.position))
+                .Take(maxChain).ToList();
+
+            foreach (var nearby in nearbyEnemies)
+            {
+                if (nearby.TryGetComponent<IEnemyDamageable>(out _))
+                {
+                    var dot = nearby.GetComponent<DebuffDamage>();
+                    if (dot == null)
+                    {
+                        dot = nearby.gameObject.AddComponent<DebuffDamage>();
+                    }
+                    dot.Init(GetFinalDamage(), _haste, dotDuration, statCollection);
+                    alreadyHitEnemies.Add(nearby.transform);
+                    
+                    if (!nearby.TryGetComponent<DebuffVFXHandler>(out var handler))
+                    {
+                        var vfxInstance = Instantiate(vfxPrefab, nearby.transform.position, Quaternion.identity, nearby.transform);
+                        vfxInstance.transform.localPosition = Vector3.zero;
+
+                        handler = nearby.gameObject.AddComponent<DebuffVFXHandler>();
+                        handler.Init(vfxInstance.GetComponent<ParticleSystem>(), dotDuration);
+                    }
+                    else
+                    {
+                        handler.ResetTimer(dotDuration);
+                    }
+                }
+            }
+        }
+
         
     }
     
-    }
+}

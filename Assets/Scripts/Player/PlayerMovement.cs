@@ -114,7 +114,8 @@ namespace Player
             }
             if (_wasIdle)
             { 
-                rb.linearVelocity = Vector3.MoveTowards(rb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+                rb.linearVelocity = Vector3.MoveTowards(rb.linearVelocity, targetVelocity, 
+                    acceleration * Time.fixedDeltaTime);
                    
                 if ((rb.linearVelocity - targetVelocity).sqrMagnitude < 0.01f)
                 { 

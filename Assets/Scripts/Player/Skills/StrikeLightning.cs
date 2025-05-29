@@ -3,6 +3,8 @@ using Enemy.Archer;
 using Stats;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Player.Skills
 {
@@ -128,18 +130,47 @@ namespace Player.Skills
            }
            var vfxInstance = Instantiate(vfxPrefab, spawnPosition, Quaternion.identity);
            var finalRadius = GetFinalRadius();
-           Debug.Log(radius);
+           
            var colliders = Physics.OverlapSphere(spawnPosition, finalRadius); 
+           List<Transform> alreadyHitEnemies = new List<Transform>();
 
             foreach (var coll in colliders)
             {
                 if (coll.TryGetComponent<IEnemyDamageable>(out var damageable))
                 {
                     damageable?.TakDamage(finalDamage);
+                    alreadyHitEnemies.Add(coll.transform);
+                    ChainLightning(coll.transform, finalDamage * 0.5f, alreadyHitEnemies);
+                    
                 }
             }
             Destroy(vfxInstance, vfxPrefabLifetime);
        }
 
+       private void ChainLightning(Transform originEnemy, float reduceDamage, List<Transform> alreadyHitEnemies)
+       {
+           const int chainRadius = 10;
+           const int maxChain = 5;
+           
+           var nearbyEnemies = Physics.OverlapSphere(originEnemy.position, chainRadius)
+               .Where(c => c.TryGetComponent<IEnemyDamageable>(out _) 
+                           && !alreadyHitEnemies.Contains(c.transform))
+               .OrderBy(c => Vector3.Distance(originEnemy.position, c.transform.position))
+               .Take(maxChain).ToList();
+              
+
+           foreach (var nearby in nearbyEnemies)
+           {
+               if (nearby.TryGetComponent<IEnemyDamageable>(out var enemyDamageable))
+               {
+                   var chainVfx = Instantiate(vfxPrefab, nearby.transform.position, Quaternion.identity);
+                   Destroy(chainVfx, vfxPrefabLifetime);
+                   enemyDamageable?.TakDamage(reduceDamage);
+                   alreadyHitEnemies.Add(nearby.transform);
+               }
+           }
+       }
+
     }
 }
+
