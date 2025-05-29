@@ -20,7 +20,6 @@ namespace Player.Skills
         
         private float _skillCooldownTimer;
         private const float BaseMovementFreezeTime = 2f;
-        public bool IsMovementFrozen { get; private set; }
         private float _movementFreezeTimer;
        
         

@@ -22,8 +22,7 @@ namespace Player.Skills
         [SerializeField] private PlayerMana playerMana;
         [SerializeField] private float spellCost;
         private const float BaseMovementFreezeTime = 2f;
-      
-        public bool IsMovementFrozen { get; private set; }
+        
         private float _movementFreezeTimer;
         private float _animationSpeed;
         

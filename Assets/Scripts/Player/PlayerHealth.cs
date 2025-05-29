@@ -12,8 +12,14 @@ namespace Player
         [SerializeField] private float currentHealth;
         [SerializeField] private PlayerArmor barrier;
         [SerializeField] private PlayerStatsManager statsManager;
-        public float CurrentHealth => currentHealth;
+       
         public float MaxHealth => maxHealth;
+        
+        public float CurrentHealth
+        {
+            get => currentHealth;
+            set => currentHealth = value;
+        }
 
         private void Start()
         {
@@ -27,7 +33,7 @@ namespace Player
             maxHealth = statsManager.GetStatValue(StatTypeEnum.Vitality);
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         }
-
+        
         public void TakeDamage(int damage)
         {
            var finalDamage = barrier.AbsorbDamage(damage);

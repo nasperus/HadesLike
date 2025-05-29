@@ -33,6 +33,7 @@ namespace Player.Skills
         //stop WASD rotation during mouse click
         public float MouseClickLookTimer { get; set; }
         public bool IsLeftClicking { get; protected set; }
+        public bool IsMovementFrozen { get; protected set; }
 
         private bool _clickedEnemy;
 

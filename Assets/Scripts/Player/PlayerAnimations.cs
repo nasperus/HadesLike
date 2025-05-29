@@ -27,8 +27,9 @@ namespace Player
             RunningAnimation();
         }
 
-        public void PlayerAutoAttack()
+        public void PlayerAutoAttack(float speed)
         {
+            animator.SetFloat(AttackSpeed, speed);
             animator.SetTrigger(AutoAttack);
         }
 

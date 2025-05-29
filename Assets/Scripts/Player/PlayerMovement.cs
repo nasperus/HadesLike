@@ -21,8 +21,7 @@ namespace Player
         private Camera _mainCamera;
         private Vector2 _playerInput;
         private Vector2 _currentInput;
-        private AoeFireDamage _aoeFireDamage;
-        private StrikeLightning _strikeLightning;
+        private PlayerAbilityBase[] _playerAbilityBase;
         
         public float MovementSpeed => movementSpeed;
         public Vector3 Movement { get; private set; }
@@ -32,8 +31,7 @@ namespace Player
 
         private void Awake()
         {
-            _aoeFireDamage = GetComponent<AoeFireDamage>();
-            _strikeLightning = GetComponent<StrikeLightning>();
+            _playerAbilityBase = GetComponents<PlayerAbilityBase>();
         }
 
         public void UpdateMovementSpeed()
@@ -49,8 +47,19 @@ namespace Player
 
         private void FixedUpdate()
         {
+           
             PlayerMouseClickAndDashMethods();
             
+        }
+
+        private bool ActiveMovementFreeze()
+        {
+            foreach (var abilities in _playerAbilityBase )
+            {
+                if(abilities.IsMovementFrozen) 
+                    return true;
+            }
+            return false;
         }
 
         private float GetCalculatedMovementSpeed(float baseSpeed)
@@ -138,8 +147,9 @@ namespace Player
                 IsMoving = false;
                 return; 
             }
+           
 
-            if (_aoeFireDamage.IsMovementFrozen ||_strikeLightning.IsMovementFrozen)
+            if (ActiveMovementFreeze())
             {
                 SetVelocity(Vector3.zero);
                 IsMoving = false;
