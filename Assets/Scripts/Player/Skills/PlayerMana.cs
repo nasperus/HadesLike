@@ -10,7 +10,7 @@ namespace Player.Skills
         [SerializeField] private float maxMana;
         [SerializeField] private float currentMana;
         [SerializeField] private PlayerStatsManager playerStatsManager;
-        
+        private float _originalMaxMana;
         public float CurrentMana
         {
             get => currentMana;
@@ -20,12 +20,14 @@ namespace Player.Skills
 
         private void Start()
         {
+            _originalMaxMana = maxMana;
             currentMana = maxMana;
         }
         
         public void UpdateMaxMana()
         {
-            maxMana = playerStatsManager.GetStatValue(StatTypeEnum.Mana);
+            
+            maxMana = ApplyStatsToAbilities.ApplyManaBonus(_originalMaxMana, playerStatsManager.GetStatCollection());
             currentMana = Mathf.Clamp(currentMana, 0, maxMana);
         }
     }

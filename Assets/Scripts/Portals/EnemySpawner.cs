@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Ability_System.Enum;
 using Enemy.Archer;
 using Enemy.Mutant;
+using Prayers;
 
 namespace Portals
 {
@@ -11,9 +13,10 @@ namespace Portals
         [SerializeField] private GameObject meleeEnemyPrefabs;
         [SerializeField] private GameObject rangedEnemyPrefabs;
         [SerializeField] private float delayBetweenSpawns = 2f;
+        
         private Transform _playerRangeHitPoint;
         private Transform _playerTransform;
-
+   
 
         private void Start()
         {
@@ -49,6 +52,7 @@ namespace Portals
                     archer.SetPlayerRangeHitPoint(_playerRangeHitPoint);
                 }
             }
+           
             yield return new WaitForSeconds(delayBetweenSpawns);
         }
     }

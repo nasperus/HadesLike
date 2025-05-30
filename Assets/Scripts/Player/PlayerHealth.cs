@@ -14,7 +14,7 @@ namespace Player
         [SerializeField] private PlayerStatsManager statsManager;
        
         public float MaxHealth => maxHealth;
-        
+        private float _originalMaxHealth;
         public float CurrentHealth
         {
             get => currentHealth;
@@ -23,14 +23,15 @@ namespace Player
 
         private void Start()
         {
-         
+            _originalMaxHealth = maxHealth;
             currentHealth = maxHealth;
         }
         
 
         public void UpdateMaxHealth()
         {
-            maxHealth = statsManager.GetStatValue(StatTypeEnum.Vitality);
+            // Always use the original value for calculation
+            maxHealth = ApplyStatsToAbilities.ApplyVitalityBonus(_originalMaxHealth, statsManager.GetStatCollection());
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         }
         

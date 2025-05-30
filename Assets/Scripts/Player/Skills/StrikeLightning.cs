@@ -178,8 +178,6 @@ namespace Player.Skills
                }
            }
        }
-
-
     }
 }
 

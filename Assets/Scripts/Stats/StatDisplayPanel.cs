@@ -40,7 +40,7 @@ namespace Stats
               $"Vitality: {vit} = <color=#44ff44>{maxHealth} Max Health</color> (<b>{currentHealth}</b>)\n" +
               $"Mana: {mana} = <color=#4444ff>{maxMana} Max Mana</color> (<b>{currentMana}</b>)\n" +
               $"Armor: {armor} = <color=#bbbbbb>{armor:0} Defense</color>\n" +
-              $"Move Speed: {move} = <color=#ffaa00>{move * 1f:0.#}% Speed</color>(<b>{currentMovement}</b>)\n" +
+              $"Move Speed: {move} = <color=#ffaa00>{move:0.#}% Speed</color>(<b>{currentMovement}</b>)\n" +
               $"Haste: {haste} = <color=#00ffff>{haste * 3f:0.#}% Dot/Cast/Attack/CD/Duration</color>\n" +
               $"Mastery: {mastery} = <color=#ffcc00>{mastery * 1f:0.#}% All Damage</color>\n" +
               $"Crit: {crit} = <color=#ff4444>{crit * 1f:0.#}% Crit Chance</color>\n";

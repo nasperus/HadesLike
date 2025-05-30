@@ -16,9 +16,9 @@ namespace Stats
         { StatTypeEnum.Haste, 90f },
         { StatTypeEnum.Mastery, 80f },
         { StatTypeEnum.Critical, 95f },
-        { StatTypeEnum.Vitality, 300f },
+        { StatTypeEnum.Vitality, 200f },
         { StatTypeEnum.Armor, 65f },
-        { StatTypeEnum.Mana, 300f },
+        { StatTypeEnum.Mana, 200f },
         { StatTypeEnum.MovementSpeed, 15f },
     };
 
@@ -94,6 +94,11 @@ namespace Stats
     public float GetStatValue(StatTypeEnum statName)
     {
         return statCollection.GetStatValue(statName);
+    }
+    
+    public StatCollection GetStatCollection()
+    {
+        return statCollection;
     }
 
    

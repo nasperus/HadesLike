@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Mana
   m_EditorClassIdentifier: 
   statName: 1
-  baseValue: 100
+  baseValue: 0

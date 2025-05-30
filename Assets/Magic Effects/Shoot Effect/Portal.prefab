@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       propertyPath: m_Name
-      value: Magic circle  Variant
+      value: Portal
       objectReference: {fileID: 0}
     - target: {fileID: 3423388300971593625, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -111,3 +111,4 @@ MonoBehaviour:
   meleeEnemyPrefabs: {fileID: 7645741745891326314, guid: d58b2233d2f871645b4a06ba93b8a847, type: 3}
   rangedEnemyPrefabs: {fileID: 1522074740535766742, guid: b83b2f03bce705f4f93af98408a8f8de, type: 3}
   delayBetweenSpawns: 1
+  miss: {fileID: 7366819956571537915, guid: d58b2233d2f871645b4a06ba93b8a847, type: 3}

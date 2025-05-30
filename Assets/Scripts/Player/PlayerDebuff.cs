@@ -25,9 +25,7 @@ namespace Player
         [SerializeField] private float chainDelay; 
         [SerializeField] private int maxChains;
         [SerializeField] private int chainRadius;
-        private float _mastery;
-        private float _haste;
-        private float _critical;
+       
         public bool IsRightClicking { get; private set; }
 
 
@@ -96,10 +94,11 @@ namespace Player
         {
             if (remainingChains <= 0) yield break;
         
-            var dotDamage = GetFinalDamage();
+            var baseDotDamage = GetFinalDamage();
 
-            StatCalculator.CalculateStats(statCollection, dotDamage, tickInterval,
-                out _mastery, out _haste, out _critical);
+            var finalDamage = ApplyStatsToAbilities.ApplyMastery(baseDotDamage, statCollection);
+            finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage, statCollection);
+            var adjustedTickInterval = ApplyStatsToAbilities.ApplyHasteSpeed(tickInterval, statCollection);
 
             if (originEnemy.TryGetComponent<IEnemyDamageable>(out _))
             {
@@ -108,7 +107,7 @@ namespace Player
                 {
                     dot = originEnemy.gameObject.AddComponent<DebuffDamage>();
                 }
-                dot.Init(dotDamage, _haste, dotDuration, statCollection);
+                dot.Init(finalDamage, adjustedTickInterval, dotDuration, statCollection);
             }
         
             if (!originEnemy.TryGetComponent<DebuffVFXHandler>(out var handler))
