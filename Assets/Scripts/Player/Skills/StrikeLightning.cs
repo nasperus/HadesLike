@@ -42,13 +42,7 @@ namespace Player.Skills
 
         private void InitializeAbilities()
         {
-            var modifier = new BaseAbilityModifier(
-                name: "Lightning Strike",
-                baseDamage: skillDamageAmount,
-                baseRadius: radius,
-                baseAoe: 0
-            );
-            
+            var modifier = AbilityFactory.StrikeLightning(skillDamageAmount, radius);
             Init(modifier);
         }
         

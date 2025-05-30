@@ -1,5 +1,3 @@
-using System;
-using Ability_System.Enum;
 using Prayers;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ namespace Enemy.Mutant
         [SerializeField] private int damage;
         [SerializeField] private LayerMask playerLayer;
         [SerializeField] private float capsuleRadius;
-        private BoonRarity boonRarity = BoonRarity.Legendary;
+        private int miss = 4;
        
         
 
@@ -27,9 +25,9 @@ namespace Enemy.Mutant
 
                if (hitCollider.TryGetComponent<IPlayerDamageable>(out var damageable))
                {
-                   if (boonRarity.ShouldMiss())
+                   if (CriticalMiss.ShouldMiss(miss))
                    {
-                       Debug.Log($"{gameObject.name} MISSED their attack due to miss chance ({CriticalMiss.GetMissChance(boonRarity)}%)");
+                       Debug.Log($"{gameObject.name} MISSED their attack due to miss chance ({CriticalMiss.GetMissChance(miss)}%)");
                        continue;
                    }
                    damageable?.TakeDamage(damage);

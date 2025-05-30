@@ -64,13 +64,15 @@ namespace Stats
         UpdateStatBaseValue(statName);
     }
 
-    // Call this to add temporary flat bonuses (like buffs)
+   
+
     public void AddFlatBonus(StatTypeEnum statName, float amount)
     {
         statCollection.AddFlatBonus(statName, amount);
     }
 
-    // Reset bonuses on a stat
+   
+
     public void ResetBonuses(StatTypeEnum statName)
     {
         
@@ -84,13 +86,13 @@ namespace Stats
         runtimeBaseValues[statName] = stat.baseStats.baseValue;
         
 
-        // Reset flat/multiplier bonuses
+       
         statCollection.ResetStatBonuses(statName);
         UpdateStatBaseValue(statName);
     }
 
 
-    // Get the current value of a stat (base + flatBonus) * multiplier
+    
     public float GetStatValue(StatTypeEnum statName)
     {
         return statCollection.GetStatValue(statName);

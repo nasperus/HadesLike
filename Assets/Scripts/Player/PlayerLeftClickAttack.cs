@@ -13,12 +13,22 @@ namespace Player
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private StatCollection statCollection;
         [SerializeField] private float attackCooldown;
-
+        [SerializeField] private GameObject vfxPrefab;
+        [SerializeField] private Transform slashTransform;
+        
+        private float _comboMaxDelay = 2f;
+        private float _lastComboTime;
+        private int _comboIndex;
+        
+        private bool _bufferedAttackInput;
+        private float _bufferTime;
+        private float _bufferTimer;
+        
         private float _attackCd;
         private LifeSteal _lifeSteal;
         
         private float _movementFreezeTimer;
-        private const float BaseMovementFreezeTime = 2f;
+        private const float BaseMovementFreezeTime = 1f;
 
         private void Awake()
         {
@@ -28,42 +38,109 @@ namespace Player
         private void Update()
         {
             AttackCooldownCd();
+            
+        }
+
+        public void ResetComboIndex()
+        {
+            _comboIndex = 0;
         }
 
         private void OnMouseClickLeft(InputValue value)
         {
             if (!value.isPressed) return;
-            IsLeftClicking = true;
-            if(_attackCd > 0) return;
-            if (playerActionSate.IsAttacking) return;
+            if (_attackCd > 0 || playerActionSate.IsAttacking)
+            {
+                if (playerActionSate.IsAttacking) 
+                {
+                    _bufferedAttackInput = true;
+                    _bufferTimer = _bufferTime;
+                }
+                return;
+            }
+
+            TriggerAutoAttack(); 
+        }
+
+
+        
+
+        private void ComboChainAttack()
+        {
+            if (Time.time - _lastComboTime > _comboMaxDelay)
+            {
+                _comboIndex = 0;
+            }
+            _comboIndex++;
+            if (_comboIndex > 3) _comboIndex = 1;
+            _lastComboTime = Time.time;
+
+        }
+
+      
+        private void VfxPrefabSpawner()
+        {
+            var originalRotation = slashTransform.rotation;
+            var rotated = originalRotation * Quaternion.Euler(0, -45f, 0);
+            var spawnSlash = Instantiate(vfxPrefab, slashTransform.position,rotated, slashTransform);
+            Destroy(spawnSlash, 1f);
+        }
+
+        private void UpdateAnimationSpeed()
+        {
+            var animationSpeed = ApplyStatsToAbilities.ApplyHasteCastAndAttackSpeed(statCollection);
+            playerAnimations.TriggerComboAttack(animationSpeed,_comboIndex);
+        }
+        
+        public void AnimationEvent_MidAttackEffect()
+        {
+            DamageEnemiesAroundClickedEnemy();
+            VfxPrefabSpawner();
+        }
+
+        private void TriggerAutoAttack()
+        {
             playerActionSate.StartAttack();
             _attackCd = ApplyStatsToAbilities.ApplyHasteSpeed(attackCooldown, statCollection);
-           
-           // _lifeSteal.GetLifeSteal(damage, playerHealth, statCollection);
-            DamageEnemiesAroundClickedEnemy();
+            ComboChainAttack();
+            _lifeSteal.GetLifeSteal(damage, playerHealth, statCollection); // Can stay here (optional)
             CalculateMouseRay();
             SetupRayDirection();
             RotatePlayer();
             _movementFreezeTimer = ApplyStatsToAbilities.ApplyHasteSpeed(BaseMovementFreezeTime, statCollection);
             IsMovementFrozen = true;
             UpdateAnimationSpeed();
-
-
+           
         }
 
-        private void UpdateAnimationSpeed()
+        public void OnAttackAnimationComplete()
         {
-            var animationSpeed = ApplyStatsToAbilities.ApplyHasteCastAndAttackSpeed(statCollection);
-            playerAnimations.PlayerAutoAttack(animationSpeed);
+            playerActionSate.EndAttack();
+
+            if (_bufferedAttackInput)
+            {
+                _bufferedAttackInput = false;
+                TriggerAutoAttack(); 
+            }
+            else
+            {
+                ResetComboIndex(); 
+                playerAnimations.ResetCombo(); 
+            }
         }
 
-        public void TriggerAutoAttack()
-        {
-            Debug.Log("auto attack trigger");
-        }
 
         private void AttackCooldownCd()
         {
+            if (_bufferedAttackInput)
+            {
+                _bufferTimer -= Time.deltaTime;
+
+                if (_bufferTimer <= 0f)
+                {
+                    _bufferedAttackInput = false;
+                }
+            }
             if (_attackCd > 0f)
             {
                 _attackCd -= Time.deltaTime;

@@ -36,13 +36,7 @@ namespace Player
 
         private void InitializeAbilities()
         {
-            var modifier = new BaseAbilityModifier(
-                name: "Debuff",
-                baseDamage: tickDamage,
-                baseRadius: 0,
-                baseAoe: 0
-                );
-            
+            var modifier = AbilityFactory.DotDamage(tickDamage);
             Init(modifier);
         }
 

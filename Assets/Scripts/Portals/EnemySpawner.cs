@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Ability_System.Enum;
 using Enemy.Archer;
 using Enemy.Mutant;
 using Prayers;

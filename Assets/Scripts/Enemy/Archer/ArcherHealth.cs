@@ -16,10 +16,10 @@ namespace Enemy.Archer
             _archerStateMachine = GetComponent<ArcherStateMachine>();
         }
 
-        // private void Update()
-        // {
-        //     archerHealthText.text = $"Archer Health: {archerHealth}";
-        // }
+        private void Update()
+        {
+            archerHealthText.text = $"Archer Health: {archerHealth}";
+        }
 
         public void TakDamage(float amount)
         {

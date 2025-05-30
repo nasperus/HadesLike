@@ -35,12 +35,8 @@ namespace Player.Skills
         }
 
         private void InitializeAbilities()
-        { var modifier = new BaseAbilityModifier(
-                name: "Aoe Fire Damage",
-                baseDamage: damage,
-                baseRadius: 0,
-                baseAoe: 0
-            );
+        { 
+            var modifier = AbilityFactory.AoeFireDamage(damage,radius);
             Init(modifier);
         }
 

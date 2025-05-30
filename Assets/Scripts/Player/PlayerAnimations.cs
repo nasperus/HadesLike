@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -6,8 +7,8 @@ namespace Player
     {
        [Header("Player Movement Class")] [SerializeField] private PlayerMovement playerMovement;
        [Header("Animation Controller")] [SerializeField] private Animator animator;
-       
-       
+      
+       [SerializeField] private PlayerLeftClickAttack playerAttack;
         private static readonly int Running = Animator.StringToHash("Running");
         private static readonly int Shoot = Animator.StringToHash("Shoot");
         private static readonly int Sprint = Animator.StringToHash("Sprint");
@@ -19,13 +20,28 @@ namespace Player
         private static readonly int Lightning = Animator.StringToHash("Lightning");
         private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
         private static readonly int AutoAttack = Animator.StringToHash("AutoAttack");
+        private static readonly int AttackCombo = Animator.StringToHash("AttackCombo");
 
-        
+      
 
         private void Update()
         {
             RunningAnimation();
         }
+        
+        public void TriggerComboAttack(float speed, int step)
+        {
+            animator.SetFloat(AttackSpeed, speed);
+            animator.SetInteger(AttackCombo, step);
+            animator.SetTrigger(AutoAttack);
+        }
+        
+        public void ResetCombo()
+        {
+            animator.SetInteger(AttackCombo, 0);
+            playerAttack.ResetComboIndex();
+        }
+        
 
         public void PlayerAutoAttack(float speed)
         {
