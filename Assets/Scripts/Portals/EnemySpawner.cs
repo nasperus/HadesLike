@@ -1,58 +1,55 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Enemy.Archer;
 using Enemy.Mutant;
-using Prayers;
+using UnityEngine;
 
-namespace Portals
+public class EnemySpawner : MonoBehaviour
 {
-    public class EnemySpawner : MonoBehaviour
+    [SerializeField] private GameObject meleeEnemyPrefabs;
+    [SerializeField] private GameObject rangedEnemyPrefabs;
+    [SerializeField] private float delayBetweenSpawns = 2f;
+
+    private Transform _playerRangeHitPoint;
+    private Transform _playerTransform;
+
+
+    private void Start()
     {
-        [SerializeField] private GameObject meleeEnemyPrefabs;
-        [SerializeField] private GameObject rangedEnemyPrefabs;
-        [SerializeField] private float delayBetweenSpawns = 2f;
-        
-        private Transform _playerRangeHitPoint;
-        private Transform _playerTransform;
-   
+        StartCoroutine(Spawn());
+    }
 
-        private void Start()
+    public void SetPlayerTransform(Transform player, Transform playerHitPoint)
+    {
+        _playerTransform = player;
+        _playerRangeHitPoint = playerHitPoint;
+    }
+
+    private IEnumerator Spawn()
+    {
+        var allEnemies = new List<GameObject>();
+        allEnemies.Add(meleeEnemyPrefabs);
+        allEnemies.Add(rangedEnemyPrefabs);
+
+        if (allEnemies.Count == 0)
         {
-            StartCoroutine(Spawn());
+            yield break;
         }
 
-        public void SetPlayerTransform(Transform player, Transform playerHitPoint)
+        var randomIndex = Random.Range(0, allEnemies.Count);
+        var prefab = allEnemies[randomIndex];
+
+        var enemy = Instantiate(prefab, transform.position, Quaternion.identity);
+
+        if (enemy.TryGetComponent<EnemyStateMachine>(out var stateMachine))
         {
-            _playerTransform = player;
-            _playerRangeHitPoint = playerHitPoint;
-        }
-        
-        private IEnumerator Spawn()
-        {
-            var allEnemies = new List<GameObject>();
-            allEnemies.Add(meleeEnemyPrefabs);
-            allEnemies.Add(rangedEnemyPrefabs);
-            
-            if(allEnemies.Count == 0)
+            stateMachine.GetPlayerTransform(_playerTransform);
+            if (stateMachine is ArcherStateMachine archer)
             {
-                yield break;
+                archer.SetPlayerRangeHitPoint(_playerRangeHitPoint);
             }
-            var randomIndex = Random.Range(0, allEnemies.Count);
-            var prefab = allEnemies[randomIndex];
-                
-            var enemy = Instantiate(prefab, transform.position, Quaternion.identity);
-            
-            if (enemy.TryGetComponent<EnemyStateMachine>(out var stateMachine))
-            {
-                stateMachine.GetPlayerTransform(_playerTransform);
-                if (stateMachine is ArcherStateMachine archer)
-                {
-                    archer.SetPlayerRangeHitPoint(_playerRangeHitPoint);
-                }
-            }
-           
-            yield return new WaitForSeconds(delayBetweenSpawns);
         }
+
+        yield return new WaitForSeconds(delayBetweenSpawns);
     }
 }

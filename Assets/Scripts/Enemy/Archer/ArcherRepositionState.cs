@@ -9,7 +9,7 @@ namespace Enemy.Archer
         private NavMeshAgent _agent;
         private Vector3 _targetPosition;
         private const float RepositionRadius = 5f; // Reposition Radius
-        private const float MinRepositionDistance = 3f; // Minimum distance to doesn't go archer that location;
+        private const float MinRepositionDistance = 2f; // Minimum distance to doesn't go archer that location;
         private float _repositionTimer;
         private const float MaxRepositionTime = 2f; // If there is no path found during this time Archer attacks;
         private float _lastPathRecalculationTime;

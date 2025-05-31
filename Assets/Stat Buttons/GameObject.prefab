@@ -1114,7 +1114,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Haste 10%
+  m_text: Haste 2%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1383,7 +1383,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Critical 5%
+  m_text: Critical 3%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2039,13 +2039,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea2aea9e2b5306408e7fa262bf58518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addStatValues: {fileID: 0}
-  playerStatsManager: {fileID: 0}
-  trigger: {fileID: 0}
-  playerHealth: {fileID: 0}
-  playerArmor: {fileID: 0}
-  playerMana: {fileID: 0}
-  playerMovement: {fileID: 0}
+  addStatValues: {fileID: 5702856892988391853, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  playerStatsManager: {fileID: 4401555069083647331, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  playerHealth: {fileID: 3819560779323440753, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  playerArmor: {fileID: 5470940315221651957, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  playerMana: {fileID: 6477106919189763259, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  playerMovement: {fileID: 5161072891253137999, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
 --- !u!1 &7274072387485412845
 GameObject:
   m_ObjectHideFlags: 0

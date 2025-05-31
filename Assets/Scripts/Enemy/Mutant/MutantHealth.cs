@@ -24,6 +24,8 @@ namespace Enemy.Mutant
             if (mutantHealth <= 0)
             {
                 _enemyStateMachine.TransitionToState(new MutantDeathState(_enemyStateMachine));
+               
+               
             }
             else
             {
@@ -31,5 +33,7 @@ namespace Enemy.Mutant
             }
             
         }
+
+       
     }
 }

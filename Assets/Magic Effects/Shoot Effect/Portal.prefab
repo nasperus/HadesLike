@@ -111,4 +111,4 @@ MonoBehaviour:
   meleeEnemyPrefabs: {fileID: 7645741745891326314, guid: d58b2233d2f871645b4a06ba93b8a847, type: 3}
   rangedEnemyPrefabs: {fileID: 1522074740535766742, guid: b83b2f03bce705f4f93af98408a8f8de, type: 3}
   delayBetweenSpawns: 1
-  miss: {fileID: 7366819956571537915, guid: d58b2233d2f871645b4a06ba93b8a847, type: 3}
+  maxEnemies: 5

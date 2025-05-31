@@ -95,6 +95,7 @@ namespace Player
         public void AnimationEvent_MidAttackEffect()
         {
             DamageEnemiesAroundClickedEnemy();
+            _lifeSteal.GetLifeSteal(damage, playerHealth, statCollection); 
             VfxPrefabSpawner();
         }
 
@@ -103,7 +104,6 @@ namespace Player
             playerActionSate.StartAttack();
             _attackCd = ApplyStatsToAbilities.ApplyHasteSpeed(attackCooldown, statCollection);
             ComboChainAttack();
-            _lifeSteal.GetLifeSteal(damage, playerHealth, statCollection); // Can stay here (optional)
             CalculateMouseRay();
             SetupRayDirection();
             RotatePlayer();
