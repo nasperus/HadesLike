@@ -1609,7 +1609,6 @@ MonoBehaviour:
     size: {x: 0, y: 0, z: 0}
   navMeshSurface: {fileID: 1979822389}
   playerPrefab: {fileID: 5995958259487152754, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
-  exitPortalPrefab: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
 --- !u!114 &1664724349
 MonoBehaviour:
   m_ObjectHideFlags: 0
