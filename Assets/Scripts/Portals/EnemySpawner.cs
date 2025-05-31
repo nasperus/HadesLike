@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Enemy.Archer;
 using Enemy.Mutant;
+using Room_Generation;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -13,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
     private Transform _playerRangeHitPoint;
     private Transform _playerTransform;
 
-
+    private bool hasSpawned = false;
     private void Start()
     {
         StartCoroutine(Spawn());
@@ -27,19 +28,17 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        var allEnemies = new List<GameObject>();
-        allEnemies.Add(meleeEnemyPrefabs);
-        allEnemies.Add(rangedEnemyPrefabs);
+        if (hasSpawned) yield break;
+        hasSpawned = true;
 
-        if (allEnemies.Count == 0)
-        {
-            yield break;
-        }
+        yield return new WaitForSeconds(0.5f); 
 
-        var randomIndex = Random.Range(0, allEnemies.Count);
+        var allEnemies = new[] { meleeEnemyPrefabs, rangedEnemyPrefabs };
+        var randomIndex = Random.Range(0, allEnemies.Length);
         var prefab = allEnemies[randomIndex];
 
         var enemy = Instantiate(prefab, transform.position, Quaternion.identity);
+        EnemyTracker.Instance?.AddEnemiesToTrack(1); 
 
         if (enemy.TryGetComponent<EnemyStateMachine>(out var stateMachine))
         {
@@ -50,6 +49,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(delayBetweenSpawns);
+        Destroy(gameObject); 
     }
 }
+

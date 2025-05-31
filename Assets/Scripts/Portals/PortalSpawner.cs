@@ -40,9 +40,8 @@ public class PortalSpawner : MonoBehaviour
                 {
                     spawner.SetPlayerTransform(playerTransform,_playerRangeHitPoint);
                 }
-                Destroy(portal, 1);
             }
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
         }
     }
 

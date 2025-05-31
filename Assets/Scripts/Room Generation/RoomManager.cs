@@ -71,6 +71,7 @@ namespace Room_Generation
             {
                 navMeshSurface.BuildNavMesh();
             }
+            EnemyTracker.Instance?.ResetTracker();
 
             StartCoroutine(SetupPortalSpawnersAfterDelay()); 
         }

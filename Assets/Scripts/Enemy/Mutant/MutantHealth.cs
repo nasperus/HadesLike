@@ -1,5 +1,6 @@
 
 using Enemy.Archer;
+using Room_Generation;
 using UnityEngine;
 
 namespace Enemy.Mutant
@@ -24,7 +25,7 @@ namespace Enemy.Mutant
             if (mutantHealth <= 0)
             {
                 _enemyStateMachine.TransitionToState(new MutantDeathState(_enemyStateMachine));
-               
+               EnemyTracker.Instance?.RegisterEnemyDeath();
                
             }
             else

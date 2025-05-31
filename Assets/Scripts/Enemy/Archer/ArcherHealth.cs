@@ -1,4 +1,5 @@
 using System;
+using Room_Generation;
 using TMPro;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace Enemy.Archer
             if (archerHealth <= 0)
             {
                _archerStateMachine.TransitionToState( new ArcherDeathState(_archerStateMachine));
-               
+               EnemyTracker.Instance?.RegisterEnemyDeath();
             }
             else
             {
