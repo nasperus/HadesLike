@@ -6,6 +6,7 @@ namespace UI
     public class PowerUpTrigger : MonoBehaviour
     {
         [SerializeField] private GameObject powerUpUi;
+        
 
         private void Start()
         {

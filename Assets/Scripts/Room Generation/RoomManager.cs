@@ -16,8 +16,8 @@ namespace Room_Generation
 
         [Header("Player Setup")]
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private GameObject exitVfxPrefab;
-        
+        [SerializeField] private GameObject exitVfxPrefab; 
+       
         
 
         private GameObject _currentRoom;
@@ -26,6 +26,7 @@ namespace Room_Generation
         private void Start()
         {
             SpawnNewRoom(); 
+            
         }
 
         private void OnEnable()
@@ -50,7 +51,7 @@ namespace Room_Generation
              var rotation = Quaternion.Euler(0, 90, 0);
              
              Instantiate(exitVfxPrefab, spawnPositon,rotation);
-            
+             
              
         }
         
