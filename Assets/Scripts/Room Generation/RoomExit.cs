@@ -16,6 +16,7 @@ namespace Room_Generation
             if (other.CompareTag("Player"))
             {
                 _roomManager.SpawnNewRoom();
+                Destroy(gameObject);
             }
         }
     }

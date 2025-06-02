@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UI;
 using Unity.Cinemachine;
+using Random = UnityEngine.Random;
 
 namespace Room_Generation
 {
@@ -14,6 +16,7 @@ namespace Room_Generation
 
         [Header("Player Setup")]
         [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private GameObject exitVfxPrefab;
         
         
 
@@ -24,8 +27,33 @@ namespace Room_Generation
         {
             SpawnNewRoom(); 
         }
-        
 
+        private void OnEnable()
+        {
+            EnemyTracker.OnRoomCleared += HandleRoomCleared;
+        }
+        
+        private void OnDisable()
+        {
+            EnemyTracker.OnRoomCleared -= HandleRoomCleared;
+        }
+
+        private void HandleRoomCleared()
+        {
+            var exitSpawn = _currentRoom.transform.Find("Exit");
+             if (exitSpawn == null)
+             {
+                 Debug.LogError("Exit spawn point not found in room!");
+                 return;
+             }
+             var spawnPositon  = exitSpawn.position + Vector3.up * 1f;
+             var rotation = Quaternion.Euler(0, 90, 0);
+             
+             Instantiate(exitVfxPrefab, spawnPositon,rotation);
+            
+             
+        }
+        
         public void SpawnNewRoom()
         {
             if (_currentRoom != null)
@@ -36,7 +64,7 @@ namespace Room_Generation
             var roomData = GetRandomRoom();
             _currentRoom = Instantiate(roomData.prefab, Vector3.zero, Quaternion.identity);
             var spawnPoint = _currentRoom.transform.Find("PlayerSpawnPoint");
-
+            
             if (spawnPoint == null)
             {
                 Debug.LogError("No PlayerSpawnPoint found in room prefab!");

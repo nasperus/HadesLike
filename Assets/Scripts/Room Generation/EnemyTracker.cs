@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace Room_Generation
 {
@@ -8,6 +9,8 @@ namespace Room_Generation
 
         private int totalEnemiesToSpawn;
         private int enemiesKilled;
+        private bool isSpawningComplete = false;
+        public static event Action OnRoomCleared;
 
         private void Awake()
         {
@@ -26,19 +29,32 @@ namespace Room_Generation
             totalEnemiesToSpawn += count;
         }
 
+        public void SetSpawningComplete()
+        {
+            isSpawningComplete = true;
+            CheckRoomCleared();
+        }
+
         public void RegisterEnemyDeath()
         {
             enemiesKilled++;
-            if (enemiesKilled >= totalEnemiesToSpawn)
+            CheckRoomCleared();
+        }
+
+        private void CheckRoomCleared()
+        {
+            if (isSpawningComplete && enemiesKilled >= totalEnemiesToSpawn && totalEnemiesToSpawn > 0)
             {
-                Debug.Log("Room Cleared");
+                OnRoomCleared?.Invoke();
             }
         }
+            
 
         public void ResetTracker()
         {
             totalEnemiesToSpawn = 0;
             enemiesKilled = 0;
+            isSpawningComplete = false;
         }
     }
 }

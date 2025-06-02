@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Stats
@@ -5,7 +6,8 @@ namespace Stats
     public class AddingStatValues : MonoBehaviour
     {
         [SerializeField] private PlayerStatsManager playerStatsManager;
-        
+
+       
         public void AddHaste(float value)
         {
             playerStatsManager.IncreaseBaseStat(StatTypeEnum.Haste, value);

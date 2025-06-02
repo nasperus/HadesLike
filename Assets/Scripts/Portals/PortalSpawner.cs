@@ -1,4 +1,5 @@
 using System.Collections;
+using Room_Generation;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -43,6 +44,8 @@ public class PortalSpawner : MonoBehaviour
             }
             yield return new WaitForSeconds(2);
         }
+        yield return new WaitForSeconds(1f);
+        EnemyTracker.Instance?.SetSpawningComplete();
     }
 
     private Vector3 FindValidSpawnPoint()

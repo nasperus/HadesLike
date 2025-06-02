@@ -33,6 +33,15 @@ namespace Ability_System.Core_Base_Classes
                 0f
             );
         }
+
+        public static BaseAbilityModifier AutoAttack(float attackDamage, float radius)
+        {
+            return new BaseAbilityModifier(
+                name: "Auto Attack",
+                attackDamage,
+                radius,
+                0f);
+        }
         
     }
 }

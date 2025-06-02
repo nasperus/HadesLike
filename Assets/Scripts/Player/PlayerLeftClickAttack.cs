@@ -1,4 +1,6 @@
 using System;
+using Ability_System.Core_Base_Classes;
+using Enemy.Archer;
 using Player.Skills;
 using Stats;
 using UnityEngine;
@@ -10,6 +12,7 @@ namespace Player
     {
         [SerializeField] private PlayerActionSate playerActionSate;
         [SerializeField] private float damage;
+        [SerializeField] private float damageRadius;
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private StatCollection statCollection;
         [SerializeField] private float attackCooldown;
@@ -33,6 +36,7 @@ namespace Player
         private void Awake()
         {
             _lifeSteal = new LifeSteal();
+            InitializeAbilities();
         }
 
         private void Update()
@@ -77,6 +81,12 @@ namespace Player
 
         }
 
+        private void InitializeAbilities()
+        {
+            var modifier = AbilityFactory.AutoAttack(damage, damageRadius);
+            Init(modifier);
+        }
+
       
         private void VfxPrefabSpawner()
         {
@@ -97,6 +107,7 @@ namespace Player
             DamageEnemiesAroundClickedEnemy();
             _lifeSteal.GetLifeSteal(damage, playerHealth, statCollection); 
             VfxPrefabSpawner();
+            DealDamage();
         }
 
         private void TriggerAutoAttack()
@@ -111,6 +122,24 @@ namespace Player
             IsMovementFrozen = true;
             UpdateAnimationSpeed();
            
+        }
+
+        private void DealDamage()
+        {
+            var finalDamage = GetFinalDamage();
+            finalDamage = ApplyStatsToAbilities.ApplyMastery(finalDamage, statCollection);
+            finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage, statCollection);
+            var colliders = Physics.OverlapSphere(slashTransform.position, damageRadius);
+
+            foreach (var col in colliders)
+            {
+                if(col.TryGetComponent<IEnemyDamageable>(out var damageable))
+                {
+                    damageable?.TakDamage(finalDamage);
+                }
+            }
+
+            Debug.Log(finalDamage);
         }
 
         public void OnAttackAnimationComplete()

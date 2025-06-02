@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &244855623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7231600646415522666, guid: 4c3eb4bf12dc381448d41e4693b65014, type: 3}
+  m_PrefabInstance: {fileID: 442805220005559246}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &325394970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,6 +1573,7 @@ GameObject:
   - component: {fileID: 1664724348}
   - component: {fileID: 1664724349}
   - component: {fileID: 1664724350}
+  - component: {fileID: 1664724351}
   m_Layer: 0
   m_Name: Level GEnerator
   m_TagString: Untagged
@@ -1610,6 +1616,7 @@ MonoBehaviour:
     size: {x: 0, y: 0, z: 0}
   navMeshSurface: {fileID: 1979822389}
   playerPrefab: {fileID: 5995958259487152754, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  exitVfxPrefab: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
 --- !u!114 &1664724349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1635,6 +1642,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09302ab117febd4469d21aeefb795611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1664724351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664724346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd13f04da566aab45bd0826f9b1e6312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradePanel: {fileID: 244855623}
+  upgradeButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  upgradeTexts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  addStatValues: {fileID: 0}
+  playerStatsManager: {fileID: 0}
+  playerHealth: {fileID: 0}
+  playerArmor: {fileID: 0}
+  playerMana: {fileID: 0}
+  playerMovement: {fileID: 0}
+  statCollection: {fileID: 0}
+  strikeLightning: {fileID: 3612529266936105457, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  playerDebuff: {fileID: 189970019677120255, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  aoeFireDamage: {fileID: 32920609641283811, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  currentUpgrades: []
+  allUpgrades: []
 --- !u!1 &1795190255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,6 +2160,10 @@ PrefabInstance:
     - target: {fileID: 7231600646415522666, guid: 4c3eb4bf12dc381448d41e4693b65014, type: 3}
       propertyPath: m_Name
       value: Stat Increment Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231600646415522666, guid: 4c3eb4bf12dc381448d41e4693b65014, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

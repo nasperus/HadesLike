@@ -1367,6 +1367,7 @@ MonoBehaviour:
   floorClickLookDuration: 0.1
   playerActionSate: {fileID: 7759583713048079498}
   damage: 5
+  damageRadius: 2
   playerHealth: {fileID: 3819560779323440753}
   statCollection: {fileID: 3172837825158466966}
   attackCooldown: 0
