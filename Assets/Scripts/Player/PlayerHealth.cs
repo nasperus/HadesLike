@@ -1,4 +1,5 @@
 using System;
+using Enemy.Mutant;
 using Player.Skills;
 using Stats;
 using UnityEngine;
@@ -6,12 +7,13 @@ using TMPro;
 
 namespace Player
 {
-    public class PlayerHealth : MonoBehaviour, Enemy.IPlayerDamageable
+    public class PlayerHealth : MonoBehaviour, IPlayerDamageable
     {
         [SerializeField] private float maxHealth;
         [SerializeField] private float currentHealth;
         [SerializeField] private PlayerArmor barrier;
         [SerializeField] private PlayerStatsManager statsManager;
+        [SerializeField] private PlayerDash playerDash;
        
         public float MaxHealth => maxHealth;
         private float _originalMaxHealth;
@@ -38,12 +40,15 @@ namespace Player
         public void TakeDamage(int damage)
         {
            var finalDamage = barrier.AbsorbDamage(damage);
+
+           if (playerDash.IsDashing) return;
+           
             if (finalDamage > 0)
             {
                 currentHealth -= finalDamage;
                 if (currentHealth > 0)
                 {
-                   // Debug.Log($"hit: {currentHealth}");
+                    Debug.Log($"hit: {currentHealth}");
                 }
                 else
                 {

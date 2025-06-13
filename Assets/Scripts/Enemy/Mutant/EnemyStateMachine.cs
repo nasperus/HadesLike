@@ -19,7 +19,7 @@ namespace Enemy.Mutant
         private bool _isDead = false;
         public bool IsDead => _isDead;
         
-        
+     
         private void Start()
         {
             TransitionToState(new MutantChaseState(this));

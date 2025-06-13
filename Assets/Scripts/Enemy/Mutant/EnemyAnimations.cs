@@ -14,12 +14,29 @@ namespace Enemy.Mutant
       private static readonly int LegKick = Animator.StringToHash("LegKick");
       private static readonly int Death = Animator.StringToHash("Death");
       private static readonly int IceMeteor = Animator.StringToHash("IceMeteor");
+      private static readonly int Laser = Animator.StringToHash("Laser");
+      private static readonly int RedStones = Animator.StringToHash("RedStone");
+      private static readonly int Push = Animator.StringToHash("PushBack");
 
 
 
       public void KickLeg()
       {
          animator.SetTrigger(LegKick);
+      }
+
+      public void PushBack()
+      {
+         animator.SetTrigger(Push);
+      }
+      public void RedStone()
+      {
+         animator.SetTrigger(RedStones);
+      }
+
+      public void LaserBeam()
+      {
+         animator.SetTrigger(Laser);
       }
 
       public void MeteorIce()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Enemy.Warlock_Boss;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UI;
@@ -59,6 +60,7 @@ namespace Room_Generation
             {
                 Destroy(_currentRoom);
             }
+            
 
             var roomData = GetRandomRoom();
             _currentRoom = Instantiate(roomData.prefab, Vector3.zero, Quaternion.identity);
@@ -78,6 +80,13 @@ namespace Room_Generation
             {
                 _playerInstance.transform.position = spawnPoint.position;
             }
+            var warlocks = FindFirstObjectByType<WarlockStateMachine>();
+            if (warlocks != null)
+            {
+                warlocks.GetPlayerTransform(_playerInstance.transform);
+            }
+           
+            
 
             var virtualCamera = FindFirstObjectByType<CinemachineVirtualCameraBase>();
             if (virtualCamera != null)
@@ -114,12 +123,13 @@ namespace Room_Generation
                 yield break;
             }
 
-            var portalSpawners = FindObjectsOfType<PortalSpawner>();
-            foreach (var portalSpawner in portalSpawners)
+            var portalSpawners = FindFirstObjectByType<PortalSpawner>();
+            if (portalSpawners != null)
             {
-                portalSpawner.SetPlayerTransform(_playerInstance.transform, playerRange);
-                portalSpawner.ResetSpawner();
+                portalSpawners.SetPlayerTransform(_playerInstance.transform, playerRange);
+                portalSpawners.ResetSpawner();
             }
+            
         }
 
         private RoomData GetRandomRoom()

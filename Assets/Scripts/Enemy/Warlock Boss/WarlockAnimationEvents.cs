@@ -6,12 +6,12 @@ namespace Enemy.Warlock_Boss
     {
         
        [SerializeField] private WarlockStateMachine warlockState;
+       
 
-
-
-        public void TriggerMeteor()
+        public void TriggerSkills()
         {
-            warlockState.UseSkills();
+            warlockState.UseCurrentSkill();
         }
+        
     }
 }

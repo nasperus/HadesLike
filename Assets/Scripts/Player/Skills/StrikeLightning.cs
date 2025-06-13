@@ -25,7 +25,7 @@ namespace Player.Skills
         [SerializeField] private int chainRadius;
         
         private float _skillCooldownTimer;
-        private const float BaseMovementFreezeTime = 2f;
+        private const float BaseMovementFreezeTime = 0.5f;
         private float _movementFreezeTimer;
      
         

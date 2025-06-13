@@ -29,9 +29,8 @@ namespace Player
         {
             if (!value.isPressed) return;
             if (_cooldownTimer > 0) return;
-            if (playerActionSate.IsAttacking) return;
-            playerActionSate.StartAttack();
-            
+            //if (playerActionSate.IsAttacking) return;
+            //playerActionSate.StartAttack();
             IsDashing = true;
             var dashDirection = playerMovement.Movement;
                 

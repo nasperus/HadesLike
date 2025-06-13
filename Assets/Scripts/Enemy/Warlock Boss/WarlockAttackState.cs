@@ -29,18 +29,54 @@ namespace Enemy.Warlock_Boss
 
             if (distance <= stateMachine.AttackRange)
             {
-                animations.MeteorIce();
+                _warlockStateMachine.ChooseRandomSkill();
+                switch (_warlockStateMachine.CurrentSkillIndex)
+                {
+                    case 0:
+                        animations.MeteorIce(); 
+                        break;
+                    case 1:
+                        animations.LaserBeam(); 
+                        break;
+                    case 2:
+                        animations.RedStone(); 
+                        break;
+                }
+                
                 _hasAttacked = true;    
+                _cooldownTimer = stateMachine.AttackCooldown;
             }
             else
             {
                 stateMachine.TransitionToState(new WarlockMoveState(stateMachine));
             }
-            _cooldownTimer = stateMachine.AttackCooldown;
+           
         }
+
+        private void RotateTowardPlayer()
+        {
+            if (player != null)
+            {
+                var direction = (player.position - stateMachine.transform.position).normalized;
+                direction.y = 0; 
+                
+                if (direction != Vector3.zero)
+                {
+                    var lookRotation = Quaternion.LookRotation(direction);
+                    stateMachine.transform.rotation = Quaternion.Slerp(
+                        stateMachine.transform.rotation,
+                        lookRotation,
+                        Time.fixedDeltaTime * stateMachine.RotationSpeed
+                    );
+                }
+            }
+        }
+
+        
 
         public override void FixedFrameTick()
         {
+            RotateTowardPlayer();
            _cooldownTimer -= Time.deltaTime;
            if (_cooldownTimer <= 0f)
            {

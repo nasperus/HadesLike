@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace Enemy
+namespace Enemy.Mutant
 {
     public interface IPlayerDamageable
     {
