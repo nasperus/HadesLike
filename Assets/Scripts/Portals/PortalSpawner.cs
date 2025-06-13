@@ -44,7 +44,7 @@ public class PortalSpawner : MonoBehaviour
             }
             yield return new WaitForSeconds(2);
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         EnemyTracker.Instance?.SetSpawningComplete();
     }
 

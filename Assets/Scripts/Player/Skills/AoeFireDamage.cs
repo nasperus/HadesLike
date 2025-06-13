@@ -133,7 +133,7 @@ namespace Player.Skills
                     { 
                        var debuff = Instantiate(vfxPrefabDebuff, coll.transform.position, Quaternion.identity, coll.transform);
                         Destroy(debuff, 1f);
-                        damageable?.TakDamage(finalDamage);
+                        damageable?.TakeDamage(finalDamage);
                     }
                 }
                 yield return new WaitForSeconds(adjustedTickInterval);

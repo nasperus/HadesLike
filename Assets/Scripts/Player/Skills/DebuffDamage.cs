@@ -65,7 +65,7 @@ namespace Player.Skills
             var damage = _damagePerTick * ratio;
 
            damage = ApplyStatsToAbilities.ApplyCritChance(damage, _statCollection);
-            _damageable?.TakDamage(damage);
+            _damageable?.TakeDamage(damage);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Player
         [SerializeField] private GameObject vfxPrefab;
         [SerializeField] private Transform slashTransform;
         
+        
         private float _comboMaxDelay = 2f;
         private float _lastComboTime;
         private int _comboIndex;
@@ -105,7 +106,7 @@ namespace Player
         public void AnimationEvent_MidAttackEffect()
         {
             DamageEnemiesAroundClickedEnemy();
-            _lifeSteal.GetLifeSteal(damage, playerHealth, statCollection); 
+            //_lifeSteal.GetLifeSteal(damage, playerHealth, statCollection); 
             VfxPrefabSpawner();
             DealDamage();
         }
@@ -135,7 +136,7 @@ namespace Player
             {
                 if(col.TryGetComponent<IEnemyDamageable>(out var damageable))
                 {
-                    damageable?.TakDamage(finalDamage);
+                    damageable?.TakeDamage(finalDamage);
                 }
             }
 

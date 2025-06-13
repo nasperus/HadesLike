@@ -6,7 +6,7 @@ namespace Enemy.Archer
 {
     public class ArcherChaseState : EnemyState
     {
-        private NavMeshAgent _agent;
+        private readonly NavMeshAgent _agent;
      
         public ArcherChaseState(EnemyStateMachine stateMachine) : base(stateMachine)
         {

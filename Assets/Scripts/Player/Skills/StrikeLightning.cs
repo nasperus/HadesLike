@@ -135,7 +135,7 @@ namespace Player.Skills
            {
                if (coll.TryGetComponent<IEnemyDamageable>(out var damageable))
                {
-                   damageable?.TakDamage(finalDamage);
+                   damageable?.TakeDamage(finalDamage);
                    alreadyHitEnemies.Add(coll.transform);
                    //boon implement here
                    StartCoroutine(ChainLightningCoroutine(coll.transform, finalDamage * 0.3f,
@@ -163,7 +163,7 @@ namespace Player.Skills
            {
                if (target.TryGetComponent<IEnemyDamageable>(out var damageable))
                {
-                   damageable?.TakDamage(baseDamage);
+                   damageable?.TakeDamage(baseDamage);
                    alreadyHitEnemies.Add(target.transform);
                    var chainVfx = Instantiate(vfxPrefab, target.transform.position, Quaternion.identity);
                    Destroy(chainVfx, vfxPrefabLifetime);

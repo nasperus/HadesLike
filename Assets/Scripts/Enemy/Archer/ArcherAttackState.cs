@@ -12,7 +12,7 @@ namespace Enemy.Archer
         private const int MaxShotsBeforeReposition = 2;
         private float _cooldownTimer;
         private bool _attackStarted;
-        private float legKickTimer;
+        private float _legKickTimer;
         
         public ArcherAttackState(EnemyStateMachine stateMachine) : base(stateMachine)
         {
@@ -25,7 +25,7 @@ namespace Enemy.Archer
             animations.EnemyRunning(false);
             rigidbody.linearVelocity = new Vector3(0, rigidbody.linearVelocity.y, 0);
             _shotsFired = 0;
-            legKickTimer = 0f;
+            _legKickTimer = 0f;
             _cooldownTimer = stateMachine.AttackCooldown;
             _attackStarted = false;
           
@@ -45,11 +45,11 @@ namespace Enemy.Archer
 
             if (distanceToPlayer <= _archerStateMachine.MeleeAttackRange)
             {
-                if (!_attackStarted && legKickTimer <= 0f)
+                if (!_attackStarted && _legKickTimer <= 0f)
                 {
                     _attackStarted = true;
                     animations.KickLeg();
-                    legKickTimer = _archerStateMachine.LegKickCooldown;
+                    _legKickTimer = _archerStateMachine.LegKickCooldown;
                     
                 }
                 else
@@ -117,9 +117,9 @@ namespace Enemy.Archer
                     TryAttack();
                 }
             }
-            if (legKickTimer > 0f)
+            if (_legKickTimer > 0f)
             {
-                legKickTimer -= Time.deltaTime;
+                _legKickTimer -= Time.deltaTime;
             }
         }
 

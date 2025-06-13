@@ -9,12 +9,11 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject meleeEnemyPrefabs;
     [SerializeField] private GameObject rangedEnemyPrefabs;
-    [SerializeField] private float delayBetweenSpawns = 2f;
 
     private Transform _playerRangeHitPoint;
     private Transform _playerTransform;
 
-    private bool hasSpawned = false;
+    private bool _hasSpawned = false;
     private void Start()
     {
         StartCoroutine(Spawn());
@@ -28,8 +27,8 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        if (hasSpawned) yield break;
-        hasSpawned = true;
+        if (_hasSpawned) yield break;
+        _hasSpawned = true;
 
         yield return new WaitForSeconds(0.5f); 
 

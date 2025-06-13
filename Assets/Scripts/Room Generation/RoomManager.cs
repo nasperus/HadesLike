@@ -31,15 +31,15 @@ namespace Room_Generation
 
         private void OnEnable()
         {
-            EnemyTracker.OnRoomCleared += HandleRoomCleared;
+            EnemyTracker.OnRoomCleared += RoomCleared;
         }
         
         private void OnDisable()
         {
-            EnemyTracker.OnRoomCleared -= HandleRoomCleared;
+            EnemyTracker.OnRoomCleared -= RoomCleared;
         }
 
-        private void HandleRoomCleared()
+        private void RoomCleared()
         {
             var exitSpawn = _currentRoom.transform.Find("Exit");
              if (exitSpawn == null)
@@ -47,12 +47,10 @@ namespace Room_Generation
                  Debug.LogError("Exit spawn point not found in room!");
                  return;
              }
-             var spawnPositon  = exitSpawn.position + Vector3.up * 1f;
+             var spawnPositon= exitSpawn.position + Vector3.up * 1f;
              var rotation = Quaternion.Euler(0, 90, 0);
              
              Instantiate(exitVfxPrefab, spawnPositon,rotation);
-             
-             
         }
         
         public void SpawnNewRoom()
@@ -112,7 +110,7 @@ namespace Room_Generation
             var playerRange = _playerInstance.transform.Find("Range");
             if (playerRange == null)
             {
-                Debug.LogError("Could not find 'Range' child under player!");
+                Debug.LogError("Could not find Range child");
                 yield break;
             }
 

@@ -13,12 +13,18 @@ namespace Enemy.Mutant
       private static readonly int Melee = Animator.StringToHash("Melee");
       private static readonly int LegKick = Animator.StringToHash("LegKick");
       private static readonly int Death = Animator.StringToHash("Death");
+      private static readonly int IceMeteor = Animator.StringToHash("IceMeteor");
 
 
 
       public void KickLeg()
       {
          animator.SetTrigger(LegKick);
+      }
+
+      public void MeteorIce()
+      {
+         animator.SetTrigger(IceMeteor);
       }
 
       public void EnemyHit()

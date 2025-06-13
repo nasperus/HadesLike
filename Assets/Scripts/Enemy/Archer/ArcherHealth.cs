@@ -22,7 +22,7 @@ namespace Enemy.Archer
         //     archerHealthText.text = $"Archer Health: {archerHealth}";
         // }
 
-        public void TakDamage(float amount)
+        public void TakeDamage(float amount)
         {
             if (_archerStateMachine.IsDead) return;
             _archerStateMachine.TakeDamage();

@@ -16,16 +16,16 @@ namespace Enemy.Mutant
         }
         
 
-        public void TakDamage(float amount)
+        public void TakeDamage(float amount)
         {
             if(_enemyStateMachine.IsDead) return;
             _enemyStateMachine.TakeDamage();
             
             mutantHealth -= amount;
             if (mutantHealth <= 0)
-            {
+            { 
                 _enemyStateMachine.TransitionToState(new MutantDeathState(_enemyStateMachine));
-               EnemyTracker.Instance?.RegisterEnemyDeath();
+                EnemyTracker.Instance?.RegisterEnemyDeath();
                
             }
             else

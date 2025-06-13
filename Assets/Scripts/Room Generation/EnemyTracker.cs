@@ -7,9 +7,9 @@ namespace Room_Generation
     {
         public static EnemyTracker Instance;
 
-        private int totalEnemiesToSpawn;
-        private int enemiesKilled;
-        private bool isSpawningComplete = false;
+        private int _totalEnemiesToSpawn;
+        private int _enemiesKilled;
+        private bool _isSpawningComplete = false;
         public static event Action OnRoomCleared;
 
         private void Awake()
@@ -26,35 +26,34 @@ namespace Room_Generation
 
         public void AddEnemiesToTrack(int count)
         {
-            totalEnemiesToSpawn += count;
+            _totalEnemiesToSpawn += count;
         }
 
         public void SetSpawningComplete()
         {
-            isSpawningComplete = true;
+            _isSpawningComplete = true;
             CheckRoomCleared();
         }
 
         public void RegisterEnemyDeath()
         {
-            enemiesKilled++;
+            _enemiesKilled++;
             CheckRoomCleared();
         }
 
         private void CheckRoomCleared()
         {
-            if (isSpawningComplete && enemiesKilled >= totalEnemiesToSpawn && totalEnemiesToSpawn > 0)
+            if (_isSpawningComplete && _enemiesKilled >= _totalEnemiesToSpawn && _totalEnemiesToSpawn > 0)
             {
                 OnRoomCleared?.Invoke();
             }
         }
-            
-
+        
         public void ResetTracker()
         {
-            totalEnemiesToSpawn = 0;
-            enemiesKilled = 0;
-            isSpawningComplete = false;
+            _totalEnemiesToSpawn = 0;
+            _enemiesKilled = 0;
+            _isSpawningComplete = false;
         }
     }
 }
