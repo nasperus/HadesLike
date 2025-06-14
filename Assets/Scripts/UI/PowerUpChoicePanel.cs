@@ -30,9 +30,15 @@ namespace UI
             PowerUpType.ActivateAoeDot,
             
         };
+        
+        private readonly HashSet<PowerUpType> _oneTimePowerUps = new()
+        {
+            PowerUpType.ActivateChainLightning,
+            PowerUpType.ActivateAoeDot
+        };
 
 
-        public void ShowRandomPowerUps(int amount)
+        public void ShowRandomPowerUps(int amount )
         {
             ClearOldButtons();
             StartCoroutine(DelayedPauseAndShow(amount));
@@ -62,6 +68,11 @@ namespace UI
                 btn.onClick.AddListener(() =>
                 {
                     powerUpButtons.ApplyPowerUp(type);
+                    
+                    if (_oneTimePowerUps.Contains(type))
+                    {
+                        _allPowerUps.Remove(type);
+                    }
                     ClearOldButtons();
                     Time.timeScale = 1f; 
                 });

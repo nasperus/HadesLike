@@ -30,7 +30,7 @@ namespace Room_Generation
         private void Start()
         {
             SpawnNewRoom(); 
-            powerUpPanel.ShowRandomPowerUps(5);
+            
         }
 
         private void OnEnable()
@@ -60,7 +60,7 @@ namespace Room_Generation
             if (roomExit != null)
             {
                 roomExit.ActivateExit();
-                
+                powerUpPanel.ShowRandomPowerUps(5);
             }
         
         }

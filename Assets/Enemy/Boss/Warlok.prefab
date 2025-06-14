@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 978801f12c5deb24dbe41f1a19ede81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warlockHealth: 20
+  warlockHealth: 50
   warlockHealthText: {fileID: 0}
 --- !u!114 &4769493141366437316
 MonoBehaviour:
