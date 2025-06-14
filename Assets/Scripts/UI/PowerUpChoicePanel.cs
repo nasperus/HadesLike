@@ -1,0 +1,114 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro; 
+
+namespace UI
+{
+   
+    public class PowerUpChoicePanel : MonoBehaviour
+    {
+        [SerializeField] private GameObject powerUpButtonPrefab;
+        [SerializeField] private Transform buttonParent;
+        [SerializeField] private PowerUpButtons powerUpButtons;
+
+        private readonly List<PowerUpType> _allPowerUps = new()
+        {
+            PowerUpType.Haste,
+            PowerUpType.Mastery,
+            PowerUpType.Critical,
+            PowerUpType.Vitality,
+            PowerUpType.Armor,
+            PowerUpType.Mana,
+            PowerUpType.MovementSpeed,
+            PowerUpType.LightningDamage,
+            PowerUpType.LightningRadius,
+            PowerUpType.DotDamage,
+            PowerUpType.AoeDamage,
+            PowerUpType.ActivateChainLightning,
+            PowerUpType.ActivateAoeDot,
+            
+        };
+
+
+        public void ShowRandomPowerUps(int amount)
+        {
+            ClearOldButtons();
+            StartCoroutine(DelayedPauseAndShow(amount));
+        }
+        private IEnumerator DelayedPauseAndShow(int amount)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+
+            Time.timeScale = 0f;
+
+            List<PowerUpType> chosen = GetRandomPowerUps(amount);
+
+            const float verticalSpacing = -200f;
+            const float startY = 400f;
+
+            for (var i = 0; i < chosen.Count; i++)
+            {
+                var type = chosen[i];
+
+                var buttonGo = Instantiate(powerUpButtonPrefab, buttonParent);
+                buttonGo.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, startY + i * verticalSpacing);
+
+                var label = buttonGo.GetComponentInChildren<TMP_Text>();
+                label.text = GetPowerUpText(type);
+
+                var btn = buttonGo.GetComponent<Button>();
+                btn.onClick.AddListener(() =>
+                {
+                    powerUpButtons.ApplyPowerUp(type);
+                    ClearOldButtons();
+                    Time.timeScale = 1f; 
+                });
+            }
+        }
+
+        
+
+        private void ClearOldButtons()
+        {
+            foreach (Transform child in buttonParent)
+                Destroy(child.gameObject);
+        }
+
+        private List<PowerUpType> GetRandomPowerUps(int amount)
+        {
+            List<PowerUpType> shuffled = new(_allPowerUps);
+            for (var i = 0; i < shuffled.Count; i++)
+            {
+                var temp = shuffled[i];
+                var rand = Random.Range(i, shuffled.Count);
+                shuffled[i] = shuffled[rand];
+                shuffled[rand] = temp;
+            }
+            return shuffled.GetRange(0, Mathf.Min(amount, shuffled.Count));
+        }
+
+        private string GetPowerUpText(PowerUpType type)
+        {
+            return type switch
+            {
+                PowerUpType.Haste => "+2 Haste",
+                PowerUpType.Mastery => "+5 Mastery",
+                PowerUpType.Critical => "+3 Critical",
+                PowerUpType.Vitality => "+15 HP",
+                PowerUpType.Armor => "+5 Armor",
+                PowerUpType.Mana => "+10 Mana",
+                PowerUpType.MovementSpeed => "+1.5 Movement",
+                
+                PowerUpType.LightningDamage => "+20% Lightning Damage",
+                PowerUpType.LightningRadius => "+40% Lightning Radius",
+                PowerUpType.DotDamage => "+40% DoT Damage",
+                PowerUpType.AoeDamage => "+20% AoE Fire Damage",
+                PowerUpType.ActivateChainLightning => "Lightning Strike Hit Nearby Enemy",
+                PowerUpType.ActivateAoeDot => "Dot Now Spread Nearby Enemy",
+                _ => "Power Up"
+            };
+        }
+    }
+}

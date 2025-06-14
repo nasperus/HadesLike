@@ -764,4 +764,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b811604b22f3844d9beba92de84aeee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mutantHealth: 1
+  mutantHealth: 6

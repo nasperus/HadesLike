@@ -11,7 +11,7 @@ namespace Player.Skills
 {
     public class StrikeLightning : PlayerAbilityBase
     {
-        [SerializeField] private int skillDamageAmount;
+        [SerializeField] private float skillDamageAmount;
         [SerializeField] private GameObject vfxPrefab;
         [SerializeField] private float vfxPrefabLifetime;
         [SerializeField] private StatCollection statCollection;
@@ -27,7 +27,9 @@ namespace Player.Skills
         private float _skillCooldownTimer;
         private const float BaseMovementFreezeTime = 0.5f;
         private float _movementFreezeTimer;
-     
+
+        private bool _activateChainLightning = false;
+        
         
         private void Update()
         {
@@ -64,6 +66,12 @@ namespace Player.Skills
            UpdateAnimationSpeed();
            
        }
+
+        public void ActivateChainLightning()
+        {
+            _activateChainLightning = true;
+            Debug.Log("Chain Lightning Activated!");
+        }
 
         public void IncreaseLightningStrikeDamage(float multiplier)
         {
@@ -111,6 +119,7 @@ namespace Player.Skills
 
            finalDamage = ApplyStatsToAbilities.ApplyMastery(finalDamage, statCollection);
            finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage, statCollection);
+           Debug.Log($"Casting Lightning with {finalDamage} damage");
 
            if (ClosestEnemy != null)
            {
@@ -137,12 +146,14 @@ namespace Player.Skills
                {
                    damageable?.TakeDamage(finalDamage);
                    alreadyHitEnemies.Add(coll.transform);
-                   //boon implement here
-                   StartCoroutine(ChainLightningCoroutine(coll.transform, finalDamage * 0.3f,
-                       alreadyHitEnemies, maxChains));
+                   if (_activateChainLightning)
+                   {
+                       StartCoroutine(ChainLightningCoroutine(coll.transform, finalDamage * 0.3f,
+                           alreadyHitEnemies, maxChains));
+                   }
+                     
                }
            }
-
            Destroy(vfxInstance, vfxPrefabLifetime);
        }
     

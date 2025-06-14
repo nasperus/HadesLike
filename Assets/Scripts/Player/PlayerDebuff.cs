@@ -28,7 +28,9 @@ namespace Player
        
         public bool IsRightClicking { get; private set; }
 
-
+        private bool _activateChainDot = false;
+        
+        
         private void Awake()
         {
             InitializeAbilities();
@@ -63,6 +65,11 @@ namespace Player
             Stats?.IncreaseStats(StatType.Damage, multiplier);
         }
 
+        public void ActivateChainDot()
+        {
+            _activateChainDot = true;
+        }
+
         private void UpdateAnimationSpeed()
         {
             var animationSpeed = ApplyStatsToAbilities.ApplyHasteCastAndAttackSpeed(statCollection);
@@ -79,7 +86,6 @@ namespace Player
             if (ClosestEnemy == null) return;
             
             var alreadyHitEnemies = new List<Transform> { ClosestEnemy.transform };
-            //boon implement here
             StartCoroutine(ChainDebuffCoroutine(ClosestEnemy.transform, alreadyHitEnemies, maxChains));
         }
 
@@ -118,21 +124,24 @@ namespace Player
             }
 
             yield return new WaitForSeconds(chainDelay);
-            
-            var nearbyEnemies = Physics.OverlapSphere(originEnemy.position, chainRadius)
-                .Where(c => c.TryGetComponent<IEnemyDamageable>(out _)
-                            && !alreadyHitEnemies.Contains(c.transform))
-                .OrderBy(c => Vector3.Distance(originEnemy.position, c.transform.position))
-                .ToList();
-
-            if (nearbyEnemies.Count > 0)
+            if (_activateChainDot)
             {
-                var nextEnemy = nearbyEnemies[0].transform;
-                alreadyHitEnemies.Add(nextEnemy);
+                var nearbyEnemies = Physics.OverlapSphere(originEnemy.position, chainRadius)
+                    .Where(c => c.TryGetComponent<IEnemyDamageable>(out _)
+                                && !alreadyHitEnemies.Contains(c.transform))
+                    .OrderBy(c => Vector3.Distance(originEnemy.position, c.transform.position))
+                    .ToList();
+
+                if (nearbyEnemies.Count > 0)
+                {
+                    var nextEnemy = nearbyEnemies[0].transform;
+                    alreadyHitEnemies.Add(nextEnemy);
             
-                StartCoroutine(ChainDebuffCoroutine(nextEnemy, alreadyHitEnemies, 
-                    remainingChains - 1));
+                    StartCoroutine(ChainDebuffCoroutine(nextEnemy, alreadyHitEnemies, 
+                        remainingChains - 1));
+                }
             }
+           
         }
         
     }

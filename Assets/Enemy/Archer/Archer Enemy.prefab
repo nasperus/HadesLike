@@ -1233,7 +1233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31026226dd12c204f86bcd0be63cc3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  archerHealth: 1
+  archerHealth: 5.1
   archerHealthText: {fileID: 0}
 --- !u!4 &2185563331053155436 stripped
 Transform:

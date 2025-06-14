@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Enemy.Warlock_Boss;
+using Stats;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UI;
@@ -13,28 +14,30 @@ namespace Room_Generation
     {
         [Header("Room Setup")]
         [SerializeField] private RoomData[] roomPrefabs;
+        [SerializeField] private GameObject bossRoomPrefab;
+        [SerializeField] private int totalNormalRooms = 6;
         [SerializeField] private NavMeshSurface navMeshSurface;
 
         [Header("Player Setup")]
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private GameObject exitVfxPrefab; 
-       
-        
+        [SerializeField] private GameObject exitVfxPrefab;
+        [SerializeField] private PowerUpChoicePanel powerUpPanel;
 
         private GameObject _currentRoom;
         private GameObject _playerInstance;
+        private int _roomsCleared = 0;
 
         private void Start()
         {
             SpawnNewRoom(); 
-            
+            powerUpPanel.ShowRandomPowerUps(5);
         }
 
         private void OnEnable()
         {
             EnemyTracker.OnRoomCleared += RoomCleared;
         }
-        
+
         private void OnDisable()
         {
             EnemyTracker.OnRoomCleared -= RoomCleared;
@@ -43,29 +46,62 @@ namespace Room_Generation
         private void RoomCleared()
         {
             var exitSpawn = _currentRoom.transform.Find("Exit");
-             if (exitSpawn == null)
-             {
-                 Debug.LogError("Exit spawn point not found in room!");
-                 return;
-             }
-             var spawnPositon= exitSpawn.position + Vector3.up * 1f;
-             var rotation = Quaternion.Euler(0, 90, 0);
-             
-             Instantiate(exitVfxPrefab, spawnPositon,rotation);
+            if (exitSpawn == null)
+            {
+                Debug.LogError("Exit spawn point not found in room!");
+                return;
+            }
+
+            var spawnPosition = exitSpawn.position + Vector3.up * 1f;
+            var rotation = Quaternion.Euler(0, 90, 0);
+            var exitObject = Instantiate(exitVfxPrefab, spawnPosition, rotation);
+
+            var roomExit = exitObject.GetComponent<RoomExit>();
+            if (roomExit != null)
+            {
+                roomExit.ActivateExit();
+                
+            }
+        
         }
         
+        public void PlayerEnteredPortal()
+        {
+            _roomsCleared++;
+
+            if (_roomsCleared < totalNormalRooms)
+                SpawnNewRoom();
+            else
+                SpawnBossRoom();
+        }
+        
+
         public void SpawnNewRoom()
         {
             if (_currentRoom != null)
             {
                 Destroy(_currentRoom);
             }
-            
 
             var roomData = GetRandomRoom();
             _currentRoom = Instantiate(roomData.prefab, Vector3.zero, Quaternion.identity);
+            SetupRoom();
+        }
+
+        private void SpawnBossRoom()
+        {
+            if (_currentRoom != null)
+            {
+                Destroy(_currentRoom);
+            }
+
+            _currentRoom = Instantiate(bossRoomPrefab, Vector3.zero, Quaternion.identity);
+            SetupRoom();
+        }
+
+        private void SetupRoom()
+        {
             var spawnPoint = _currentRoom.transform.Find("PlayerSpawnPoint");
-            
             if (spawnPoint == null)
             {
                 Debug.LogError("No PlayerSpawnPoint found in room prefab!");
@@ -80,13 +116,17 @@ namespace Room_Generation
             {
                 _playerInstance.transform.position = spawnPoint.position;
             }
+            var statDisplayPanel = FindFirstObjectByType<StatDisplayPanel>();
+            if (statDisplayPanel != null)
+            {
+                statDisplayPanel.SetPlayerReferences(_playerInstance);
+            }
+
             var warlocks = FindFirstObjectByType<WarlockStateMachine>();
             if (warlocks != null)
             {
                 warlocks.GetPlayerTransform(_playerInstance.transform);
             }
-           
-            
 
             var virtualCamera = FindFirstObjectByType<CinemachineVirtualCameraBase>();
             if (virtualCamera != null)
@@ -95,26 +135,25 @@ namespace Room_Generation
                 virtualCamera.LookAt = _playerInstance.transform;
             }
 
-            GameManager.Instance.PlayerSpawned(_playerInstance);
-
             var powerUpButtons = FindFirstObjectByType<PowerUpButtons>();
             if (powerUpButtons != null)
             {
                 powerUpButtons.SetPlayerReferences(_playerInstance);
             }
 
-            if (navMeshSurface != null)
+            var surface = _currentRoom.GetComponent<NavMeshSurface>();
+            if (surface != null)
             {
-                navMeshSurface.BuildNavMesh();
+                surface.BuildNavMesh();
             }
-            EnemyTracker.Instance?.ResetTracker();
 
-            StartCoroutine(SetupPortalSpawnersAfterDelay()); 
+            EnemyTracker.Instance?.ResetTracker();
+            StartCoroutine(SetupPortalSpawnersAfterDelay());
         }
 
         private IEnumerator SetupPortalSpawnersAfterDelay()
         {
-            yield return new WaitForSeconds(2f); 
+            yield return new WaitForSeconds(2f);
 
             var playerRange = _playerInstance.transform.Find("Range");
             if (playerRange == null)
