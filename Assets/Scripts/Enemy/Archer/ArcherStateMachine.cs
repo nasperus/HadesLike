@@ -1,4 +1,6 @@
+using System;
 using Enemy.Mutant;
+using Room_Generation;
 using UnityEngine;
 
 namespace Enemy.Archer
@@ -19,8 +21,13 @@ namespace Enemy.Archer
         private EnemyState _previousState;
       
         public Collider[] Results { get; private set; } = new Collider[5];
-       
-        
+
+        private void Awake()
+        {
+            AttackCooldown -= RoomManager.IncreaseAttackSpeed;
+            ArrowSpeed += RoomManager.IncreaseArrowSpeed;
+        }
+
         private void Start()
         {
             TransitionToState(new ArcherChaseState(this));

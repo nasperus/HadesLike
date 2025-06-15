@@ -1,3 +1,5 @@
+using System;
+using Room_Generation;
 using UnityEngine;
 
 namespace Enemy.Mutant
@@ -10,7 +12,7 @@ namespace Enemy.Mutant
         [field: SerializeField] public float MovementSpeed { get; private set; }
         [field: SerializeField] public float RotationSpeed { get; private set; }
         [field: SerializeField] public float AttackRange { get; private set; }
-        [field: SerializeField] public float AttackCooldown { get; private set; }
+        [field: SerializeField] public float AttackCooldown { get; set; }
         [field: SerializeField] public LayerMask GroundMask { get; private set; }
         
         private EnemyState _currentState;
@@ -18,8 +20,12 @@ namespace Enemy.Mutant
         protected EnemyState CurrentState => _currentState;
         private bool _isDead = false;
         public bool IsDead => _isDead;
-        
-     
+
+        private void Awake()
+        {
+            AttackCooldown -= RoomManager.IncreaseAttackSpeed;
+        }
+
         private void Start()
         {
             TransitionToState(new MutantChaseState(this));

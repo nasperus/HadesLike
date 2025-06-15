@@ -96,6 +96,15 @@ namespace UI
                case PowerUpType.AutoAttack:
                    _playerLeftClick.IncreaseAutoAttackDamage(0.2f);
                    break;
+               case PowerUpType.ActivateLightningStrike:
+                   _strikeLightning.ActivateLightningStrike();
+                   break;
+               case PowerUpType.ActivateDot:
+                   _playerDebuff.ActivateDot();
+                   break;
+               case PowerUpType.ActivateFire:
+                   _aoeFireDamage.ActivateAoeFire();
+                   break;
                default:
                    Debug.LogWarning("Error " + type);
                    break;

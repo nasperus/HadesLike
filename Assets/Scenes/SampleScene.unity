@@ -1002,15 +1002,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5955203252605105962, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.2419682
+      value: 8.072177
       objectReference: {fileID: 0}
     - target: {fileID: 5955203252605105962, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5.289516
+      value: 5.820019
       objectReference: {fileID: 0}
     - target: {fileID: 5955203252605105962, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1236.3
+      value: -1651
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454348409649125759, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
+      propertyPath: m_text
+      value: Text
       objectReference: {fileID: 0}
     - target: {fileID: 8454348409649125759, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
       propertyPath: m_fontSize
@@ -1019,6 +1023,14 @@ PrefabInstance:
     - target: {fileID: 8454348409649125759, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
       propertyPath: m_fontSizeBase
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454348409649125759, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454348409649125759, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

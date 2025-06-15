@@ -30,7 +30,10 @@ namespace UI
             PowerUpType.ActivateAoeDot,
             PowerUpType.LifeSteal,
             PowerUpType.Evasion,
-            PowerUpType.AutoAttack
+            PowerUpType.AutoAttack,
+            PowerUpType.ActivateLightningStrike,
+            PowerUpType.ActivateDot,
+            PowerUpType.ActivateFire
             
         };
         
@@ -40,6 +43,9 @@ namespace UI
             PowerUpType.ActivateAoeDot,
             PowerUpType.LifeSteal,
             PowerUpType.Evasion,
+            PowerUpType.ActivateLightningStrike,
+            PowerUpType.ActivateDot,
+            PowerUpType.ActivateFire
             
         };
 
@@ -117,16 +123,18 @@ namespace UI
                 PowerUpType.Armor => "+5 Armor",
                 PowerUpType.Mana => "+10 Mana",
                 PowerUpType.MovementSpeed => "+1.5 Movement",
-                
                 PowerUpType.LightningDamage => "+20% Lightning Damage",
                 PowerUpType.LightningRadius => "+40% Lightning Radius",
                 PowerUpType.DotDamage => "+40% DoT Damage",
                 PowerUpType.AoeDamage => "+20% AoE Fire Damage",
                 PowerUpType.ActivateChainLightning => "Lightning Strike Hit Nearby Enemies",
                 PowerUpType.ActivateAoeDot => "Dot Now Spread Nearby Enemies",
-                PowerUpType.LifeSteal => "LifeSteal",
-                PowerUpType.Evasion => "Evasion",
+                PowerUpType.LifeSteal => "LifeSteal (Higher Damage Higher Value)",
+                PowerUpType.Evasion => "+20% Evasion",
                 PowerUpType.AutoAttack => "+20% AutoAttack Damage",
+                PowerUpType.ActivateLightningStrike => "Activate Lightning Strike",
+                PowerUpType.ActivateDot => "Activate Debuff Damage",
+                PowerUpType.ActivateFire => "Activate AOE Fire Damage",
                 _ => "Power Up"
             };
         }

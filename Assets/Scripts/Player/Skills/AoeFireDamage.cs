@@ -30,6 +30,7 @@ namespace Player.Skills
         
         private GameObject _aoeInstance;
         private float _aoeCooldownTimer;
+        private bool _activateAoeFire;
 
         private void Awake()
         {
@@ -44,6 +45,7 @@ namespace Player.Skills
 
         private void OnAreaDamage(InputValue value)
         {
+            if (!_activateAoeFire) return;
             if(!value.isPressed) return;
             if (playerMana.CurrentMana < spellCost) return;
             if (_aoeCooldownTimer > 0) return;
@@ -71,6 +73,8 @@ namespace Player.Skills
             _animationSpeed = ApplyStatsToAbilities.ApplyHasteCastAndAttackSpeed(statCollection);
             playerAnimations.AoeDamage(_animationSpeed);
         }
+
+        public void ActivateAoeFire() => _activateAoeFire = true;
 
         private void Update()
         {

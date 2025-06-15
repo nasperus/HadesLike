@@ -13,8 +13,8 @@ namespace Prayers
             var roll = Random.Range(0f, 100f);
             return roll <= GetMissChance(rarityLevel);
         }
-        
-        public static float GetMissChance(int  rarityLevel)
+
+        private static float GetMissChance(int  rarityLevel)
         {
             return rarityLevel switch
             {

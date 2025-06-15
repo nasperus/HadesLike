@@ -13,6 +13,7 @@ namespace Enemy.Mutant
         private void Awake()
         {
             _enemyStateMachine = GetComponent<EnemyStateMachine>();
+            mutantHealth += RoomManager.IncreaseEnemyHealth;
         }
         
 

@@ -1180,13 +1180,13 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 5
   <RotationSpeed>k__BackingField: 20
   <AttackRange>k__BackingField: 15
-  <AttackCooldown>k__BackingField: 1
+  <AttackCooldown>k__BackingField: 2
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
   <ArrowSpawnPoint>k__BackingField: {fileID: 1419495480834750011}
   <ArrowPrefab>k__BackingField: {fileID: 8884131272032315737, guid: 9faee2fe4500dd742bc7efe57e338fe0, type: 3}
-  <ArrowSpeed>k__BackingField: 20
+  <ArrowSpeed>k__BackingField: 7
   <ArrowLifetime>k__BackingField: 10
   <PlayerRangeHitPoint>k__BackingField: {fileID: 0}
   <MeleeAttackRange>k__BackingField: 2.3
@@ -1233,7 +1233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31026226dd12c204f86bcd0be63cc3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  archerHealth: 20
+  archerHealth: 1
   archerHealthText: {fileID: 0}
 --- !u!4 &2185563331053155436 stripped
 Transform:

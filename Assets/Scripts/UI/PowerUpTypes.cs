@@ -16,5 +16,9 @@ public enum PowerUpType
     ActivateAoeDot,
     LifeSteal,
     Evasion,
-    AutoAttack
+    AutoAttack,
+    ActivateLightningStrike,
+    ActivateDot,
+    ActivateFire,
+   
 }

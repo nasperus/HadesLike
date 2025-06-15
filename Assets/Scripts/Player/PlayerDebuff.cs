@@ -31,6 +31,7 @@ namespace Player
         public bool IsRightClicking { get; private set; }
 
         private bool _activateChainDot = false;
+        private bool _activateDot = false;
         
         
         private void Awake()
@@ -47,7 +48,7 @@ namespace Player
 
         private void OnMouseClickRight(InputValue value)
         {
-           
+            if (!_activateDot) return;
             if (!value.isPressed) return;
             if (playerMana.CurrentMana < spellCost) return;
             if (playerActionSate.IsAttacking) return;
@@ -68,11 +69,9 @@ namespace Player
             Stats?.IncreaseStats(StatType.Damage, multiplier);
         }
 
-        public void ActivateChainDot()
-        {
-            _activateChainDot = true;
-        }
-
+        public void ActivateChainDot() => _activateChainDot = true;
+        public void ActivateDot() => _activateDot = true;
+        
         private void UpdateAnimationSpeed()
         {
             var animationSpeed = ApplyStatsToAbilities.ApplyHasteCastAndAttackSpeed(statCollection);

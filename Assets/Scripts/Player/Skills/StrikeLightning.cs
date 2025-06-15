@@ -31,6 +31,7 @@ namespace Player.Skills
         private float _movementFreezeTimer;
 
         private bool _activateChainLightning = false;
+        private bool _activateLightningStrike = false;
         
         
         
@@ -53,7 +54,8 @@ namespace Player.Skills
         }
         
         private void OnLightningStrike(InputValue value)
-       {
+        { 
+            if (!_activateLightningStrike) return;
            if (!value.isPressed) return;
            if (playerMana.CurrentMana < spellCost) return;
            if (_skillCooldownTimer > 0) return;
@@ -71,10 +73,10 @@ namespace Player.Skills
            
        }
 
-        public void ActivateChainLightning()
-        {
-            _activateChainLightning = true;
-        }
+        public void ActivateChainLightning() =>  _activateChainLightning = true;
+       
+        public void ActivateLightningStrike() => _activateLightningStrike = true;
+      
 
         public void IncreaseLightningStrikeDamage(float multiplier)
         {
@@ -127,7 +129,6 @@ namespace Player.Skills
        
        private void CastLightning()
        {
-           
            Vector3 spawnPosition = default;
            var finalDamage = GetFinalDamage();
 

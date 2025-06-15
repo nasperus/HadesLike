@@ -15,6 +15,7 @@ namespace Enemy.Archer
         private void Awake()
         {
             _archerStateMachine = GetComponent<ArcherStateMachine>();
+            archerHealth += RoomManager.IncreaseEnemyHealth;
         }
 
         // private void Update()

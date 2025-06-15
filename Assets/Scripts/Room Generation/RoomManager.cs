@@ -26,11 +26,14 @@ namespace Room_Generation
         private GameObject _currentRoom;
         private GameObject _playerInstance;
         private int _roomsCleared = 0;
+        public static float IncreaseEnemyHealth { get; private set; } = 0;
+        public static float IncreaseAttackSpeed { get; private set; } = 0;
+        public static float IncreaseArrowSpeed { get; private set; } = 0;
 
         private void Start()
         {
             SpawnNewRoom(); 
-            
+            //powerUpPanel.ShowRandomPowerUps(5);
         }
 
         private void OnEnable()
@@ -60,7 +63,7 @@ namespace Room_Generation
             if (roomExit != null)
             {
                 roomExit.ActivateExit();
-                powerUpPanel.ShowRandomPowerUps(5);
+                //powerUpPanel.ShowRandomPowerUps(5);
             }
         
         }
@@ -68,7 +71,13 @@ namespace Room_Generation
         public void PlayerEnteredPortal()
         {
             _roomsCleared++;
-
+            IncreaseEnemyHealth += 3;
+            IncreaseAttackSpeed += 0.3f;
+            IncreaseArrowSpeed += 2;
+            IncreaseAttackSpeed = Mathf.Max(IncreaseAttackSpeed, 0.5f); 
+            IncreaseEnemyHealth = Mathf.Min(IncreaseEnemyHealth, 30f);
+            IncreaseArrowSpeed = Mathf.Min(IncreaseArrowSpeed, 25f);
+            
             if (_roomsCleared < totalNormalRooms)
                 SpawnNewRoom();
             else
