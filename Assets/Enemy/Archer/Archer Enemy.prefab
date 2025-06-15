@@ -1180,7 +1180,7 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 5
   <RotationSpeed>k__BackingField: 20
   <AttackRange>k__BackingField: 15
-  <AttackCooldown>k__BackingField: 0.1
+  <AttackCooldown>k__BackingField: 1
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
@@ -1233,7 +1233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31026226dd12c204f86bcd0be63cc3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  archerHealth: 1
+  archerHealth: 20
   archerHealthText: {fileID: 0}
 --- !u!4 &2185563331053155436 stripped
 Transform:

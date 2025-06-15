@@ -1,6 +1,7 @@
 using System;
 using Player;
 using Player.Skills;
+using Prayers;
 using Stats;
 using UnityEngine;
 
@@ -16,9 +17,13 @@ namespace UI
         private PlayerMovement _playerMovement;
         private StatCollection _statCollection;
         
-         private StrikeLightning _strikeLightning;
-         private PlayerDebuff _playerDebuff;
-         private AoeFireDamage _aoeFireDamage;
+        private StrikeLightning _strikeLightning;
+        private PlayerDebuff _playerDebuff;
+        private AoeFireDamage _aoeFireDamage;
+        private PlayerLeftClickAttack _playerLeftClick;
+        
+      
+       
 
        
        public void SetPlayerReferences(GameObject player)
@@ -33,6 +38,8 @@ namespace UI
            _strikeLightning = player.GetComponent<StrikeLightning>();
            _playerDebuff = player.GetComponent<PlayerDebuff>();
            _aoeFireDamage =  player.GetComponent<AoeFireDamage>();
+           _playerLeftClick = player.GetComponent<PlayerLeftClickAttack>();
+
        }
        public void ApplyPowerUp(PowerUpType type)
        {
@@ -79,6 +86,15 @@ namespace UI
                    break;
                case PowerUpType.ActivateAoeDot:
                    _playerDebuff.ActivateChainDot();
+                   break;
+               case PowerUpType.LifeSteal:
+                   LifeSteal.IsEnabled = true;
+                   break;
+               case PowerUpType.Evasion:
+                   CriticalMiss.CanMiss = true;
+                   break;
+               case PowerUpType.AutoAttack:
+                   _playerLeftClick.IncreaseAutoAttackDamage(0.2f);
                    break;
                default:
                    Debug.LogWarning("Error " + type);

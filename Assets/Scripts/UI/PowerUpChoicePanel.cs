@@ -28,13 +28,19 @@ namespace UI
             PowerUpType.AoeDamage,
             PowerUpType.ActivateChainLightning,
             PowerUpType.ActivateAoeDot,
+            PowerUpType.LifeSteal,
+            PowerUpType.Evasion,
+            PowerUpType.AutoAttack
             
         };
         
         private readonly HashSet<PowerUpType> _oneTimePowerUps = new()
         {
             PowerUpType.ActivateChainLightning,
-            PowerUpType.ActivateAoeDot
+            PowerUpType.ActivateAoeDot,
+            PowerUpType.LifeSteal,
+            PowerUpType.Evasion,
+            
         };
 
 
@@ -116,8 +122,11 @@ namespace UI
                 PowerUpType.LightningRadius => "+40% Lightning Radius",
                 PowerUpType.DotDamage => "+40% DoT Damage",
                 PowerUpType.AoeDamage => "+20% AoE Fire Damage",
-                PowerUpType.ActivateChainLightning => "Lightning Strike Hit Nearby Enemy",
-                PowerUpType.ActivateAoeDot => "Dot Now Spread Nearby Enemy",
+                PowerUpType.ActivateChainLightning => "Lightning Strike Hit Nearby Enemies",
+                PowerUpType.ActivateAoeDot => "Dot Now Spread Nearby Enemies",
+                PowerUpType.LifeSteal => "LifeSteal",
+                PowerUpType.Evasion => "Evasion",
+                PowerUpType.AutoAttack => "+20% AutoAttack Damage",
                 _ => "Power Up"
             };
         }

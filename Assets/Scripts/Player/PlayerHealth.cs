@@ -48,7 +48,7 @@ namespace Player
                 currentHealth -= finalDamage;
                 if (currentHealth > 0)
                 {
-                    Debug.Log($"hit: {currentHealth}");
+                    
                 }
                 else
                 {

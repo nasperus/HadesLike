@@ -27,12 +27,11 @@ namespace Enemy.Archer
             
             var distance = Vector3.Distance(stateMachine.transform.position, player.position);
             
-            if (distance <= stateMachine.AttackRange)
+            if (distance <= stateMachine.AttackRange && HasLineOfSightToPlayer())
             {
                 stateMachine.TransitionToState(new ArcherAttackState(stateMachine));
                 return;
             }
-            
             
             _agent.SetDestination(player.position);
             _agent.nextPosition = stateMachine.transform.position;
@@ -49,7 +48,19 @@ namespace Enemy.Archer
             stateMachine.AlignToGround();
         }
 
-       
+        private bool HasLineOfSightToPlayer()
+        {
+            var origin = stateMachine.transform.position + Vector3.up * 1.2f; 
+            var direction = (player.position - origin).normalized;
+            var distance = Vector3.Distance(origin, player.position);
+
+            if (Physics.Raycast(origin, direction, out var hit, distance))
+            {
+                return hit.collider.CompareTag("Player");
+            }
+
+            return false;
+        }
         
         public override void Exit()
         {

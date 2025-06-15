@@ -731,7 +731,7 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 5
   <RotationSpeed>k__BackingField: 20
   <AttackRange>k__BackingField: 2
-  <AttackCooldown>k__BackingField: 2
+  <AttackCooldown>k__BackingField: 3
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
@@ -764,4 +764,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b811604b22f3844d9beba92de84aeee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mutantHealth: 1
+  mutantHealth: 20

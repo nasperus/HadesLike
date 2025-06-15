@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 
 namespace Player.Skills
 {
@@ -23,12 +24,14 @@ namespace Player.Skills
         [SerializeField] private float chainDelay;  
         [SerializeField] private int maxChains;
         [SerializeField] private int chainRadius;
+        [SerializeField] private PlayerHealth playerHealth;
         
         private float _skillCooldownTimer;
         private const float BaseMovementFreezeTime = 0.5f;
         private float _movementFreezeTimer;
 
         private bool _activateChainLightning = false;
+        
         
         
         private void Update()
@@ -39,6 +42,7 @@ namespace Player.Skills
 
          private  void Awake()
         {
+            
             InitializeAbilities();
         }
 
@@ -70,7 +74,6 @@ namespace Player.Skills
         public void ActivateChainLightning()
         {
             _activateChainLightning = true;
-            Debug.Log("Chain Lightning Activated!");
         }
 
         public void IncreaseLightningStrikeDamage(float multiplier)
@@ -89,7 +92,17 @@ namespace Player.Skills
             playerAnimations.LightningDamage(animationSpeed);
            
         }
-        
+        // private void DoHitStop(float duration)
+        // {
+        //     DOTween.Kill("HitStop");
+        //     
+        //     Time.timeScale = 0f;
+        //     
+        //     DOVirtual.DelayedCall(duration, () =>
+        //     {
+        //         Time.timeScale = 1f;
+        //     }).SetUpdate(true).SetId("HitStop");
+        // }
         public void TriggerLightningAttack()
         {
             CastLightning();
@@ -114,12 +127,12 @@ namespace Player.Skills
        
        private void CastLightning()
        {
+           
            Vector3 spawnPosition = default;
            var finalDamage = GetFinalDamage();
 
            finalDamage = ApplyStatsToAbilities.ApplyMastery(finalDamage, statCollection);
            finalDamage = ApplyStatsToAbilities.ApplyCritChance(finalDamage, statCollection);
-           Debug.Log($"Casting Lightning with {finalDamage} damage");
 
            if (ClosestEnemy != null)
            {
@@ -144,12 +157,12 @@ namespace Player.Skills
            {
                if (coll.TryGetComponent<IEnemyDamageable>(out var damageable))
                {
+                   LifeSteal.GetLifeSteal(skillDamageAmount,playerHealth,statCollection );
                    damageable?.TakeDamage(finalDamage);
                    alreadyHitEnemies.Add(coll.transform);
                    if (_activateChainLightning)
                    {
-                       StartCoroutine(ChainLightningCoroutine(coll.transform, finalDamage * 0.3f,
-                           alreadyHitEnemies, maxChains));
+                       StartCoroutine(ChainLightningCoroutine(coll.transform, finalDamage * 0.3f, alreadyHitEnemies, maxChains));
                    }
                      
                }

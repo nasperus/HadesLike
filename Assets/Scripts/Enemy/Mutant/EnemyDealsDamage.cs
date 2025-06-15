@@ -8,9 +8,8 @@ namespace Enemy.Mutant
         [SerializeField] private int damage;
         [SerializeField] private LayerMask playerLayer;
         [SerializeField] private float capsuleRadius;
-        private int miss = 4;
-       
-        
+        private const int Miss = 4;
+
 
         private Collider[] _results = new Collider[5];
         
@@ -25,9 +24,9 @@ namespace Enemy.Mutant
 
                if (hitCollider.TryGetComponent<IPlayerDamageable>(out var damageable))
                {
-                   if (CriticalMiss.ShouldMiss(miss))
+                   var miss = CriticalMiss.ShouldMiss(Miss);
+                   if (miss == true)
                    {
-                       Debug.Log($"{gameObject.name} MISSED their attack due to miss chance ({CriticalMiss.GetMissChance(miss)}%)");
                        continue;
                    }
                    damageable?.TakeDamage(damage);

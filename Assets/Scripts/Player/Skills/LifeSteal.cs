@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Player.Skills
 {
-    public class LifeSteal
+    public static class LifeSteal
     {
 
-        private float _lifeStealPercent = 20f;
+         static float _lifeStealPercent = 20f;
 
-        public bool IsEnabled { get; set; } = true;
+        public static bool IsEnabled { get; set; } = false;
 
 
-        public void GetLifeSteal(float damage, PlayerHealth playerHealth, StatCollection statCollection)
+        public static void GetLifeSteal(float damage, PlayerHealth playerHealth, StatCollection statCollection)
         {
             if (!IsEnabled) return;
 

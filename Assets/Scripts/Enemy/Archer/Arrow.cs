@@ -7,18 +7,18 @@ namespace Enemy.Archer
     public class Arrow : MonoBehaviour
     {
         [SerializeField] private int arrowDamage;
-        private int miss = 4;
-       
+        private const int Miss = 4;
 
-         
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent<IPlayerDamageable>(out var damageable))
             {
-                if (CriticalMiss.ShouldMiss(miss))
+                var missAttack = CriticalMiss.ShouldMiss(Miss);
+                if (missAttack == true)
                 {
-                    Debug.Log($"{gameObject.name} MISSED their attack due to miss chance ({CriticalMiss.GetMissChance(miss)}%)");
-                    
+                    Destroy(gameObject);
+                    return;
                 }
                 damageable?.TakeDamage(arrowDamage);
                 Destroy(gameObject);

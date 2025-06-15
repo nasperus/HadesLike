@@ -59,13 +59,34 @@ namespace Enemy.Archer
             }
             else if (distanceToPlayer <= stateMachine.AttackRange)
             {
-                _attackStarted = true;
-                animations.EnemyShoot(); 
+                if (HasLineOfSightToPlayer())
+                {
+                    _attackStarted = true;
+                    animations.EnemyShoot(); 
+                }
+                else
+                {
+                    stateMachine.TransitionToState(new ArcherChaseState(stateMachine));
+                }
+                
             }
             else
             {
                 stateMachine.TransitionToState(new ArcherChaseState(stateMachine));
             }
+        }
+        private bool HasLineOfSightToPlayer()
+        {
+            var shootOrigin = _archerStateMachine.ArrowSpawnPoint.position;
+            var direction = (player.position - shootOrigin).normalized;
+            var distance = Vector3.Distance(shootOrigin, player.position);
+
+            if (Physics.Raycast(shootOrigin, direction, out var hit, distance))
+            {
+                return hit.collider.CompareTag("Player");
+            }
+
+            return false;
         }
 
         public void OnShootAnimationEnd()
@@ -122,6 +143,7 @@ namespace Enemy.Archer
                 _legKickTimer -= Time.deltaTime;
             }
         }
+  
 
         public void ShootArrow()
         {

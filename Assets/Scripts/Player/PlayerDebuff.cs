@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Ability_System.Core_Base_Classes;
+using DG.Tweening;
 using Enemy.Archer;
 using Player.Skills;
 using Stats;
@@ -25,7 +26,8 @@ namespace Player
         [SerializeField] private float chainDelay; 
         [SerializeField] private int maxChains;
         [SerializeField] private int chainRadius;
-       
+        [SerializeField] private PlayerHealth playerHealth;
+        
         public bool IsRightClicking { get; private set; }
 
         private bool _activateChainDot = false;
@@ -33,6 +35,7 @@ namespace Player
         
         private void Awake()
         {
+            
             InitializeAbilities();
         }
 
@@ -58,7 +61,7 @@ namespace Player
             RotatePlayer();
             UpdateAnimationSpeed(); 
         }
-
+     
 
         public void IncreaseDotDamage(float multiplier)
         {
@@ -79,10 +82,13 @@ namespace Player
         public void TriggerDebuffAnimation()
         {
             TriggerDebuffChain();
+          
+           
         }
         
         private void TriggerDebuffChain()
         {
+           
             if (ClosestEnemy == null) return;
             
             var alreadyHitEnemies = new List<Transform> { ClosestEnemy.transform };
@@ -106,6 +112,7 @@ namespace Player
                 if (dot == null)
                 {
                     dot = originEnemy.gameObject.AddComponent<DebuffDamage>();
+                    LifeSteal.GetLifeSteal(tickDamage,playerHealth,statCollection );
                 }
                 dot.Init(finalDamage, adjustedTickInterval, dotDuration, statCollection);
             }

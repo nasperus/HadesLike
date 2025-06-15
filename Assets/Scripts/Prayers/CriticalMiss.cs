@@ -5,8 +5,11 @@ namespace Prayers
 {
     public static class CriticalMiss
     {
-        public static bool ShouldMiss( int  rarityLevel)
+
+        public static bool? CanMiss { get; set; } = null;
+        public static bool? ShouldMiss( int  rarityLevel)
         {
+            if (CanMiss != true) return null;
             var roll = Random.Range(0f, 100f);
             return roll <= GetMissChance(rarityLevel);
         }

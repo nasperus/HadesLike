@@ -21,10 +21,12 @@ namespace Player.Skills
         [SerializeField] private PlayerActionSate playerActionSate;
         [SerializeField] private PlayerMana playerMana;
         [SerializeField] private float spellCost;
+        [SerializeField] private PlayerHealth playerHealth;
         private const float BaseMovementFreezeTime = 0.5f;
         
         private float _movementFreezeTimer;
         private float _animationSpeed;
+        
         
         private GameObject _aoeInstance;
         private float _aoeCooldownTimer;
@@ -111,7 +113,6 @@ namespace Player.Skills
                      main.startLifetime  = adjustedLifetime;
                  }
              }
-           
              StartCoroutine(ApplyAoeDamage(spawnPosition, _aoeInstance));
         }
 
@@ -134,6 +135,7 @@ namespace Player.Skills
                        var debuff = Instantiate(vfxPrefabDebuff, coll.transform.position, Quaternion.identity, coll.transform);
                         Destroy(debuff, 1f);
                         damageable?.TakeDamage(finalDamage);
+                        LifeSteal.GetLifeSteal(damage,playerHealth,statCollection );
                     }
                 }
                 yield return new WaitForSeconds(adjustedTickInterval);

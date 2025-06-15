@@ -13,5 +13,8 @@ public enum PowerUpType
     DotDamage,
     AoeDamage,
     ActivateChainLightning,
-    ActivateAoeDot
+    ActivateAoeDot,
+    LifeSteal,
+    Evasion,
+    AutoAttack
 }

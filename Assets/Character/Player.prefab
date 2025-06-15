@@ -1443,6 +1443,7 @@ MonoBehaviour:
   chainDelay: 0.1
   maxChains: 5
   chainRadius: 10
+  playerHealth: {fileID: 3819560779323440753}
 --- !u!114 &3819560779323440753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1526,6 +1527,7 @@ MonoBehaviour:
   chainDelay: 0.1
   maxChains: 5
   chainRadius: 10
+  playerHealth: {fileID: 3819560779323440753}
 --- !u!114 &32920609641283811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1559,6 +1561,7 @@ MonoBehaviour:
   playerActionSate: {fileID: 7759583713048079498}
   playerMana: {fileID: 6477106919189763259}
   spellCost: 1
+  playerHealth: {fileID: 3819560779323440753}
 --- !u!114 &3172837825158466966
 MonoBehaviour:
   m_ObjectHideFlags: 0

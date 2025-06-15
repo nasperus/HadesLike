@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using Ability_System.Core_Base_Classes;
+using DG.Tweening;
 using Enemy.Archer;
 using Player.Skills;
 using Stats;
@@ -29,15 +31,21 @@ namespace Player
         private float _bufferTimer;
         
         private float _attackCd;
-        private LifeSteal _lifeSteal;
+       
         
         private float _movementFreezeTimer;
         private const float BaseMovementFreezeTime = 1f;
 
         private void Awake()
         {
-            _lifeSteal = new LifeSteal();
             InitializeAbilities();
+        }
+        private void DashForward()
+        {
+            var dashDistance = 0.5f;
+            var duration = 0.15f;
+            var direction = transform.forward;
+            transform.DOMove(transform.position + direction * dashDistance, duration).SetEase(Ease.OutQuad);
         }
 
         private void Update()
@@ -66,8 +74,6 @@ namespace Player
 
             TriggerAutoAttack(); 
         }
-
-
         
 
         private void ComboChainAttack()
@@ -84,8 +90,13 @@ namespace Player
 
         private void InitializeAbilities()
         {
-            var modifier = AbilityFactory.AutoAttack(damage, damageRadius);
+            var modifier = AbilityFactory.AutoAttackDamage(damage, damageRadius);
             Init(modifier);
+        }
+
+        public void IncreaseAutoAttackDamage(float multiplier)
+        {
+            Stats.IncreaseStats(StatType.Damage, multiplier);
         }
 
       
@@ -94,6 +105,7 @@ namespace Player
             var originalRotation = slashTransform.rotation;
             var rotated = originalRotation * Quaternion.Euler(0, -45f, 0);
             var spawnSlash = Instantiate(vfxPrefab, slashTransform.position,rotated, slashTransform);
+            spawnSlash.transform.DOPunchScale(Vector3.one * 0.2f, 0.25f, 10, 1f);
             Destroy(spawnSlash, 1f);
         }
 
@@ -106,9 +118,9 @@ namespace Player
         public void AnimationEvent_MidAttackEffect()
         {
             DamageEnemiesAroundClickedEnemy();
-            //_lifeSteal.GetLifeSteal(damage, playerHealth, statCollection); 
             VfxPrefabSpawner();
             DealDamage();
+            StartCoroutine(HitStop(0.05f));
         }
 
         private void TriggerAutoAttack()
@@ -118,11 +130,18 @@ namespace Player
             ComboChainAttack();
             CalculateMouseRay();
             SetupRayDirection();
+            DashForward();
             RotatePlayer();
             _movementFreezeTimer = ApplyStatsToAbilities.ApplyHasteSpeed(BaseMovementFreezeTime, statCollection);
             IsMovementFrozen = true;
             UpdateAnimationSpeed();
            
+        }
+        private IEnumerator HitStop(float duration)
+        {
+            Time.timeScale = 0f;
+            yield return new WaitForSecondsRealtime(duration);
+            Time.timeScale = 1f;
         }
 
         private void DealDamage()
@@ -136,11 +155,10 @@ namespace Player
             {
                 if(col.TryGetComponent<IEnemyDamageable>(out var damageable))
                 {
+                    LifeSteal.GetLifeSteal(damage, playerHealth, statCollection); 
                     damageable?.TakeDamage(finalDamage);
                 }
             }
-
-            Debug.Log(finalDamage);
         }
 
         public void OnAttackAnimationComplete()

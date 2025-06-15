@@ -42,7 +42,6 @@ namespace Ability_System.Core_Base_Classes
                                 $"Multiplier: {stats.Multipliers.AoEMultiplier}, Final: {stats.CurrentArea}",
                 _ => $"[IncreaseStat] Unknown stat"
             };
-
             Debug.Log(message);
         }
 

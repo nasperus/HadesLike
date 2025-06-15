@@ -1,4 +1,5 @@
 using Enemy.Mutant;
+using Prayers;
 using UnityEngine;
 
 namespace Enemy.Warlock_Boss.Skills
@@ -12,6 +13,8 @@ namespace Enemy.Warlock_Boss.Skills
             [SerializeField] private LayerMask playerLayer;
         
             private readonly Collider[] _results = new Collider[5];
+            
+            private const int Miss = 4;
         
             private void Start()
             {
@@ -25,10 +28,15 @@ namespace Enemy.Warlock_Boss.Skills
                 for (var i = 0; i < hitCount; i++)
                 {
                     var collider = _results[i];
-                    if (collider.TryGetComponent<IPlayerDamageable>(out var player))
+                    if (collider.TryGetComponent<IPlayerDamageable>(out var damageable))
                     {
-                        player.TakeDamage(damage);
-                        Debug.Log($"<color=red>{gameObject.name}</color> hit <color=yellow>{player}</color> for <b>{damage}</b> damage.");
+                        var miss = CriticalMiss.ShouldMiss(Miss);
+                        if (miss == true)
+                        {
+                            continue;
+                        }
+                        damageable?.TakeDamage(damage);
+                       
                     }
                 }
             }

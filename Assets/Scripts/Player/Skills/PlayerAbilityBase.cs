@@ -1,4 +1,5 @@
 using Ability_System.Core_Base_Classes;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -93,7 +94,9 @@ namespace Player.Skills
 
             if (_lookDirection.sqrMagnitude > 0.001f)
             {
-                playerLeftClickAttack.MouseClickTargetRotationQuaternion = Quaternion.LookRotation(_lookDirection);
+                var targetRotation = Quaternion.LookRotation(_lookDirection);
+                 transform.DORotateQuaternion(targetRotation, 0.15f).SetEase(Ease.OutQuad);
+                 playerLeftClickAttack.MouseClickTargetRotationQuaternion = targetRotation;
                 
                 if (_clickedEnemy)
                 {
