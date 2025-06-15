@@ -48,7 +48,20 @@ namespace UI
             PowerUpType.ActivateFire
             
         };
+        
+       
+        private readonly Dictionary<PowerUpType, PowerUpType> _amplifierDependencies = new()
+        {
+            { PowerUpType.LightningDamage, PowerUpType.ActivateLightningStrike },
+            { PowerUpType.LightningRadius, PowerUpType.ActivateLightningStrike },
+            { PowerUpType.ActivateChainLightning, PowerUpType.ActivateLightningStrike },
 
+            { PowerUpType.DotDamage, PowerUpType.ActivateDot },
+            { PowerUpType.ActivateAoeDot, PowerUpType.ActivateDot },
+            
+            { PowerUpType.AoeDamage, PowerUpType.ActivateFire },
+            
+        };
 
         public void ShowRandomPowerUps(int amount )
         {
@@ -90,7 +103,6 @@ namespace UI
                 });
             }
         }
-
         
 
         private void ClearOldButtons()
@@ -98,45 +110,58 @@ namespace UI
             foreach (Transform child in buttonParent)
                 Destroy(child.gameObject);
         }
+        
 
         private List<PowerUpType> GetRandomPowerUps(int amount)
         {
-            List<PowerUpType> shuffled = new(_allPowerUps);
-            for (var i = 0; i < shuffled.Count; i++)
+            List<PowerUpType> validChoices = new();
+
+            foreach (var powerUp in _allPowerUps)
             {
-                var temp = shuffled[i];
-                var rand = Random.Range(i, shuffled.Count);
-                shuffled[i] = shuffled[rand];
-                shuffled[rand] = temp;
+                if (_amplifierDependencies.TryGetValue(powerUp, out var requiredSkill))
+                {
+                    if (!PowerUpButtons.UnlockedSkills.Contains(requiredSkill))
+                        continue;
+                }
+                validChoices.Add(powerUp);
             }
-            return shuffled.GetRange(0, Mathf.Min(amount, shuffled.Count));
+            
+            for (var i = 0; i < validChoices.Count; i++)
+            {
+                var temp = validChoices[i];
+                var rand = Random.Range(i, validChoices.Count);
+                validChoices[i] = validChoices[rand];
+                validChoices[rand] = temp;
+            }
+
+            return validChoices.GetRange(0, Mathf.Min(amount, validChoices.Count));
         }
+        private readonly Dictionary<PowerUpType, string> _powerUpTexts = new()
+        {
+            { PowerUpType.Haste, "+2 Haste" },
+            { PowerUpType.Mastery, "+5 Mastery" },
+            { PowerUpType.Critical, "+3 Critical" },
+            { PowerUpType.Vitality, "+15 HP" },
+            { PowerUpType.Armor, "+5 Armor" },
+            { PowerUpType.Mana, "+10 Mana" },
+            { PowerUpType.MovementSpeed, "+1.5 Movement" },
+            { PowerUpType.LightningDamage, "+20% Lightning Damage" },
+            { PowerUpType.LightningRadius, "+40% Lightning Radius" },
+            { PowerUpType.DotDamage, "+40% DoT Damage" },
+            { PowerUpType.AoeDamage, "+20% AoE Fire Damage" },
+            { PowerUpType.ActivateChainLightning, "Lightning Strike Hit Nearby Enemies" },
+            { PowerUpType.ActivateAoeDot, "Dot Now Spread Nearby Enemies" },
+            { PowerUpType.LifeSteal, "LifeSteal (Higher Damage Higher Value)" },
+            { PowerUpType.Evasion, "+20% Evasion" },
+            { PowerUpType.AutoAttack, "+20% AutoAttack Damage" },
+            { PowerUpType.ActivateLightningStrike, "Activate Lightning Strike" },
+            { PowerUpType.ActivateDot, "Activate Debuff Damage" },
+            { PowerUpType.ActivateFire, "Activate AOE Fire Damage" },
+        };
 
         private string GetPowerUpText(PowerUpType type)
         {
-            return type switch
-            {
-                PowerUpType.Haste => "+2 Haste",
-                PowerUpType.Mastery => "+5 Mastery",
-                PowerUpType.Critical => "+3 Critical",
-                PowerUpType.Vitality => "+15 HP",
-                PowerUpType.Armor => "+5 Armor",
-                PowerUpType.Mana => "+10 Mana",
-                PowerUpType.MovementSpeed => "+1.5 Movement",
-                PowerUpType.LightningDamage => "+20% Lightning Damage",
-                PowerUpType.LightningRadius => "+40% Lightning Radius",
-                PowerUpType.DotDamage => "+40% DoT Damage",
-                PowerUpType.AoeDamage => "+20% AoE Fire Damage",
-                PowerUpType.ActivateChainLightning => "Lightning Strike Hit Nearby Enemies",
-                PowerUpType.ActivateAoeDot => "Dot Now Spread Nearby Enemies",
-                PowerUpType.LifeSteal => "LifeSteal (Higher Damage Higher Value)",
-                PowerUpType.Evasion => "+20% Evasion",
-                PowerUpType.AutoAttack => "+20% AutoAttack Damage",
-                PowerUpType.ActivateLightningStrike => "Activate Lightning Strike",
-                PowerUpType.ActivateDot => "Activate Debuff Damage",
-                PowerUpType.ActivateFire => "Activate AOE Fire Damage",
-                _ => "Power Up"
-            };
+            return _powerUpTexts.GetValueOrDefault(type);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Player
         [SerializeField] private Transform slashTransform;
         
         
-        private float _comboMaxDelay = 2f;
+        private float _comboMaxDelay = 1.3f;
         private float _lastComboTime;
         private int _comboIndex;
         

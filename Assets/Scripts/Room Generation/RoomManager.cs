@@ -32,8 +32,19 @@ namespace Room_Generation
 
         private void Start()
         {
-            SpawnNewRoom(); 
-            //powerUpPanel.ShowRandomPowerUps(5);
+            SpawnNewRoom();
+            //StartCoroutine(RunAgain());
+
+        }
+
+        private IEnumerator RunAgain()
+        {
+            while (true)
+            {
+                powerUpPanel.ShowRandomPowerUps(5);
+                yield return new WaitForSeconds(2);
+            }
+           
         }
 
         private void OnEnable()
