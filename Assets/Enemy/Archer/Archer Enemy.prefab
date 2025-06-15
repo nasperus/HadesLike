@@ -1196,6 +1196,9 @@ MonoBehaviour:
     m_Bits: 128
   <CapsuleRadius>k__BackingField: 2
   <LegKickCooldown>k__BackingField: 2
+  <SightBlockingLayers>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 640
 --- !u!114 &8489886484003472075
 MonoBehaviour:
   m_ObjectHideFlags: 0

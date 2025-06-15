@@ -81,7 +81,7 @@ namespace Enemy.Archer
             var direction = (player.position - shootOrigin).normalized;
             var distance = Vector3.Distance(shootOrigin, player.position);
 
-            if (Physics.Raycast(shootOrigin, direction, out var hit, distance))
+            if (Physics.Raycast(shootOrigin, direction, out var hit, distance, _archerStateMachine.SightBlockingLayers))
             {
                 return hit.collider.CompareTag("Player");
             }
@@ -121,6 +121,7 @@ namespace Enemy.Archer
             }
             
             _attackStarted = false;
+            stateMachine.TransitionToState(new ArcherRepositionState(stateMachine));
             _cooldownTimer = stateMachine.AttackCooldown;
           
         }

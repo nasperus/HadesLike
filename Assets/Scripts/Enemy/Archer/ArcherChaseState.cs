@@ -7,12 +7,14 @@ namespace Enemy.Archer
     public class ArcherChaseState : EnemyState
     {
         private readonly NavMeshAgent _agent;
+        private ArcherStateMachine _archerStateMachine;
      
         public ArcherChaseState(EnemyStateMachine stateMachine) : base(stateMachine)
         {
             _agent = stateMachine.GetComponent<NavMeshAgent>();
             _agent.updatePosition = false;
             _agent.updateRotation = false;
+            _archerStateMachine = stateMachine as ArcherStateMachine;
         }
 
         public override void Enter()
@@ -50,11 +52,11 @@ namespace Enemy.Archer
 
         private bool HasLineOfSightToPlayer()
         {
-            var origin = stateMachine.transform.position + Vector3.up * 1.2f; 
+            var origin = stateMachine.transform.position + Vector3.up * 1.5f;; 
             var direction = (player.position - origin).normalized;
             var distance = Vector3.Distance(origin, player.position);
 
-            if (Physics.Raycast(origin, direction, out var hit, distance))
+            if (Physics.Raycast(origin, direction, out var hit, distance, _archerStateMachine.SightBlockingLayers))
             {
                 return hit.collider.CompareTag("Player");
             }

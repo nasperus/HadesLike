@@ -17,6 +17,7 @@ namespace Enemy.Archer
         [field: SerializeField] public LayerMask PlayerLayer { get; private set; }
         [field: SerializeField] public float CapsuleRadius { get; private set; }
         [field: SerializeField] public float LegKickCooldown { get; private set; }
+        [field: SerializeField] public LayerMask SightBlockingLayers { get; private set; }
 
         private EnemyState _previousState;
       

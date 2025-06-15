@@ -1,3 +1,4 @@
+using System;
 using Enemy.Mutant;
 using Prayers;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace Enemy.Archer
     {
         [SerializeField] private int arrowDamage;
         private const int Miss = 4;
+        private const string Wall = "Wall";
 
 
         private void OnTriggerEnter(Collider other)
@@ -23,6 +25,13 @@ namespace Enemy.Archer
                 damageable?.TakeDamage(arrowDamage);
                 Destroy(gameObject);
             }
+
+            if (other.gameObject.CompareTag(Wall))
+            {
+                Destroy(gameObject);
+            }
         }
+
+      
     }
 }

@@ -63,7 +63,7 @@ namespace Room_Generation
             if (roomExit != null)
             {
                 roomExit.ActivateExit();
-                //powerUpPanel.ShowRandomPowerUps(5);
+                powerUpPanel.ShowRandomPowerUps(5);
             }
         
         }
