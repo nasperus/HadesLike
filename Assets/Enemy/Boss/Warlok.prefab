@@ -1219,7 +1219,7 @@ MonoBehaviour:
   <Rigidbody>k__BackingField: {fileID: 2938154848444806743}
   <MovementSpeed>k__BackingField: 5
   <RotationSpeed>k__BackingField: 20
-  <AttackRange>k__BackingField: 20
+  <AttackRange>k__BackingField: 10
   <AttackCooldown>k__BackingField: 4
   <GroundMask>k__BackingField:
     serializedVersion: 2

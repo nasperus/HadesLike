@@ -9,7 +9,7 @@ namespace Enemy.Archer
         private readonly ArcherStateMachine _archerStateMachine;
         private readonly Transform _playerRangeHitPoint;
         private int _shotsFired;
-        private const int MaxShotsBeforeReposition = 2;
+        private const int MaxShotsBeforeReposition = 50;
         private float _cooldownTimer;
         private bool _attackStarted;
         private float _legKickTimer;
@@ -35,7 +35,6 @@ namespace Enemy.Archer
             {
                 events.Init(this);
             }
-
             TryAttack();
         }
 

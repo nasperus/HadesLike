@@ -8,8 +8,8 @@ namespace Enemy.Archer
     {
         private NavMeshAgent _agent;
         private Vector3 _targetPosition;
-        private const float RepositionRadius = 5f; // Reposition Radius
-        private const float MinRepositionDistance = 2f; // Minimum distance to doesn't go archer that location;
+        private const float RepositionRadius = 7f; // Reposition Radius
+        private const float MinRepositionDistance = 3f; // Minimum distance to doesn't go archer that location;
         private float _repositionTimer;
         private const float MaxRepositionTime = 2f; // If there is no path found during this time Archer attacks;
         private float _lastPathRecalculationTime;
@@ -45,30 +45,53 @@ namespace Enemy.Archer
                 stateMachine.TransitionToState(new ArcherAttackState(stateMachine));
             }
         }
-    
         private bool FindValidRepositionTarget()
         {
+            var awayFromPlayer = (stateMachine.transform.position - player.position).normalized;
+
             for (var attempts = 0; attempts < 20; attempts++)
             {
-                var randomDirection = Random.insideUnitSphere * RepositionRadius;
-                randomDirection.y = 0;
-                randomDirection += stateMachine.transform.position;
-               
-                if (NavMesh.SamplePosition(randomDirection, out var hit, RepositionRadius, NavMesh.AllAreas))
+                var distance = Random.Range(MinRepositionDistance, RepositionRadius);
+                var offset = awayFromPlayer * distance;
+                var potentialPosition = stateMachine.transform.position + offset;
+
+                if (NavMesh.SamplePosition(potentialPosition, out var hit, RepositionRadius, NavMesh.AllAreas))
                 {
                     if (Vector3.Distance(hit.position, stateMachine.transform.position) >= MinRepositionDistance)
                     {
                         _targetPosition = hit.position;
                         _agent.SetDestination(_targetPosition);
                         _hasValidPath = true;
-                        
-                        //Debug.DrawLine(stateMachine.transform.position, _targetPosition, Color.blue, 2f);
                         return true;
                     }
                 }
             }
             return false;
         }
+        
+        // private bool FindValidRepositionTarget()
+        // {
+        //     for (var attempts = 0; attempts < 20; attempts++)
+        //     {
+        //         var randomDirection = Random.insideUnitSphere * RepositionRadius;
+        //         randomDirection.y = 0;
+        //         randomDirection += stateMachine.transform.position;
+        //        
+        //         if (NavMesh.SamplePosition(randomDirection, out var hit, RepositionRadius, NavMesh.AllAreas))
+        //         {
+        //             if (Vector3.Distance(hit.position, stateMachine.transform.position) >= MinRepositionDistance)
+        //             {
+        //                 _targetPosition = hit.position;
+        //                 _agent.SetDestination(_targetPosition);
+        //                 _hasValidPath = true;
+        //                 
+        //                 //Debug.DrawLine(stateMachine.transform.position, _targetPosition, Color.blue, 2f);
+        //                 return true;
+        //             }
+        //         }
+        //     }
+        //     return false;
+        // }
         
         public override void FixedFrameTick()
         {
@@ -129,7 +152,6 @@ namespace Enemy.Archer
                 stateMachine.TransitionToState(new ArcherAttackState(stateMachine));
                 return;
             }
-        
             stateMachine.AlignToGround();
         }
 

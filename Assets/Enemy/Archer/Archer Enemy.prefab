@@ -1180,7 +1180,7 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 5
   <RotationSpeed>k__BackingField: 20
   <AttackRange>k__BackingField: 15
-  <AttackCooldown>k__BackingField: 2
+  <AttackCooldown>k__BackingField: 0.5
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
@@ -1195,7 +1195,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   <CapsuleRadius>k__BackingField: 2
-  <LegKickCooldown>k__BackingField: 2
+  <LegKickCooldown>k__BackingField: 1
   <SightBlockingLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 640

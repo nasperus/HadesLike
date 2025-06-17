@@ -104,7 +104,6 @@ namespace UI
             }
         }
         
-
         private void ClearOldButtons()
         {
             foreach (Transform child in buttonParent)
@@ -133,7 +132,6 @@ namespace UI
                 validChoices[i] = validChoices[rand];
                 validChoices[rand] = temp;
             }
-
             return validChoices.GetRange(0, Mathf.Min(amount, validChoices.Count));
         }
         private readonly Dictionary<PowerUpType, string> _powerUpTexts = new()
