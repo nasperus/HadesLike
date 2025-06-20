@@ -87,7 +87,6 @@ namespace Room_Generation
             IncreaseArrowSpeed += 2;
             IncreaseAttackSpeed = Mathf.Max(IncreaseAttackSpeed, 0.5f); 
             IncreaseEnemyHealth = Mathf.Min(IncreaseEnemyHealth, 30f);
-            IncreaseArrowSpeed = Mathf.Min(IncreaseArrowSpeed, 25f);
             
             if (_roomsCleared < totalNormalRooms)
                 SpawnNewRoom();
@@ -96,7 +95,7 @@ namespace Room_Generation
         }
         
 
-        public void SpawnNewRoom()
+        private void SpawnNewRoom()
         {
             if (_currentRoom != null)
             {
@@ -161,11 +160,11 @@ namespace Room_Generation
                 powerUpButtons.SetPlayerReferences(_playerInstance);
             }
 
-            var surface = _currentRoom.GetComponent<NavMeshSurface>();
-            if (surface != null)
-            {
-                surface.BuildNavMesh();
-            }
+            // var surface = _currentRoom.GetComponent<NavMeshSurface>();
+            // if (surface != null)
+            // {
+            //     surface.BuildNavMesh();
+            // }
 
             EnemyTracker.Instance?.ResetTracker();
             StartCoroutine(SetupPortalSpawnersAfterDelay());

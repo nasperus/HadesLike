@@ -1186,7 +1186,7 @@ MonoBehaviour:
     m_Bits: 256
   <ArrowSpawnPoint>k__BackingField: {fileID: 1419495480834750011}
   <ArrowPrefab>k__BackingField: {fileID: 8884131272032315737, guid: 9faee2fe4500dd742bc7efe57e338fe0, type: 3}
-  <ArrowSpeed>k__BackingField: 7
+  <ArrowSpeed>k__BackingField: 15
   <ArrowLifetime>k__BackingField: 10
   <PlayerRangeHitPoint>k__BackingField: {fileID: 0}
   <MeleeAttackRange>k__BackingField: 2.3

@@ -26,7 +26,6 @@ namespace Enemy.Archer
         private void Awake()
         {
             AttackCooldown -= RoomManager.IncreaseAttackSpeed;
-            ArrowSpeed += RoomManager.IncreaseArrowSpeed;
         }
 
         private void Start()

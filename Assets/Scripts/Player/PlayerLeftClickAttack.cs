@@ -20,21 +20,20 @@ namespace Player
         [SerializeField] private float attackCooldown;
         [SerializeField] private GameObject vfxPrefab;
         [SerializeField] private Transform slashTransform;
-        
-        
-        private float _comboMaxDelay = 1.3f;
+
+
+        private const float ComboMaxDelay = 2f;
         private float _lastComboTime;
         private int _comboIndex;
         
         private bool _bufferedAttackInput;
-        private float _bufferTime;
-        private float _bufferTimer;
+        private float _currentBufferTime;
         
         private float _attackCd;
        
         
         private float _movementFreezeTimer;
-        private const float BaseMovementFreezeTime = 1f;
+        private const float BaseMovementFreezeTime = 0.8f;
 
         private void Awake()
         {
@@ -62,12 +61,13 @@ namespace Player
         private void OnMouseClickLeft(InputValue value)
         {
             if (!value.isPressed) return;
+           
             if (_attackCd > 0 || playerActionSate.IsAttacking)
             {
                 if (playerActionSate.IsAttacking) 
                 {
                     _bufferedAttackInput = true;
-                    _bufferTimer = _bufferTime;
+                    _currentBufferTime = 1f;
                 }
                 return;
             }
@@ -78,7 +78,7 @@ namespace Player
 
         private void ComboChainAttack()
         {
-            if (Time.time - _lastComboTime > _comboMaxDelay)
+            if (Time.time - _lastComboTime > ComboMaxDelay)
             {
                 _comboIndex = 0;
             }
@@ -164,6 +164,13 @@ namespace Player
         public void OnAttackAnimationComplete()
         {
             playerActionSate.EndAttack();
+            if (_comboIndex >= 3)
+            {
+                ResetComboIndex(); 
+                playerAnimations.ResetCombo();
+                _bufferedAttackInput = false;
+                return;
+            }
 
             if (_bufferedAttackInput)
             {
@@ -182,9 +189,9 @@ namespace Player
         {
             if (_bufferedAttackInput)
             {
-                _bufferTimer -= Time.deltaTime;
+                _currentBufferTime  -= Time.deltaTime;
 
-                if (_bufferTimer <= 0f)
+                if (_currentBufferTime <= 0f)
                 {
                     _bufferedAttackInput = false;
                 }
