@@ -165,7 +165,7 @@ namespace Player.Skills
                    {
                        StartCoroutine(ChainLightningCoroutine(coll.transform, finalDamage * 0.3f, alreadyHitEnemies, maxChains));
                    }
-                     
+                    
                }
            }
            Destroy(vfxInstance, vfxPrefabLifetime);

@@ -48,13 +48,13 @@ namespace Enemy.Archer
         private bool FindValidRepositionTarget()
         {
             var awayFromPlayer = (stateMachine.transform.position - player.position).normalized;
-
+        
             for (var attempts = 0; attempts < 20; attempts++)
             {
                 var distance = Random.Range(MinRepositionDistance, RepositionRadius);
                 var offset = awayFromPlayer * distance;
                 var potentialPosition = stateMachine.transform.position + offset;
-
+        
                 if (NavMesh.SamplePosition(potentialPosition, out var hit, RepositionRadius, NavMesh.AllAreas))
                 {
                     if (Vector3.Distance(hit.position, stateMachine.transform.position) >= MinRepositionDistance)

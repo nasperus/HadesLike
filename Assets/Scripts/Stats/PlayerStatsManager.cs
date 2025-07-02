@@ -28,7 +28,7 @@ namespace Stats
     }
 
   
-    
+  
 
     private void InitializeRuntimeBaseValues()
     {
