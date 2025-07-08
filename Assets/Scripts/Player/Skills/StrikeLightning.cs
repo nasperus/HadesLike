@@ -73,7 +73,7 @@ namespace Player.Skills
            
        }
 
-        public void ActivateChainLightning() =>  _activateChainLightning = true;
+        public void ActivateChainLightning() => _activateChainLightning = true;
        
         public void ActivateLightningStrike() => _activateLightningStrike = true;
       

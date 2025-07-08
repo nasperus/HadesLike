@@ -21,12 +21,19 @@ namespace Player
         private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
         private static readonly int AutoAttack = Animator.StringToHash("AutoAttack");
         private static readonly int AttackCombo = Animator.StringToHash("AttackCombo");
+        private static readonly int Throw = Animator.StringToHash("Throw");
 
       
 
         private void Update()
         {
             RunningAnimation();
+        }
+
+        public void JavelinThrow(float speed)
+        {
+            animator.SetFloat(AttackSpeed, speed);
+            animator.SetTrigger(Throw);
         }
         
         public void TriggerComboAttack(float speed, int step)

@@ -20,6 +20,7 @@ namespace Player
         [SerializeField] private float attackCooldown;
         [SerializeField] private GameObject vfxPrefab;
         [SerializeField] private Transform slashTransform;
+       
 
 
         private const float ComboMaxDelay = 2f;
@@ -74,7 +75,8 @@ namespace Player
 
             TriggerAutoAttack(); 
         }
-        
+
+     
 
         private void ComboChainAttack()
         {
@@ -109,11 +111,14 @@ namespace Player
             Destroy(spawnSlash, 1f);
         }
 
-        private void UpdateAnimationSpeed()
+        private void UpdateAutoAttackAnimationSpeed()
         {
             var animationSpeed = ApplyStatsToAbilities.ApplyHasteCastAndAttackSpeed(statCollection);
             playerAnimations.TriggerComboAttack(animationSpeed,_comboIndex);
+            
         }
+
+       
         
         public void AnimationEvent_MidAttackEffect()
         {
@@ -122,6 +127,9 @@ namespace Player
             DealDamage();
             StartCoroutine(HitStop(0.05f));
         }
+
+       
+     
 
         private void TriggerAutoAttack()
         {
@@ -134,7 +142,7 @@ namespace Player
             RotatePlayer();
             _movementFreezeTimer = ApplyStatsToAbilities.ApplyHasteSpeed(BaseMovementFreezeTime, statCollection);
             IsMovementFrozen = true;
-            UpdateAnimationSpeed();
+            UpdateAutoAttackAnimationSpeed();
            
         }
         private IEnumerator HitStop(float duration)
