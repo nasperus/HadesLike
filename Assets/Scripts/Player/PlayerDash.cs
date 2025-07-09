@@ -6,58 +6,75 @@ namespace Player
 {
     public class PlayerDash : MonoBehaviour
     {
-       [Header("Player Movement Class")] [SerializeField] private PlayerMovement playerMovement;
-       [Header("Player Animation Class")] [SerializeField] private PlayerAnimations playerAnimations;
-       [Header("Dash Speed")] [SerializeField] private float dashSpeed;
-       [Header("Dash Duration")] [SerializeField] private float dashDuration;
-       [Header("Dash Cooldown")] [SerializeField] private float dashCooldown;
-       [Header("RigidBody")] [SerializeField] private Rigidbody rb;
-       [SerializeField] private PlayerActionSate playerActionSate;
-        
+        [Header("References")]
+        [SerializeField] private PlayerMovement playerMovement;
+        [SerializeField] private PlayerAnimations playerAnimations;
+        [SerializeField] private Rigidbody rb;
+
+        [Header("Dash Settings")]
+        [SerializeField] private float dashSpeed;
+        [SerializeField] private float dashDuration;
+        [SerializeField] private float dashCooldown;
+
         public bool IsDashing { get; private set; }
-        
-        private float _dashTimer = 0; 
-        private float _cooldownTimer = 0;
-        
-        private Vector3 _dashDirection; 
+
+        private float _dashTimer;
+        private float _cooldownTimer;
+        private Vector3 _dashDirection;
+
+        private void Update()
+        {
+            HandleCooldowns();
+        }
+
         private void FixedUpdate()
         {
-            DashTimersLogic();
-           
+            HandleDashMovement();
         }
+
         private void OnDash(InputValue value)
         {
             if (!value.isPressed) return;
-            if (_cooldownTimer > 0) return;
-            //if (playerActionSate.IsAttacking) return;
-            //playerActionSate.StartAttack();
-            IsDashing = true;
-            var dashDirection = playerMovement.Movement;
-                
-            if (dashDirection == Vector3.zero)
+            if (_cooldownTimer > 0 || IsDashing) return;
+
+            StartDash();
+        }
+
+        private void StartDash()
+        {
+            _dashDirection = playerMovement.MovementDirection;
+            if (_dashDirection == Vector3.zero)
             {
-                dashDirection = transform.forward;
+                _dashDirection = transform.forward; 
             }
-            playerAnimations.Dashing();
-            rb.linearVelocity = dashDirection * dashSpeed;
+
+            IsDashing = true;
             _dashTimer = dashDuration;
             _cooldownTimer = dashCooldown;
-            
+
+            playerAnimations.Dashing(); 
         }
-        
-        private void DashTimersLogic()
+
+        private void HandleCooldowns()
         {
-            if (_cooldownTimer > 0)
+            if (_cooldownTimer > 0f)
                 _cooldownTimer -= Time.deltaTime;
-            
+
             if (IsDashing)
             {
                 _dashTimer -= Time.deltaTime;
-                if (_dashTimer <= 0)
+                if (_dashTimer <= 0f)
                 {
                     IsDashing = false;
-                    
                 }
+            }
+        }
+
+        private void HandleDashMovement()
+        {
+            if (IsDashing)
+            {
+                rb.linearVelocity = _dashDirection * dashSpeed;
             }
         }
     }

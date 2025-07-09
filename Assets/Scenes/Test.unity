@@ -1710,6 +1710,18 @@ PrefabInstance:
       propertyPath: rayWidth
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5161072891253137999, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+      propertyPath: acceleration
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5161072891253137999, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+      propertyPath: rotationSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5161072891253137999, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+      propertyPath: baseMovementSpeed
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5995958259487152754, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2849,9 +2861,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d82da0fe594d77418a5b2a8ef856ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strikeLightning: {fileID: 0}
-  playerDebuff: {fileID: 0}
-  aoeFireDamage: {fileID: 0}
 --- !u!1 &1927925976
 GameObject:
   m_ObjectHideFlags: 0

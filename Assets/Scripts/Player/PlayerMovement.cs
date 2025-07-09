@@ -8,156 +8,153 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-       [Header("Player Sprint Class")] [SerializeField] private PlayerSprint playerSprint;
-       [Header ("Player MouseDirection Class")] [SerializeField] private PlayerLeftClickAttack playerLeftClickAttack;
-       [Header("Player Dash Class")] [SerializeField] private PlayerDash playerDash;
-       [Header("Player Shoot Class")] [SerializeField] private PlayerDebuff playerShoot;
-       [Header("RigidBody")] [SerializeField] private Rigidbody rb;
-       [Header("Movement Speed")] [SerializeField] private float movementSpeed;
-       [Header("Acceleration Speed")] [SerializeField] private float acceleration;
-       [Header("Shooting Movement Speed")] [SerializeField] private float shootingMovementSpeed;
-       [SerializeField] private StatCollection statCollection;
+        [Header("Player Abilities")]
+        [SerializeField] private PlayerSprint playerSprint;
+        [SerializeField] private PlayerLeftClickAttack playerLeftClickAttack;
+        [SerializeField] private PlayerDash playerDash;
+        [SerializeField] private PlayerDebuff playerShoot;
+
+        [Header("Physics")]
+        [SerializeField] private Rigidbody rb;
+
+        [Header("Movement Settings")]
+        [SerializeField] private float baseMovementSpeed;
         
+
+        [Header("Stat System")]
+        [SerializeField] private StatCollection statCollection;
+        private float _statMovementSpeed;
+        private Vector2 _input;
+        private Vector3 _movementDirection;
         private Camera _mainCamera;
-        private Vector2 _playerInput;
-        private Vector2 _currentInput;
-        private PlayerAbilityBase[] _playerAbilityBase;
-        
-        public float MovementSpeed => movementSpeed;
-        public Vector3 Movement { get; private set; }
-        
-        public bool IsMoving {get; private set;}
-        private bool _wasIdle;
+        private Vector3 _velocityRef;
+
+        private PlayerAbilityBase[] _playerAbilities;
+
+        private float _calculatedMovementSpeed;
+
+        public bool IsMoving { get; private set; }
+
+        public float MovementSpeed => _calculatedMovementSpeed;
+        public Vector3 MovementDirection => _movementDirection;
 
         private void Awake()
         {
-            _playerAbilityBase = GetComponents<PlayerAbilityBase>();
-        }
-
-        public void UpdateMovementSpeed()
-        {
-            movementSpeed = statCollection.GetStatValue(StatTypeEnum.MovementSpeed);
+            rb.freezeRotation = true;
+            _playerAbilities = GetComponents<PlayerAbilityBase>();
         }
 
         private void Start()
         {
-            rb.freezeRotation = true;
             _mainCamera = Camera.main;
+            UpdateMovementSpeed(); 
+        }
+
+        private void Update()
+        {
+            CalculateCameraRelativeDirection();
         }
 
         private void FixedUpdate()
         {
-           
-            PlayerMouseClickAndDashMethods();
+            HandleMovement();
+        }
+
+        
+        public void UpdateMovementSpeed()
+        {
+            _statMovementSpeed = statCollection.GetStatValue(StatTypeEnum.MovementSpeed);
             
-        }
-
-        private bool ActiveMovementFreeze()
-        {
-            foreach (var abilities in _playerAbilityBase )
+            if (_statMovementSpeed <= 0f)
             {
-                if(abilities.IsMovementFrozen) 
-                    return true;
+                _statMovementSpeed = baseMovementSpeed;
             }
-            return false;
+            _calculatedMovementSpeed = ApplyStatsToAbilities.ApplyMovementSpeedBonus(_statMovementSpeed, statCollection);
         }
 
-        private float GetCalculatedMovementSpeed(float baseSpeed)
+        
+        private void OnMove(InputValue value)
         {
-            return  ApplyStatsToAbilities.ApplyMovementSpeedBonus(baseSpeed, statCollection);
+            _input = value.Get<Vector2>();
         }
+        
 
-        private void SetVelocity(Vector3 velocity)
-        {
-            rb.linearVelocity = velocity;
-            IsMoving = velocity.sqrMagnitude > 0.001f;
-        }
-        
-        private void OnMove(InputValue value) {_currentInput = value.Get<Vector2>();}
-      
-        
-        private void CameraRelativeToPlayerDirection()
+        private void CalculateCameraRelativeDirection()
         {
             var forward = _mainCamera.transform.forward;
-            var right =_mainCamera.transform.right;
-        
+            var right = _mainCamera.transform.right;
+
             forward.y = 0;
             right.y = 0;
+
             forward.Normalize();
             right.Normalize();
-        
-            Movement = (right * _playerInput.x + forward * _playerInput.y).normalized;
-        }
-        
-        private void PlayerAccelerationAndSprintMovementSpeedLogic()
-        {
-            if (playerDash.IsDashing) return;
-            var baseWalkSpeed = movementSpeed;
-            var walkSpeedWithBonus = GetCalculatedMovementSpeed(baseWalkSpeed);
-            var sprintSpeedWithBonus = walkSpeedWithBonus  + playerSprint.SprintSpeed;
-            var currentSpeed = playerSprint.IsSprinting ? sprintSpeedWithBonus : walkSpeedWithBonus;
-            
-                
-            var targetVelocity = Movement * currentSpeed;
 
-            if (!IsMoving)
+            _movementDirection = (right * _input.x + forward * _input.y).normalized;
+        }
+
+        private void HandleMovement()
+        {
+            if (IsMovementFrozen() || playerDash.IsDashing)
             {
-                rb.linearVelocity = Vector3.zero;
-                _wasIdle = true;
+                StopMovement();
                 return;
             }
 
-            if (playerShoot.IsRightClicking)
-            {
-                rb.linearVelocity = Movement * currentSpeed;
-                return;
-            }
-            if (_wasIdle)
-            { 
-                rb.linearVelocity = Vector3.MoveTowards(rb.linearVelocity, targetVelocity, 
-                    acceleration * Time.fixedDeltaTime);
-                   
-                if ((rb.linearVelocity - targetVelocity).sqrMagnitude < 0.01f)
-                { 
-                    _wasIdle = false;
-                }
-            }
-            else
-            { 
-                rb.linearVelocity = targetVelocity;
-            }
-        }
-        
-        private void PlayerMouseClickAndDashMethods()
-        {
-            if (playerDash.IsDashing)
-            {
-                IsMoving = false;
-                return; 
-            }
-            _playerInput = _currentInput;
-            CameraRelativeToPlayerDirection();
-            IsMoving = Movement.sqrMagnitude > 0.001f;
-            
-            if (playerLeftClickAttack.PausePlayerMovementDuringClick > 0f  
-                && playerLeftClickAttack.IsLeftClicking)
+            if (playerLeftClickAttack.IsLeftClicking && playerLeftClickAttack.PausePlayerMovementDuringClick > 0f)
             {
                 playerLeftClickAttack.PausePlayerMovementDuringClick -= Time.fixedDeltaTime;
                 playerLeftClickAttack.ResetMouseLeftClickFlag();
-                SetVelocity(Vector3.zero);
-                IsMoving = false;
-                return; 
+                StopMovement();
+                return;
             }
-           
 
-            if (ActiveMovementFreeze())
+            var isTryingToMove = _movementDirection.sqrMagnitude > 0.001f;
+            IsMoving = isTryingToMove;
+
+            if (!isTryingToMove)
             {
-                SetVelocity(Vector3.zero);
-                IsMoving = false;
-                
+                StopMovement();
+                return;
             }
             
-            PlayerAccelerationAndSprintMovementSpeedLogic();
+            var sprintBonus = playerSprint.IsSprinting ? playerSprint.SprintSpeed : 0f;
+            var finalSpeed = _calculatedMovementSpeed + sprintBonus;
+
+            var targetVelocity = _movementDirection * finalSpeed;
+
+            if (playerShoot.IsRightClicking || playerSprint.IsSprinting)
+            {
+                rb.linearVelocity = targetVelocity;
+            }
+            else
+            {
+                 rb.linearVelocity = Vector3.SmoothDamp(
+                     rb.linearVelocity,
+                     targetVelocity,
+                     ref _velocityRef,
+                     0.06f,
+                     float.MaxValue,
+                     Time.fixedDeltaTime
+                );
+                
+            }
+        }
+        
+        private void StopMovement()
+        {
+            rb.linearVelocity = Vector3.zero;
+            IsMoving = false;
+        }
+        
+        private bool IsMovementFrozen()
+        {
+            foreach (var ability in _playerAbilities)
+            {
+                if (ability.IsMovementFrozen)
+                    return true;
+            }
+            return false;
         }
     }
 }
