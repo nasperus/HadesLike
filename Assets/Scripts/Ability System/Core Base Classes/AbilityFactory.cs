@@ -42,6 +42,18 @@ namespace Ability_System.Core_Base_Classes
                 radius,
                 0f);
         }
+
+        public static BaseAbilityModifier JavelinDamage(float skillDamage, float radius)
+        {
+            return new BaseAbilityModifier(
+                name: "Throw Javelin",
+                skillDamage,
+                radius,
+                0f
+            );
+        }
+
+      
         
     }
 }

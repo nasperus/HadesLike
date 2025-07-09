@@ -20,5 +20,7 @@ public enum PowerUpType
     ActivateLightningStrike,
     ActivateDot,
     ActivateFire,
+    ThrowJavelin,
+    ActivateJavelinThrow,
    
 }

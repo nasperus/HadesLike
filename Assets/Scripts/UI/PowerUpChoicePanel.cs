@@ -15,25 +15,28 @@ namespace UI
 
         private readonly List<PowerUpType> _allPowerUps = new()
         {
-            PowerUpType.Haste,
-            PowerUpType.Mastery,
-            PowerUpType.Critical,
-            PowerUpType.Vitality,
-            PowerUpType.Armor,
-            PowerUpType.Mana,
-            PowerUpType.MovementSpeed,
-            PowerUpType.LightningDamage,
-            PowerUpType.LightningRadius,
-            PowerUpType.DotDamage,
-            PowerUpType.AoeDamage,
-            PowerUpType.ActivateChainLightning,
-            PowerUpType.ActivateAoeDot,
-            PowerUpType.LifeSteal,
-            PowerUpType.Evasion,
-            PowerUpType.AutoAttack,
-            PowerUpType.ActivateLightningStrike,
-            PowerUpType.ActivateDot,
-            PowerUpType.ActivateFire
+             PowerUpType.Haste,
+             PowerUpType.Mastery,
+             PowerUpType.Critical,
+             PowerUpType.Vitality,
+             PowerUpType.Armor,
+             PowerUpType.Mana,
+             PowerUpType.MovementSpeed,
+             PowerUpType.LightningDamage,
+             PowerUpType.LightningRadius,
+             PowerUpType.DotDamage,
+             PowerUpType.AoeDamage,
+             PowerUpType.ActivateChainLightning,
+             PowerUpType.ActivateAoeDot,
+             PowerUpType.LifeSteal,
+             PowerUpType.Evasion,
+             PowerUpType.AutoAttack,
+             PowerUpType.ActivateLightningStrike,
+             PowerUpType.ActivateDot,
+             PowerUpType.ActivateFire,
+             PowerUpType.ThrowJavelin,
+             PowerUpType.ActivateJavelinThrow,
+            
             
         };
         
@@ -45,7 +48,8 @@ namespace UI
             PowerUpType.Evasion,
             PowerUpType.ActivateLightningStrike,
             PowerUpType.ActivateDot,
-            PowerUpType.ActivateFire
+            PowerUpType.ActivateFire,
+            PowerUpType.ActivateJavelinThrow,
             
         };
         
@@ -60,6 +64,8 @@ namespace UI
             { PowerUpType.ActivateAoeDot, PowerUpType.ActivateDot },
             
             { PowerUpType.AoeDamage, PowerUpType.ActivateFire },
+            
+            { PowerUpType.ThrowJavelin, PowerUpType.ActivateJavelinThrow},
             
         };
 
@@ -155,6 +161,8 @@ namespace UI
             { PowerUpType.ActivateLightningStrike, "Activate Lightning Strike" },
             { PowerUpType.ActivateDot, "Activate Debuff Damage" },
             { PowerUpType.ActivateFire, "Activate AOE Fire Damage" },
+            { PowerUpType.ThrowJavelin, "+20% Javelin Damage" },
+            { PowerUpType.ActivateJavelinThrow, "Activate Javelin Trow"},
         };
 
         private string GetPowerUpText(PowerUpType type)

@@ -1716,19 +1716,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6056247506610002989, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
       propertyPath: rayWidth
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6056247506610002989, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
       propertyPath: weaponRange
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6056247506610002989, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
       propertyPath: attackCooldown
-      value: 2
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6056247506610002989, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+      propertyPath: baseJavelinDamage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6056247506610002989, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
       propertyPath: enemyLayerMask.m_Bits
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6376601091588309192, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
       propertyPath: m_LocalPosition.x

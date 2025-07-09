@@ -42,7 +42,7 @@ namespace Player.Skills
         private Ray _mouseRay;
         private Plane _groundPlane;
         private Vector3 _targetPosition;
-        private Vector3 _shootDirection;
+        protected Vector3 ShootDirection;
         private Vector3 _lookDirection;
         private Vector3 _endPoint;
         private Collider[] _potentialTargets;
@@ -77,12 +77,13 @@ namespace Player.Skills
                 _targetPosition = _mouseRay.GetPoint(distance);
             }
         }
+      
 
         protected void SetupRayDirection()
         {
             ShootOrigin = weaponTransformOrigin.position;
-            _shootDirection = (_targetPosition - ShootOrigin).normalized;
-            _endPoint = ShootOrigin + (_shootDirection * weaponRange);
+            ShootDirection = (_targetPosition - ShootOrigin).normalized;
+            _endPoint = ShootOrigin + (ShootDirection * weaponRange);
 
             // if (drawDebugLines)
             //     Debug.DrawLine(ShootOrigin, _endPoint, rayColor, 2f);
@@ -90,7 +91,7 @@ namespace Player.Skills
 
         protected void RotatePlayer()
         {
-            _lookDirection = _shootDirection.normalized;
+            _lookDirection = ShootDirection.normalized;
 
             if (_lookDirection.sqrMagnitude > 0.001f)
             {

@@ -22,6 +22,7 @@ namespace UI
         private PlayerDebuff _playerDebuff;
         private AoeFireDamage _aoeFireDamage;
         private PlayerLeftClickAttack _playerLeftClick;
+        private PlayerThrowSkill _playerThrowSkill;
 
 
 
@@ -40,6 +41,7 @@ namespace UI
             _playerDebuff = player.GetComponent<PlayerDebuff>();
             _aoeFireDamage = player.GetComponent<AoeFireDamage>();
             _playerLeftClick = player.GetComponent<PlayerLeftClickAttack>();
+            _playerThrowSkill = player.GetComponent<PlayerThrowSkill>();
             InitializePowerUpActions();
 
         }
@@ -76,18 +78,20 @@ namespace UI
                         _playerMovement.UpdateMovementSpeed();
                     }
                 },
-                { PowerUpType.LightningDamage, () => _strikeLightning.IncreaseLightningStrikeDamage(0.2f) },
-                { PowerUpType.LightningRadius, () => _strikeLightning.IncreaseLightningStrikeRadius(0.4f) },
-                { PowerUpType.DotDamage, () => _playerDebuff.IncreaseDotDamage(0.4f) },
-                { PowerUpType.AoeDamage, () => _aoeFireDamage.IncreaseAoeDamage(0.2f) },
-                { PowerUpType.ActivateChainLightning, () => _strikeLightning.ActivateChainLightning() },
-                { PowerUpType.ActivateAoeDot, () => _playerDebuff.ActivateChainDot() },
-                { PowerUpType.LifeSteal, () => LifeSteal.IsEnabled = true },
-                { PowerUpType.Evasion, () => CriticalMiss.CanMiss = true },
-                { PowerUpType.AutoAttack, () => _playerLeftClick.IncreaseAutoAttackDamage(0.2f) },
-                { PowerUpType.ActivateLightningStrike, () => _strikeLightning.ActivateLightningStrike() },
-                { PowerUpType.ActivateDot, () => _playerDebuff.ActivateDot() },
-                { PowerUpType.ActivateFire, () => _aoeFireDamage.ActivateAoeFire() },
+                { PowerUpType.LightningDamage, () => _strikeLightning.IncreaseLightningStrikeDamage(0.2f)},
+                { PowerUpType.LightningRadius, () => _strikeLightning.IncreaseLightningStrikeRadius(0.4f)},
+                { PowerUpType.DotDamage, () => _playerDebuff.IncreaseDotDamage(0.4f)},
+                { PowerUpType.AoeDamage, () => _aoeFireDamage.IncreaseAoeDamage(0.2f)},
+                { PowerUpType.ActivateChainLightning, () => _strikeLightning.ActivateChainLightning()},
+                { PowerUpType.ActivateAoeDot, () => _playerDebuff.ActivateChainDot()},
+                { PowerUpType.LifeSteal, () => LifeSteal.IsEnabled = true},
+                { PowerUpType.Evasion, () => CriticalMiss.CanMiss = true},
+                { PowerUpType.AutoAttack, () => _playerLeftClick.IncreaseAutoAttackDamage(0.2f)},
+                { PowerUpType.ActivateLightningStrike, () => _strikeLightning.ActivateLightningStrike()},
+                { PowerUpType.ActivateDot, () => _playerDebuff.ActivateDot()},
+                { PowerUpType.ActivateFire, () => _aoeFireDamage.ActivateAoeFire()},
+                { PowerUpType.ThrowJavelin, () => _playerThrowSkill.IncreaseBaseJavelinDamage(0.2f)},
+                {PowerUpType.ActivateJavelinThrow, () => _playerThrowSkill.ActivateJavelinThrow()}
             };
         }
         public void ApplyPowerUp(PowerUpType type)
@@ -96,8 +100,7 @@ namespace UI
             {
                 action?.Invoke();
             }
-            if (type == PowerUpType.ActivateLightningStrike ||
-                type == PowerUpType.ActivateDot ||
+            if (type is PowerUpType.ActivateLightningStrike or PowerUpType.ActivateDot ||
                 type == PowerUpType.ActivateFire ||
                 type == PowerUpType.ActivateChainLightning ||  
                 type == PowerUpType.ActivateAoeDot)

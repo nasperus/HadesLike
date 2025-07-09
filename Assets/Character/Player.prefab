@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 7975724021396928030}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.37, z: 0.599}
+  m_LocalPosition: {x: 0.065, y: 1.37, z: 0.599}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1437,7 +1437,8 @@ MonoBehaviour:
   javelinPosition: {fileID: 7597386371194927639}
   javelinPrefab: {fileID: 5268457474073473845, guid: 071157e6bf4e55b4c983488596719132, type: 3}
   javelinSpeed: 15
-  attackCooldown: 2
+  attackCooldown: 1
+  baseJavelinDamage: 1
 --- !u!114 &6870869682653594059
 MonoBehaviour:
   m_ObjectHideFlags: 0

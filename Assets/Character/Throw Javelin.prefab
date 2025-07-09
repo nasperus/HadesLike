@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5162373064942191337}
   - component: {fileID: 1744488468091169915}
   - component: {fileID: -4035507869173518261}
-  - component: {fileID: 4403429136429986676}
+  - component: {fileID: -1766277521257853109}
   m_Layer: 0
   m_Name: Throw Javelin
   m_TagString: Untagged
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 17f758c1841984a48afcca7afaa5c046, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,10 +108,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.87472963
+  m_Height: 2.093216
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.011376281, y: 0.046608217, z: -0.00035876807}
 --- !u!54 &-4035507869173518261
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4403429136429986676
+--- !u!114 &-1766277521257853109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,4 +151,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f26f864ab13fc4789c184edbbda48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  statCollection: {fileID: 3172837825158466966, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
+  skill: {fileID: 6056247506610002989, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
