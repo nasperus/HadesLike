@@ -17,6 +17,7 @@ namespace Player
 
         [Header("Rotation Speed")] 
         [SerializeField] private float rotationSpeed;
+        [SerializeField] private PlayerDash playerDash;
 
         private void Update()
         {
@@ -25,7 +26,8 @@ namespace Player
 
         private void PlayerRotationLogic()
         {
-            
+            if (playerDash.IsDashing) return; 
+
             if (playerLeftClickAttack.MouseClickLookTimer > 0 &&
                 playerLeftClickAttack.MouseClickTargetRotationQuaternion.HasValue)
             {
@@ -47,5 +49,6 @@ namespace Player
             var targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
+
     }
 }

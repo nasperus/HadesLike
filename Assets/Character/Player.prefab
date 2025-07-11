@@ -1361,7 +1361,6 @@ MonoBehaviour:
   playerShoot: {fileID: 189970019677120255}
   rb: {fileID: 5581535466962745533}
   baseMovementSpeed: 6
-  acceleration: 10
   statCollection: {fileID: 3172837825158466966}
 --- !u!114 &6589481880786507089
 MonoBehaviour:
@@ -1379,6 +1378,7 @@ MonoBehaviour:
   playerShoot: {fileID: 189970019677120255}
   playerMovement: {fileID: 5161072891253137999}
   rotationSpeed: 20
+  playerDash: {fileID: 6870869682653594059}
 --- !u!114 &2930596601359230965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1454,8 +1454,8 @@ MonoBehaviour:
   playerAnimations: {fileID: 8904297108873674310}
   rb: {fileID: 5581535466962745533}
   dashSpeed: 12
-  dashDuration: 0.2
   dashCooldown: 1
+  dashDistance: 6
 --- !u!114 &7818887257429694816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1471,7 +1471,6 @@ MonoBehaviour:
   playerMovement: {fileID: 5161072891253137999}
   playerAnimations: {fileID: 8904297108873674310}
   playerInput: {fileID: 3031011065293810037}
-  rb: {fileID: 5581535466962745533}
   sprintSpeed: 5
 --- !u!114 &189970019677120255
 MonoBehaviour:
@@ -1583,7 +1582,7 @@ MonoBehaviour:
   vfxPrefab: {fileID: 568358952511452667, guid: ae70383fff5bd1f4f8efc4a4f8ef7708, type: 3}
   vfxPrefabLifetime: 1
   statCollection: {fileID: 3172837825158466966}
-  skillCooldown: 3
+  skillCooldown: 2
   playerActionSate: {fileID: 7759583713048079498}
   playerMana: {fileID: 6477106919189763259}
   spellCost: 1

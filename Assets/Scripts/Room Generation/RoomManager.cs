@@ -15,7 +15,7 @@ namespace Room_Generation
         [Header("Room Setup")]
         [SerializeField] private RoomData[] roomPrefabs;
         [SerializeField] private GameObject bossRoomPrefab;
-        [SerializeField] private int totalNormalRooms = 6;
+        [SerializeField] private int totalNormalRooms;
         [SerializeField] private NavMeshSurface navMeshSurface;
 
         [Header("Player Setup")]

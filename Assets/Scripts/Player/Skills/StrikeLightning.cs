@@ -27,7 +27,7 @@ namespace Player.Skills
         [SerializeField] private PlayerHealth playerHealth;
         
         private float _skillCooldownTimer;
-        private const float BaseMovementFreezeTime = 0.5f;
+        private const float BaseMovementFreezeTime = 1f;
         private float _movementFreezeTimer;
 
         private bool _activateChainLightning = false;

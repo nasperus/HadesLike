@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Player.Skills;
+
 
 namespace Player
 {
@@ -19,6 +19,7 @@ namespace Player
         private bool _isSprintKeyPressed;
 
         public float SprintSpeed => sprintSpeed;
+        public bool IsSprinting { get; private set; }
 
         
         private bool ShouldSprint => _isSprintKeyPressed && playerMovement.IsMoving;
@@ -26,6 +27,11 @@ namespace Player
         private void Awake()
         {
             _sprintAction = playerInput.actions["Sprint"];
+        }
+        
+        private void Update()
+        {
+            UpdateSprintState();
         }
 
         private void OnEnable()
@@ -51,12 +57,7 @@ namespace Player
             _isSprintKeyPressed = false;
             UpdateSprintState();
         }
-
-        private void Update()
-        {
-            UpdateSprintState();
-        }
-
+        
         private void UpdateSprintState()
         {
             var newSprintState = ShouldSprint;
@@ -67,9 +68,6 @@ namespace Player
                 playerAnimations.SprintIng(IsSprinting);
             }
         }
-
-        public bool IsSprinting { get; private set; }
-
         
         public void UpdateSprintSpeed(float newSprintSpeed)
         {

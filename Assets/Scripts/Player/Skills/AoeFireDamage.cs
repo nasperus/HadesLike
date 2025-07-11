@@ -22,7 +22,7 @@ namespace Player.Skills
         [SerializeField] private PlayerMana playerMana;
         [SerializeField] private float spellCost;
         [SerializeField] private PlayerHealth playerHealth;
-        private const float BaseMovementFreezeTime = 0.5f;
+        private const float BaseMovementFreezeTime = 1f;
         
         private float _movementFreezeTimer;
         private float _animationSpeed;

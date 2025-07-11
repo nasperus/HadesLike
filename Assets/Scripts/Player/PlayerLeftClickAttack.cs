@@ -34,7 +34,7 @@ namespace Player
        
         
         private float _movementFreezeTimer;
-        private const float BaseMovementFreezeTime = 0.8f;
+        private const float BaseMovementFreezeTime = 0.4f;
 
         private void Awake()
         {

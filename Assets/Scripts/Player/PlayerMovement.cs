@@ -53,6 +53,11 @@ namespace Player
         private void Update()
         {
             CalculateCameraRelativeDirection();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+                
+            }
         }
 
         private void FixedUpdate()
@@ -81,6 +86,7 @@ namespace Player
 
         private void CalculateCameraRelativeDirection()
         {
+            if (playerDash.IsDashing) return;
             var forward = _mainCamera.transform.forward;
             var right = _mainCamera.transform.right;
 
@@ -137,7 +143,6 @@ namespace Player
                      float.MaxValue,
                      Time.fixedDeltaTime
                 );
-                
             }
         }
         
@@ -156,5 +161,7 @@ namespace Player
             }
             return false;
         }
+        
+        
     }
 }

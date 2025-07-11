@@ -12,19 +12,19 @@ namespace Player
         [SerializeField] private Rigidbody rb;
 
         [Header("Dash Settings")]
-        [SerializeField] private float dashSpeed;
-        [SerializeField] private float dashDuration;
-        [SerializeField] private float dashCooldown;
+        [SerializeField] private float dashSpeed = 20f;
+        [SerializeField] private float dashCooldown = 1f;
+        [SerializeField] private float dashDistance;
+
+        private Vector3 _dashStartPosition;
+        private Vector3 _dashDirection;
+        private float _cooldownTimer;
 
         public bool IsDashing { get; private set; }
 
-        private float _dashTimer;
-        private float _cooldownTimer;
-        private Vector3 _dashDirection;
-
         private void Update()
         {
-            HandleCooldowns();
+            HandleCooldown();
         }
 
         private void FixedUpdate()
@@ -35,47 +35,44 @@ namespace Player
         private void OnDash(InputValue value)
         {
             if (!value.isPressed) return;
-            if (_cooldownTimer > 0 || IsDashing) return;
+            if (_cooldownTimer > 0f || IsDashing) return;
 
-            StartDash();
+            StartDashWithoutPressingDirection();
         }
 
-        private void StartDash()
+        private void StartDashWithoutPressingDirection()
         {
             _dashDirection = playerMovement.MovementDirection;
             if (_dashDirection == Vector3.zero)
-            {
-                _dashDirection = transform.forward; 
-            }
-
+                _dashDirection = transform.forward;
+            
             IsDashing = true;
-            _dashTimer = dashDuration;
+            _dashStartPosition = transform.position;
             _cooldownTimer = dashCooldown;
-
-            playerAnimations.Dashing(); 
+            
+            playerAnimations.Dashing();
         }
 
-        private void HandleCooldowns()
+        private void HandleCooldown()
         {
             if (_cooldownTimer > 0f)
                 _cooldownTimer -= Time.deltaTime;
-
-            if (IsDashing)
-            {
-                _dashTimer -= Time.deltaTime;
-                if (_dashTimer <= 0f)
-                {
-                    IsDashing = false;
-                }
-            }
         }
 
         private void HandleDashMovement()
         {
-            if (IsDashing)
+            if (!IsDashing) return;
+
+            var distanceDashed = Vector3.Distance(_dashStartPosition, transform.position);
+            if (distanceDashed >= dashDistance)
             {
-                rb.linearVelocity = _dashDirection * dashSpeed;
+                var endPoint = _dashStartPosition + _dashDirection.normalized * dashDistance;
+                transform.position = endPoint;
+                
+                IsDashing = false;
+                rb.linearVelocity = Vector3.zero;
             }
+            rb.linearVelocity = _dashDirection * dashSpeed;
         }
     }
 }

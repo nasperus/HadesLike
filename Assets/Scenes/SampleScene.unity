@@ -769,10 +769,12 @@ MonoBehaviour:
     size: {x: 0, y: 0, z: 0}
   - prefab: {fileID: 3556584624541723988, guid: dbc5a3b18421af24ebbcaad547ab238d, type: 3}
     size: {x: 0, y: 0, z: 0}
+  - prefab: {fileID: 3556584624541723988, guid: f5562de81d4a3764f9ea8756fae01913, type: 3}
+    size: {x: 0, y: 0, z: 0}
   - prefab: {fileID: 3556584624541723988, guid: aac5a227076bc384e85a9dd5d10bac2e, type: 3}
     size: {x: 0, y: 0, z: 0}
   bossRoomPrefab: {fileID: 3556584624541723988, guid: 66ea651776699f14cb926b2edb35c400, type: 3}
-  totalNormalRooms: 4
+  totalNormalRooms: 15
   navMeshSurface: {fileID: 1979822389}
   playerPrefab: {fileID: 5995958259487152754, guid: 886fbe0b60f562e40a02e38419fe360d, type: 3}
   exitVfxPrefab: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
@@ -1010,7 +1012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5955203252605105962, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1651
+      value: -4115
       objectReference: {fileID: 0}
     - target: {fileID: 8454348409649125759, guid: 44f1790051bc20b41a4c9ce8242446fb, type: 3}
       propertyPath: m_text
