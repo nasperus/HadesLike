@@ -1453,7 +1453,7 @@ MonoBehaviour:
   playerMovement: {fileID: 5161072891253137999}
   playerAnimations: {fileID: 8904297108873674310}
   rb: {fileID: 5581535466962745533}
-  dashSpeed: 12
+  dashSpeed: 10
   dashCooldown: 1
   dashDistance: 6
 --- !u!114 &7818887257429694816

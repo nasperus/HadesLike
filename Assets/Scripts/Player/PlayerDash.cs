@@ -68,9 +68,10 @@ namespace Player
             {
                 var endPoint = _dashStartPosition + _dashDirection.normalized * dashDistance;
                 transform.position = endPoint;
-                
+        
                 IsDashing = false;
                 rb.linearVelocity = Vector3.zero;
+                return;
             }
             rb.linearVelocity = _dashDirection * dashSpeed;
         }

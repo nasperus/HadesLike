@@ -42,6 +42,7 @@ namespace Player
         {
             rb.freezeRotation = true;
             _playerAbilities = GetComponents<PlayerAbilityBase>();
+            
         }
 
         private void Start()
@@ -52,7 +53,8 @@ namespace Player
 
         private void Update()
         {
-            CalculateCameraRelativeDirection();
+            
+            
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Application.Quit();
@@ -62,6 +64,7 @@ namespace Player
 
         private void FixedUpdate()
         {
+            CalculateCameraRelativeDirection();
             HandleMovement();
         }
 
@@ -139,7 +142,7 @@ namespace Player
                      rb.linearVelocity,
                      targetVelocity,
                      ref _velocityRef,
-                     0.06f,
+                     0.01f,
                      float.MaxValue,
                      Time.fixedDeltaTime
                 );

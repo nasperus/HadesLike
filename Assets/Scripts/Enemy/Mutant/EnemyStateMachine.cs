@@ -20,6 +20,7 @@ namespace Enemy.Mutant
         protected EnemyState CurrentState => _currentState;
         private bool _isDead = false;
         public bool IsDead => _isDead;
+        
 
         private void Awake()
         {

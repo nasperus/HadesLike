@@ -22,6 +22,9 @@ namespace Room_Generation
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject exitVfxPrefab;
         [SerializeField] private PowerUpChoicePanel powerUpPanel;
+        
+		
+
 
         private GameObject _currentRoom;
         private GameObject _playerInstance;
@@ -83,8 +86,7 @@ namespace Room_Generation
         {
             _roomsCleared++;
             IncreaseEnemyHealth += 3;
-            IncreaseAttackSpeed += 0.3f;
-            IncreaseArrowSpeed += 2;
+            IncreaseAttackSpeed += 0.1f;
             IncreaseAttackSpeed = Mathf.Max(IncreaseAttackSpeed, 0.5f); 
             IncreaseEnemyHealth = Mathf.Min(IncreaseEnemyHealth, 30f);
             
