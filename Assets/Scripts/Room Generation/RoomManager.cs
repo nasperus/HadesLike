@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace Room_Generation
 {
+  
     public class RoomManager : MonoBehaviour
     {
         [Header("Room Setup")]
@@ -23,15 +24,18 @@ namespace Room_Generation
         [SerializeField] private GameObject exitVfxPrefab;
         [SerializeField] private PowerUpChoicePanel powerUpPanel;
         
-		
-
-
         private GameObject _currentRoom;
         private GameObject _playerInstance;
         private int _roomsCleared = 0;
         public static float IncreaseEnemyHealth { get; private set; } = 0;
         public static float IncreaseAttackSpeed { get; private set; } = 0;
-        public static float IncreaseArrowSpeed { get; private set; } = 0;
+
+
+        private void Awake()
+        {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = 240;
+        }
 
         private void Start()
         {
@@ -47,7 +51,7 @@ namespace Room_Generation
                 powerUpPanel.ShowRandomPowerUps(5);
                 yield return new WaitForSeconds(2);
             }
-           
+
         }
 
         private void OnEnable()
