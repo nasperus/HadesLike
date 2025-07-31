@@ -37,7 +37,7 @@ namespace UI
              PowerUpType.ThrowJavelin,
              PowerUpType.ActivateJavelinThrow,
             
-            
+           
         };
         
         private readonly HashSet<PowerUpType> _oneTimePowerUps = new()
@@ -53,7 +53,7 @@ namespace UI
             
         };
         
-       
+     
         private readonly Dictionary<PowerUpType, PowerUpType> _amplifierDependencies = new()
         {
             { PowerUpType.LightningDamage, PowerUpType.ActivateLightningStrike },
@@ -116,7 +116,6 @@ namespace UI
                 Destroy(child.gameObject);
         }
         
-
         private List<PowerUpType> GetRandomPowerUps(int amount)
         {
             List<PowerUpType> validChoices = new();

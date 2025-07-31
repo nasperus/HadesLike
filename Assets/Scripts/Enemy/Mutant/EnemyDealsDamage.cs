@@ -34,8 +34,6 @@ namespace Enemy.Mutant
                
            }
         }
-
-     
         
         private void OnDrawGizmosSelected()
         {
